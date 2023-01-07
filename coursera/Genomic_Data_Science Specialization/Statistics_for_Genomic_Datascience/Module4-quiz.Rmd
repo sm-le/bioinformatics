@@ -1,0 +1,108 @@
+---
+title: "Module4-Quiz"
+author: "Sung"
+date: "11/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Module 4 Quiz
+
+```{r}
+suppressPackageStartupMessages({
+  library(devtools)
+  library(Biobase)
+  library(goseq)
+  library(DESeq2)
+  library(broom)
+  library(limma)
+})
+```
+
+## Question 1
+
+When performing gene set analysis it is critical to use the same annotation as was used in pre-processing steps. Read the paper behind the Bottomly data set on the ReCount database: http://www.ncbi.nlm.nih.gov/pubmed?term=21455293
+
+Using the paper and the function: supportedGenomes() in the goseq package can you figure out which of the Mouse genome builds they aligned the reads to.
+
+```{r}
+s.genome <- supportedGenomes()
+m.genome <- subset(s.genome, s.genome$species %in% "Mouse")
+m.genome
+```
+
+## Question 2
+
+Load the Bottomly data with the following code and perform a differential expression analysis using limma with only the strain variable as an outcome. How many genes are differentially expressed at the 5% FDR level using Benjamini-Hochberg correction? What is the gene identifier of the first gene differentially expressed at this level (just in order, not the smallest FDR) ? (hint: the featureNames function may be useful)
+
+```{r}
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
+load(file=con)
+close(con)
+bot = bottomly.eset
+pdata_bot=pData(bot)
+fdata_bot = featureData(bot)
+edata = exprs(bot)
+fdata_bot = fdata_bot[rowMeans(edata) > 5]
+edata = edata[rowMeans(edata) > 5, ]
+edata = log2(edata+1)
+```
+
+```{r}
+mod = model.matrix(~pdata_bot$strain)
+fit_limma = lmFit(edata, mod)
+ebayes_limma = eBayes(fit_limma)
+limma_table = topTable(ebayes_limma, number=dim(edata)[1], adjust.method = "BH", p.value=0.05, sort.by = "none")
+length(rownames(limma_table))
+```
+
+## Question 3
+
+Use the nullp and goseq functions in the goseq package to perform a gene ontology analysis. What is the top category that comes up as over represented? (hint: you will need to use the genome information on the genome from question 1 and the differential expression analysis from question 2.
+
+```{r}
+limma_table1 = topTable(ebayes_limma, number=dim(edata)[1], adjust.method="BH", sort.by="none")
+genes1 = as.integer(limma_table1$adj.P.Val < 0.05)
+not_na1 = !is.na(genes1)
+names(genes1) = rownames(edata)
+genes1 = genes1[not_na1]
+
+pwf1 = nullp(genes1, "mm9", "ensGene")
+head(pwf1)
+
+Go.wall1 = goseq(pwf1, "mm9", "ensGene")
+head(Go.wall1)
+```
+
+## Question 4
+
+Look up the GO category that was the top category from the previous question. What is the name of the category?
+
+## Question 5
+
+Load the Bottomly data with the following code and perform a differential expression analysis using limma and treating strain as the outcome but adjusting for lane as a factor. Then find genes significant at the 5% FDR rate using the Benjamini Hochberg correction and perform the gene set analysis with goseq following the protocol from the first 4 questions. How many of the top 10 overrepresented categories are the same for the adjusted and unadjusted analysis?
+
+```{r}
+mod2 = model.matrix(~pdata_bot$strain + ~pdata_bot$lane.number)
+fit_limma2 = lmFit(edata, mod2)
+ebayes_limma2 = eBayes(fit_limma2)
+
+limma_table2 = topTable(ebayes_limma2, number=dim(edata)[1], adjust.method="BH", sort.by="none")
+genes2 = as.integer(limma_table2$adj.P.Val < 0.05)
+not_na2 = !is.na(genes2)
+names(genes2) = rownames(edata)
+genes2 = genes2[not_na2]
+
+pwf2 = nullp(genes2, "mm9", "ensGene")
+head(pwf2)
+
+Go.wall2 = goseq(pwf2, "mm9", "ensGene")
+head(Go.wall2)
+
+c1 <- Go.wall1[1:10,1]
+c2 <- Go.wall2[1:10,1]
+intersect(c1,c2)
+```

@@ -1,0 +1,154 @@
+---
+title: "Introduction to Bioconductor-1Exercise"
+author: "@sungml92"
+date: "5/25/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# load packages
+library(GenomicRanges)
+library(AnnotationHub)
+```
+
+# Exercise 1
+
+## CpG islands on autosome
+
+In this exercise, we are going to apply our knowledge in AnnotationHub package. We are to obtain data on "CpG Island" in human genome.
+
+```{r}
+ahub = AnnotationHub()
+
+# target human genome
+ahub = subset(ahub,species=="Homo sapiens")
+
+# query CpG islands
+CpG = query(ahub,"CpG islands")
+CpG$genome
+CpGhg19 <- CpG[[1]] # get hg19
+CpGshg19 <- keepStandardChromosomes(CpGhg19,pruning.mode="coarse") # remove unusual chromosomes
+
+# subset hg19 CpG islands in autosome
+autosomeCpG <- dropSeqlevels(CpGshg19,c("chrX","chrY","chrM"),pruning.mode="coarse") # subset automsome
+autosomeCpG
+```
+
+There are 26641 CpG islands exists on the autosomes
+
+When we continue and practice additional filter..
+
+```{r}
+# filter on chr4
+chr4CpG <- keepSeqlevels(autosomeCpG,"chr4",pruning.mode="coarse")
+chr4CpG
+```
+
+There are 1031 CpG islands on chr4.
+
+## H3K4me3 on autosome
+
+Now we will obtain data for H3K4me3 histone modification for the H1 cell line from Epigenomics Roadmap and subset to include modifications only on autosomes.
+
+```{r}
+H3K4me3 <- query(ahub,c("H3K4me3","EpigenomeRoadMap"))
+
+# search for H1 cell line and narrow peak
+H1cellH3K4me3 <- H3K4me3[["AH29884"]]
+# remove unusual chromosomes
+H1cellH3K4me3stand <- keepStandardChromosomes(H1cellH3K4me3,pruning.mode="coarse") 
+# subset automsome
+#autosomeH3K4me3 <- subset(H1cellH3K4me3stand, seqnames %in% c(paste("chr", 1:22, sep="")))
+autosomeH3K4me3 <- dropSeqlevels(H1cellH3K4me3stand,c("chrX","chrY","chrM"),pruning.mode="coarse") # subset automsome
+sum(width(autosomeH3K4me3))
+```
+
+There are 41135164 bases covering autosome
+
+## H3K27me3 on autosome
+
+Now we will obtain data for H3K27me3 histone modification for the H1 cell line from Epigenomics Roadmap and subset to include modifications only on autosomes.
+
+```{r}
+H3K27me3 <- query(ahub,c("H3K27me3","EpigenomeRoadMap"))
+# search for H1 cell line and narrow peak
+H1cellH3K27me3 <- H3K27me3[["AH29892"]]
+# remove unusual chromosomes
+H1cellH3K27me3stand <- keepStandardChromosomes(H1cellH3K27me3,pruning.mode="coarse") 
+# subset automsome
+#autosomeH3K27me3 <- subset(H1cellH3K27me3stand, seqnames %in% c(paste("chr", 1:22, sep="")))
+autosomeH3K27me3 <- dropSeqlevels(H1cellH3K27me3stand,c("chrX","chrY","chrM"),pruning.mode="coarse") # subset automsome
+mean(autosomeH3K27me3$signalValue)
+
+```
+
+Mean single value for H3K27me3 is 4.770728
+
+## Bivalent regions
+
+Bivalent regions are bound by both H3K4me3 and H3K27me3
+
+```{r}
+bivalent <- intersect(autosomeH3K4me3,autosomeH3K27me3)
+seqnames(bivalent)
+sum(width(reduce(bivalent)))
+```
+
+10289096 bases on autosomes are covered by bivalent modifications
+
+## CpG + Bivalent
+
+```{r}
+CpGbivalent <- subsetByOverlaps(bivalent,autosomeCpG,ignore.strand=TRUE)
+length(CpGbivalent)/length(bivalent)
+
+sum(width(CpGbivalent))/sum(width(autosomeCpG))
+```
+53.83644% of the bivalent regions overlap one or more CpG islands
+24.1688% part of CpG islands bases are also bivalent marked
+
+```{r}
+CpG_10K <- resize(autosomeCpG,width=20000+width(autosomeCpG),fix="center")
+CpG10Kbivalent <- intersect(bivalent,CpG_10K)
+sum(width(CpG10Kbivalent))
+```
+
+9782086 bases are bivalently marked within 10Kb of CpG islands
+
+## Human genome and CpG island
+
+```{r}
+genome <- ahub[["AH5018"]]
+sgenome <- keepStandardChromosomes(genome,pruning.mode="coarse") 
+# subset automsome
+autogenome <- dropSeqlevels(sgenome,c("chrX","chrY","chrM"),pruning.mode="coarse") # subset automsome
+
+autogenome_size <- sum(as.numeric(seqlengths(autogenome)))
+sum(width(autosomeCpG))/autogenome_size
+```
+
+0.7047481 human genome were contained in CpG island
+
+## Odds-ratio
+
+```{r}
+inOut = matrix(0,ncol=2,nrow=2)
+colnames(inOut) = c("in","out") 
+rownames(inOut) = c("in","out")
+
+inOut[1,1] = sum(width(intersect(autosomeCpG,bivalent,ignore.strand=TRUE)))
+inOut[1,2] = sum(width(setdiff(autosomeCpG,bivalent,ignore.strand=TRUE)))
+inOut[2,1] = sum(width(setdiff(bivalent,autosomeCpG,ignore.strand=TRUE)))
+# Last we need to fill out number of human genomes that are not part of this
+inOut[2,2] = autogenome_size - sum(inOut)
+
+oddsRatio = inOut[1,1] * inOut[2,2] / (inOut[2,1] * inOut[1,2])
+oddsRatio
+```
+
+odds-ratio for the overlap of bivalent marks with CpG islands is 169.0962

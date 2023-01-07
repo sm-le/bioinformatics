@@ -1,0 +1,113 @@
+# Sungmin Lee
+# @sungml92
+# Course note of week1 of Introduction to Genomic Technologies
+
+################
+# Why Genomics #
+################
+
+# Understand how our body develop,
+# 1) every development signals are coded in our genome.
+# 2) How a mutation in your genome drives the cancer from erroneous cell replication.
+
+# Central Dogma
+# - Information flows in a single direction from your genome
+#  DNA (transcription) -> RNA (translation) -> Protein
+
+#  * Protein can self-regulate (modifier such as methylation)
+  #  - Information actually flow backward
+
+# To understand which mutations are associated
+# - We need sequencing.
+# - Which advancement of sequencing technology, cancer sequencing is possible
+
+# With cheaper sequencing and more sequencing power, thousands of genomes are available now
+
+####################
+# What is Genomics #
+####################
+
+# - Studies considering all genes in a genomes
+#  * Using global, high-throughput experiments
+#  * Tons of data, uncertainty and computation
+
+ ################################
+ # What is Genomic Data Science #
+ ################################
+
+ # Take big dataset, apply computational and statistical methods.
+
+ ############################
+ # Just Enough Cell Biology #
+ ############################
+
+# Cellular Organism into three domain:
+# 1) Eukaryotes
+#  - has cell nucleus as opposed to prokaryotes
+#  - Mitochondrion is a powerhouse of the cell, incorporated into Eukaryotes from an independent prokaryotes billions of years ago
+# 2) Archaea
+# 3) Bacteria
+
+# Cell undergo cycles:
+# - critical is the process of the division.
+# - cells are constantly dying and need to be replaced as a result of process called mitosis.
+# - sexual reproduction is called meiosis
+
+# Cell don't always divide and produce two identical copies, it differentiate into different cells
+
+# Recombination makes a unique set of chromosomes different from parents driving diversity
+
+############################################
+# Important Molecules in Molecular Biology #
+############################################
+
+# Key molecules
+# - critical molecules in determining how your genomes functions
+
+# 1. DNA
+# - writing blocks are as AGCT
+#   - Adenine and Guanine as purines and thymine and cytosine as pyrimidines
+# - Structure in a form of twisted helix
+# - directionality goes from five prime to three prime.
+
+# 2. RNA
+# - similar to DNA but T is replaced with U: uracil
+# - is single stranded, but can form double strand
+# - a template to make proteins
+# - 64 possible combination as in three amino acid codon, but three of them are stop codons.
+
+############################
+# The Human Genome Project #
+############################
+
+# sequence all 3 billion base pairs
+# - use BAC of 150,000 sized base pairs and stitched back together
+# - bacterial whole genome was published using shotgun approach
+# - Applied biosystems' new machine was automatic and faster than previous
+# - race started when Celera Genomics' planning to use shotgun sequencing with human genome, first to show drosophila
+# - both tied
+# - major goals of the Human Genome Project was to identify all the genes and to develop better treatments and improve human health
+# - only resulted inprecise number of genes
+# - even today no precise number but maybe 18k to 22k
+
+###############################
+# Molecular Biology Structure #
+###############################
+
+# - DNA is long molecular wrapped around the histones to form chromosomes.
+# - Repeats: Tandem repeats (repeats of sequence), interspersed repeats (spread out repeats)
+# - RNA structure: cap, 5'UTR (not translated region), CDS, 3'UTR (longer strecth untranslated), Poly-A tail (feature of eukaryotic cell)
+# - DNA and RNA has exons and introns, coded sequences are exons concatenated together.
+# - alternative splicing putting exons in different orders (90% of human genes).
+# - Proteins are strands of amino acids with secondary structure (alpha helices and beta sheets)
+# - Transcription factors, control activity of cells, control expression of proteins.
+# - epigenetic structures, methyl group (inheritable), is controlling factors on genetic expression.
+
+##############################
+# From genotype to phenotype #
+##############################
+
+# loosely thinking as recessive or dominant types of traits.
+# mapping out genetic variation tells genetic traits are tend to be regionalized.
+# large number of group and control, look at particular location and compare if genetic variation in that gene tended to be associated with that disease that we were studying
+# - genome wide association study

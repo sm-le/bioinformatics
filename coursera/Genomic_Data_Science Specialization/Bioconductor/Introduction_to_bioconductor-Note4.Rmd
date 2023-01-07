@@ -1,0 +1,582 @@
+---
+title: "Introduction_to_bioconductor-Note3"
+author: "Sung"
+date: "9/8/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Getting data into Bioconductor
+
+Bioconductor has a list of convenient data container such as expression sets, summarized experiments, and GRanges. But how do we get data into Bioconductor. 
+
+##### For example, microarray data since it is easiest to discuss.
+
+In microarray, you typically get raw data from the microarray vendor or microarray scaner. Two examplar vendors are Affymetrix and Illumina. Bioconductor has a couple of packages for providing supports for parsing of these vendor-specific file format. 
+
+- affyio
+- affxparser
+- illuminaio
+
+These packages are low-level. Many analysis specific packages supports file import into useful datastructures. For example,
+
+- affy for Affymetrix Gene Expression data (old packages). 
+- oligo for Affymetrix and Nimblegen expression and SNP array data (newer version)
+- lumi for illumina array
+- minifi for illumina DNA methylation array
+
+##### Other application area is high-throughput sequencing
+
+Raw reads are provided in FASTQ format. The next step after the profiles is alignment to the reference genome using Bowtie, MEQ, BWA, GSNAP, or TopHat. 
+
+For storing aligned reads, BAM or SAM format. 
+
+FASTQ, BAM and SAM files are raw files. After BAM files, it is very domain specific. It is different sequencing to chip sequencing to DNA sequencing. Within the domain depends a lot on what to do with data and what pipeline to run the data. If RNA sequencing, maybe interested in getting gene level counts. Or simply do assembly with Cufflink. 
+
+The type of data produced is quite different from each other. So we need a set of versatile tool to read different file formats and put them into what we want. 
+
+For next generation sequencing, rtracklayer package is very useful. It supports BigWig, and BigBed files. 
+
+We also have VCF files after genotyping within BCF format. A VariantAnnotation package can be used to deal with this file. 
+
+Finally, we have text files. A lot of pipelines produce text files and it is for users to write a parser to read these text files. 
+
+A versatile tool to read tab-delimited text files is read.table(). The readr package that has a set of versatile functions and data.table package also has a fast function. 
+
+Popularly available datasets can be obtained from databases. The data can be downloaded by
+
+- GEOquery
+- SRAdb
+- ArrayExpress
+
+## Short Read
+
+The short read package contains two different functionalities for reading raw sequencing reads, typically in form of FASTQ. It also read in aligned reads (out-dated, use rsamtools).
+
+```{r}
+#BiocManager::install("ShortRead")
+library(ShortRead)
+
+fastqDir <- system.file("extdata","E-MTAB-1147", package="ShortRead")
+fastqPath <- list.files(fastqDir,pattern=".fastq.gz$", full=TRUE)[1]
+fastqPath
+```
+
+```{r}
+reads <- readFastq(fastqPath)
+reads
+```
+
+20,000 reads and each read is 72 pages long. 
+
+Another way,
+
+```{r}
+fqFile <- FastqFile(fastqPath)
+fqFile
+reads <- readFastq(fqFile)
+```
+
+Sometimes we need this step if we are reading smaller chunk of files.
+
+How do we access information inside of FastqFile?
+- Fastqfile contains reads, base quality, and read names.
+
+We access sread() function to access DNA information, quality() to access base quality, and id() gives the read names.
+
+```{r}
+sread(reads)[1:2]
+quality(reads)[1:2]
+id(reads)[1:2]
+```
+
+Quality values are BStringSet and they encode qualities on fret scale. They are intergers between 0 and 40. This is done for compression. For quality accessment, we need to convert letters to numbers by coalescing the quality scores into a matrix. 
+
+```{r}
+as(quality(reads), "matrix")[1:2,1:10]
+```
+
+This score gives you how likely the reported base is correct or chance of sequencing error.
+
+## Rsamtools
+
+Rsamtools library interface with high throughput sequencing library. This package deals with SAM and BAM format. SAM is a text file format for representing aligned reads. BAM is a binary version of SAM (fast and convenient). 
+
+```{r}
+#BiocManager::install("Rsamtools")
+library(Rsamtools)
+```
+
+First, we need to instantiate BAM file. 
+
+```{r}
+bamPath <- system.file("extdata", "ex1.bam", package="Rsamtools")
+bamPath
+
+bamFile <- BamFile(bamPath)
+bamFile
+```
+
+Without reading the file, we can access seqinfo
+
+```{r}
+seqinfo(bamFile)
+```
+
+We can read BAM file using scanBam()
+
+```{r}
+aln <- scanBam(bamFile)
+length(aln)
+class(aln)
+names(aln)
+```
+
+No information so far, because it is one file.
+
+```{r}
+aln <- aln[[1]]
+names(aln)
+lapply(aln, function(xx) xx[1])
+```
+
+Each read can be aligned to multiple places in genome, or can contain multiple alignments, or can be associated with multiple alignments. It is also possible for BAM files to contain unaligned reads. 
+
+Read BAM files in smaller chunks.
+- read only parts of BAM file.
+- read customized ranges.
+
+```{r}
+yieldSize(bamFile) <- 1
+open(bamFile)
+scanBam(bamFile)[[1]]$seq # every read is different so we can continue until it ends.
+
+close(bamFile)
+yieldSize(bamFile) <- NA
+```
+
+Another way of reading is by pre-specified regions of genome, or pre-specified components of the file.
+
+```{r}
+gr <- GRanges(seqnames="seq2", ranges=IRanges(start=c(100,1000), end=c(1500,2000)))
+```
+
+What we do is we set up a ScanBamParam that encodes a query to the BAM file. 
+
+```{r}
+params <- ScanBamParam(which=gr, what=scanBamWhat())
+aln <- scanBam(bamFile, param=params)
+names(aln)
+head(aln[[1]]$pos)
+```
+
+Reading multiple files can be done through BamViews().
+
+```{r}
+bamView <- BamViews(bamPath)
+bamView
+aln <- scanBam(bamView)
+names(aln)
+names(aln[[1]][[1]])
+```
+We can set ranges on BamView 
+
+```{r}
+bamRanges(bamView) = gr
+aln <- scanBam(bamView)
+aln[[1]]
+```
+
+For summary,
+
+```{r}
+quickBamFlagSummary(bamFile)
+```
+
+## oligo
+
+Oligo package for pre-processing and handling affymetrix and nimblegene microarrays. 
+- Gene expression micro-arrays
+- SNP micro-arrays
+
+This package is a continuation of earlier package called Affy. 
+
+```{r}
+#BiocManager::install("oligo")
+library(oligo)
+library(GEOquery)
+```
+
+We will use the dataset deposited as GEO accession number "GSE38792". In this dataset, the experimenters profiled fat biopsies from two different conditions: 10 patients with obstructive sleep apnea (OSA) and 8 healthy controls.
+
+We want to look at specific GEOfile and CEL files. These are not standard file from GEO, it is a supplementary. 
+
+On Affymetrix array, probes are typically 25 bases long. This means that the probes are not very specific. To compensate this, you measure one specific RNA with multiple probes all at the same target. This multiple probes are grouped into probe sets.
+
+
+```{r}
+#getGEOSuppFiles("GSE38792")
+list.files("GSE38792")
+untar("GSE38792/GSE38792_RAW.tar", exdir="GSE38792/CEL")
+list.files("GSE38792/CEL")
+```
+
+Then, we obtain list of CEL files with full name. Construct a vector of filenames and feed it to read.celfiles()
+```{r}
+celfiles <- list.files("GSE38792/CEL",full=TRUE)
+celfiles
+rawData <- read.celfiles(celfiles)
+rawData
+```
+
+This is in the form of an GeneFeatureSet, which is an ExpressionSet-like container.
+```{r}
+getClass("GeneFeatureSet")
+```
+
+Expression data are raw intensity measurement from the scanner. Micro-array scanner is typically 16-bit scanner and you get results between 0 and 2^16. 
+```{r}
+exprs(rawData)[1:4,1:3]
+max(exprs(rawData)) # to check max or limit. 
+```
+
+Usually, we want to log transform these dataset. But first we are going to clean data. 
+
+```{r}
+filename <- sampleNames(rawData)
+pData(rawData)$filename <- filename
+sampleNames <- sub(".*_","",filename)
+sampleNames <- sub(".CEL.gz$","",sampleNames)
+sampleNames
+sampleNames(rawData) <- sampleNames
+pData(rawData)$group <- ifelse(grepl("^OSA", sampleNames(rawData)),"OSA","Control")
+pData(rawData)
+```
+
+Before any normalization, we need to look at the need of such transformation. 
+
+```{r}
+boxplot(rawData,"all")
+```
+
+#### Normalization
+For Affymetrix gene expression data, RMA method is recommended. 
+
+```{r}
+normData <- rma(rawData)
+normData
+```
+
+We see 1 millions to 30K reduction as RMA method summarized all probes measuring same target into single number.
+
+```{r}
+featureNames(normData)[1:10] # to annotate we need to convert this number to gene id.
+```
+
+```{r}
+boxplot(normData)
+```
+
+While the distributions are similar, they are not identical despite the fact that RMA includes quantile normalization.
+
+The data is now ready for differential expression analysis. 
+
+## limma
+
+Linear model for micro-arrays, limma package, is developed for analysis of gene expression microarrays. It also fit classic model. Linear models are a general class of models for continuous data. There are other Bioconductor packages dealing with count data such as PESeek, PESeek2, Estar. 
+
+A lot of these packages deal feature (gene) and we want to find genes that are differentially expressed. Most gene expression data are with 10K+ genes with relatively few samples. We typically assess gene expression and variance of the gene.
+
+The design of the experiment tells us meta information of the experimnet such as time, what samples, paired design and etc. 
+
+```{r}
+#BiocManager::install("limma")
+#BiocManager::install("leukemiasEset")
+library(limma)
+library(leukemiasEset)
+data(leukemiasEset)
+leukemiasEset
+table(leukemiasEset$LeukemiaType)
+```
+
+Here, we will only discuss two groups: ALL, and NoL group. 
+
+```{r}
+ourData <- leukemiasEset[, leukemiasEset$LeukemiaType %in% c("ALL","NoL")]
+ourData$LeukemiaType
+```
+This data contains levels that are not present in the subset. 
+```{r}
+ourData$LeukemiaType <- factor(ourData$LeukemiaType)
+ourData$LeukemiaType
+```
+#### Setup design matrix
+
+Setting up design matrix is a general statistical task 
+```{r}
+design <- model.matrix(~ ourData$LeukemiaType)
+head(design)
+```
+Intercept is the average gene expression for a given gene across ALL samples. The second column is the difference in gene expression between NOL and ALL. If this parameter is equal to 0, the gene is not differentially expressed. 
+
+First thing to do with limma is we fit basic model with design. In statistics, we separate the model from the hypothesis. The model tells us that we have 24 samples and there are two groups. The hypothesis here is that there are no differences between ALL and NoL. 
+
+So we run lmfit() which fit linear model to all genes separately. At this stage, we borrow information across genes. Next step is an empirical base estimation of the variability. 
+
+```{r}
+fit <- lmFit(ourData, design)
+fit <- eBayes(fit)
+topTable(fit)
+```
+
+We asked whether or not two groups have differential gene expression, therefore, we only have one result. 
+
+The fold change here means fold change from NoL to ALL. 
+
+To check if our interpretation is valid,
+
+```{r}
+topTable(fit, n=1)
+genename <- rownames(topTable(fit,n=1))
+
+typeMean <- tapply(exprs(ourData)[genename,], ourData$LeukemiaType, mean)
+typeMean
+typeMean["NoL"] - typeMean["ALL"]
+```
+
+What we did here is known as moderated gene statistic, because we have estimated variability of the data in different way from a normal t statistic. 
+
+Let's go back and refit this model to explain what contrast we are interested in.
+
+```{r}
+design2 <- model.matrix(~ourData$LeukemiaType - 1)
+head(design2)
+colnames(design2) <- c("ALL","NoL")
+design2
+
+fit2 <- lmFit(ourData, design2)
+contrast.matrix <- makeContrasts("ALL-NoL", levels=design2)
+contrast.matrix
+```
+
+Here, we made contrast. A contrast is a hypothesis, and we call makeContrasts(). In the design, we made a contrast that is ALL minus NoL. We allow NoL as a reference level. 
+
+This result tells us whether two parameters with this linear combination is equal to zero. Now we have contrast, we are going to do contrasts.fit()
+
+```{r}
+fit2C <- contrasts.fit(fit2, contrast.matrix)
+fit2C <- eBayes(fit2C)
+topTable(fit2C)
+```
+
+This result is exactly same as before, it just used a slightly different setup. 
+
+## minfi
+
+minifi package is a package for handling data from DNA methylation microarrays. In a single cell, methylation state is a binary or it actually has three values because we have two copies of each chromosome. Outcome of methylation can be thought as percentage or beta values between 0 and 1. The DNA methylation is to understand how DNA methylation changes or associated with a phenotype status. 
+
+A popular platform for DNA methylation is the 450K microarray. 
+
+```{r}
+library(minfi)
+library(GEOquery)
+```
+
+Acute mania DNA methylation changes 
+
+```{r}
+#getGEOSuppFiles("GSE68777")
+#untar("GSE68777/GSE68777_RAW.tar", exdir ="GSE68777/idat")
+head(list.files("GSE68777/idat",pattern="idat"))
+```
+
+We get one file for each color channel, so two files per sample. 
+
+minfi does not support reading IDAT files, we have to read them with read.450K.exp().
+
+```{r}
+#idatFiles <- list.files("GSE68777/idat", pattern = "idat.gz$", full = TRUE)
+#sapply(idatFiles, gunzip, overwrite = TRUE)
+#rgSet <- read.450k.exp("GSE68777/idat") # defunct
+rgSet <- read.metharray.exp("GSE68777/idat")
+rgSet
+pData(rgSet)
+sampleNames(rgSet)
+```
+
+To get phenotype data and other information, we need to download original GEO data.
+
+```{r}
+geoMat <- getGEO("GSE68777")
+geoMat
+pD.all <- pData(geoMat[[1]])
+pD <- pD.all[, c("title","geo_accession","characteristics_ch1.1","characteristics_ch1.2")]
+head(pD)
+names(pD)[c(3,4)] <- c("group","sex")
+pD$group <- sub("^diagnosis: ","",pD$group)
+pD$sex <- sub("^Sex: ","",pD$sex)
+head(pD)
+```
+
+Now we will merge empty phenotype data of rgSet with pD. 
+
+```{r}
+sampleNames(rgSet) <- sub(".*_5","5",sampleNames(rgSet))
+rownames(pD) <- pD$title
+pD <- pD[sampleNames(rgSet),]
+head(sampleNames(rgSet))
+head(pD)
+pData(rgSet) <- DataFrame(pD) # supposedly pData(rgSet) <- pD won't work and might be a bug as it will accept DataFrame not data.frame which is a R object. 
+rgSet
+```
+First thing to do with microarray data is to normalize it. 
+
+```{r}
+grSet <- preprocessQuantile(rgSet)
+grSet
+granges(grSet)
+```
+
+granges object detail the C in the forward strand where c may or may not be methylated. CpG tend to cluster into CpG islands. Whether CpG is inside the CpG island, nearby the island (CpG shores) or far from CpG island (open sea CpG) can be accessed by getIslandStatus(). 
+
+```{r}
+head(getIslandStatus(grSet))
+```
+
+Now that we normalized the data, we can get Beta value (percentage), and then we are ready for analysis.
+
+```{r}
+getBeta(grSet)[1:3,1:3]
+```
+
+We can use limma package (differently expressed) bumphunter() in bumphunter package (cluster trend). 
+
+## Count-based RNA-seq analysis
+
+We imagine that we have summarized data at a feature level. So for each sample, we know how many reads match your particular feature (summarized in interger). 
+
+```{r}
+library(airway)
+data(airway)
+airway
+assay(airway,"counts")[1:3,1:3]
+airway$dex # variable whether sample belongs to treatment or untreatment group. 
+```
+
+reference level is not untreated so, 
+
+```{r}
+airway$dex <- relevel(airway$dex, "untrt")
+airway$dex
+```
+
+This summarized experiment contains a rich information on what the gene model is.
+
+```{r}
+granges(airway)
+```
+
+Getting this gene by sample count matrix is not easy. To do it, we need to get annotation or we have to select some features and select a way to count overlaps. We particularly be careful when a gene has a multiple transcript. 
+
+As a starting point, we will show how we fit statistical model similar to what we have seen in limma package. Two packages for analyzing this data is edgeR, or DESeq2. 
+
+Both fit generalized linear model based on the negative binomial distribution, but they differ in how they implement these models (typically how they estimate variability).
+
+```{r}
+#BiocManager::install("edgeR")
+library(edgeR)
+```
+
+We first have to take out data from summarized experiment and converted into limma class.
+
+```{r}
+dge <- DGEList(counts = assay(airway,"counts"),
+               group = airway$dex)
+dge$samples
+```
+
+There are two additional information that are nice to add to dge set, 1) Pheno data, and 2) which gene actually profiled in the experiment. 
+
+Pheno data comes into the gList through the samples log. However, we cannot give sample information directly to the dge list constructor. Therefore, to take out additional data on these additional co-variance, we have to create a new data frame and put samples there. 
+
+```{r}
+dge$samples <- merge(dge$samples,
+                     as.data.frame(colData(airway)),
+                     by=0)
+dge$samples
+```
+
+Now we have a rich pheno data set. We can give a gene name.
+
+```{r}
+dge$genes
+dge$genes <- data.frame(name=names(rowRanges(airway)),
+                        stringsAsFactors = FALSE)
+head(dge$genes)
+```
+
+Different gene names in rows and put it into data.frame. 
+
+To calculate RPKN, we use the total number of map reads. We have different library sizes, different sequencing depths, and different samples. However, the best way to do this is not just to count how many reads. 
+
+```{r}
+dge <- calcNormFactors(dge)
+dge$samples
+```
+
+norm.factor shows how much different data sets have to be scaled up and down in order to have the same effective library size. We can also see that in norm.factors that sequencing depths are very similar. 
+
+We, then, estimate dispersion of variability of the data. We are going to estimate a tagwise dispersion. In order to do that, we first have to estimate common dispersion. 
+
+```{r}
+dge <- estimateGLMCommonDisp(dge)
+
+dge <- estimateTagwiseDisp(dge)
+```
+
+Now we estimate dispersion parameter, and ready to do model fitting.
+
+```{r}
+design <- model.matrix(~dge$samples$group)
+head(design)
+
+fit <- glmFit(dge, design)
+```
+
+Then we see which gene is most significant. 
+
+```{r}
+lrt <- glmLRT(fit, coef=2)
+topTags(lrt)
+```
+
+Now we are going to see how we do this in DESeq2
+
+```{r}
+library(DESeq2)
+```
+
+unlike EdgeR we can convert directly from summarized experiment. 
+
+```{r}
+dds <- DESeqDataSet(airway, design = ~ dex)
+```
+
+Now we need to store design matrix inside the data object. Once it is setup, it is easy to run the fit.
+
+```{r}
+dds <- DESeq(dds)
+```
+
+We can get results by 
+
+```{r}
+res <- results(dds)
+res <- res[order(res$padj),]
+res
+```
+
+sessionInfo()

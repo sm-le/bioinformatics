@@ -1,0 +1,361 @@
+# @sungml92
+# USMx: BIF002x
+# Proteins: Alignment, Analysis and Structure
+# Week 1 - Introduction to Proteins
+
+# Objectives
+
+- Outlines the basics of proteins
+- Highlights the different types of amino acids and their side groups
+- Discusses the different types of protein structures: primary, secondary, tertiary & quaternary structures
+- Describes the gene expression from DNA to amino acids
+
+
+###############################
+# Transcription & Translation #
+###############################
+
+# Introduction to Proteins
+
+- Proteins are made of amino acids.
+- Proteins are biopolymers comprised of chains of amino acids
+- There are 20 amino acids that are most commonly used to create proteins
+- Each of these amino acids shares a common structure: a carboxylic acid group (C), an amino group (N), a hydrogen, and a side-group(R)
+
+# Side Groups & Amino acids
+
+The side groups are what make each amino acid unique. Now let’s review the following examples.
+
+Examples:
+
+1. Carboxy side group: glutamic acid, aspartic acid
+2. Amino side group: lysine
+3. Guanidino side group: arginine
+4. Different side groups give the amino acids different biochemical properties, which in turn affects their structure and function. Now let’s review the most common 20 amino acids in proteins.
+
+# Amino acid properties
+
+Now let’s review the properties of the 20 most common amino acids found in proteins. 
+
+Amino Acid	3 Letter Code	1 Letter Code	Side Chain Polarity	Side Chain Charge
+Alanine	Ala	A	nonpolar	neutral
+Arginine	Arg	R	polar	positive
+Asparagine	Asn	N	polar	neutral
+Aspartic Acid	Asp	D	polar	negative
+Cysteine	Cys	C	nonpolar	neutral
+Glutamic acid	Glu	E	polar	negative
+Glutamine	Gln	Q	polar	neutral
+Glycine	Gly	G	nonpolar	neutral
+Histidine	His	H	polar	positive
+Isoleucine	Ile	I	nonpolar	neutral
+Leucine	Leu	L	nonpolar	neutral
+Lysine	Lys	K	polar	positive
+Methionine	Met	M	nonpolar	neutral
+Phenylalanine	Phe	F	nonpolar	neutral
+Proline	Pro	P	nonpolar	neutral
+Serine	Ser	S	polar	neutral
+Theronine	Thr	T	polar	neutral
+Tryptophan	Trp	W	nonpolar	neutral
+Tyrosine	Tyr	Y	polar	neutral
+Valine	Val	V	nonpolar	neutral
+Important Note:
+
+You may have noticed on the previous chart that each amino acid has a specific name, a 3-letter code, and a 1-letter code which we can use to refer to it.
+The 1-letter code is most useful when looking at the protein sequence.
+
+# Binding Properties
+
+- The different properties of the amino acid side groups give each amino acid unique bond formation ability.
+- These bonding properties impact the resulting shape of any protein that is made from a linear combination of amino acids, as each side group may interact with other side groups in the protein chain in different ways
+- Additionally the side groups affect the way the protein interacts with other molecules (e.g. other proteins, or DNA, etc.)
+
+Hydrophobic	Hydrogen	Salt Bond
+Ala	+	-	-
+Arg	+	+++	+++
+Asn	-	+++	-
+Asp	-	++	+++
+Cys	+	(+)	+
+Gln	+	++	-
+Glu	+	++	+++
+Gly	(+)	-	-
+His	-	+++	+
+Lys	++	+++	-
+Leu	+++	-	-
+Ile	+++	-	-
+Met	++	-	-
+Phe	+++	-	-
+Pro	++	-	-
+Ser	+	+	-
+Thr	++	+	-
+Trp	++	+	-
+Tyr	++	+	-
+Val	++	-	-
+
+# Biological activity
+
+The biological activity of an amino acid depends on the nature of the side (R) group:
+
+1. Size 
+2. Hydrophobicity
+3. Charge
+4. Bonding characteristics
+ 
+## DNA to Proteins
+As you recall from your DNA course, DNA is the blueprint used to create proteins
+DNA is transcribed by RNA polymerase, which creates a messenger RNA (mRNA) “copy” of the DNA
+The mRNA is then translated by the ribosome to create a protein
+
+# Introduction to Transcription
+
+- Transcription begins when RNA polymerase and one or more transcription factors bind to a promotor sequence on DNA
+- Once initiated, the RNApolymerase traverses the DNA strand, synthesizing the new mRNA in a 5’ to 3’ orientation of the nucleic acid chain
+- Transcription ends when the RNApolymerase encounters a terminator, or STOP signal.  In prokaryotes, there are two mechanisms: one that uses the Rho protein and the other does not.  In eukaryotes, the process involves Cleavage and Polyadenylation Specificity Factor and Cleavage Stimulation Factor
+- RNApolymerase also adds the 5’ methyl-guanosine cap to the 5’ end of the nascent mRNA
+
+## Steps
+
+1. RNA polymerase adds complementary RNA nucleotides to a template DNA strand. The formed RNA strand is identical to the other coding DNA strand, except U is substituted for T. Nucleotides are only added to the 3' end of the RNA molecule. 
+2. Various proteins bind to a sequence AAUUAA near the 3' end of the pre-mRNA molecule. About 10-30 nucleotides downstream, the cleavage and polyadenylation specificity factor (CPSF) cuts the pre-mRNA.
+3. A cap and tail are added to the 5' and 3' ends of the new RNA molecule as proection and to help it leave the nucleus. The 5' cap consist of a single G nucleotide the 3' (Poly-A) tail consists of hundreds of A nucleotides.
+4. Noncoding introns (intervening sequences) are removed from the RNA strand.
+5. The remaining coding segments, or exons (expressed sequences) are joined together.
+6. The 5' cap can then be recognied by a nuclear pore complex, allowing the mRNA to leave the nucleus.
+
+# Polyadenylation
+
+Polyadenylation is the addition of a poly(A) tail to a messenger RNA. The poly(A) tail consist of multiple adenosine monophosphates; in other words, it is a stretch of RNA that has only adenine bases. In eukaryotes, polyadenylation is part of the process that produces mature messenger RNA (mRNA) for translation.
+
+In addition to the 5’ cap, an mRNA needs a 3’ polyA tail:
+
+- The polyA tail is composed of multiple adenosines which are added to the 3’ end of the mRNA enzymatically
+- This requires cleavage of the terminal 3’ end of the mRNA by CPSF, the cleavage polyadenylation specificity factor, as well as CFI and CFII (Cleavage factors I and II), which bind to the 3’ end once transcription is finished
+- This is followed by Polyadenylate Polymerase, which adds anywhere from 90 to 300 adenosine residues
+
+## The polyA tail is essential for nuclear export, translation, and stability of the mRNA:
+
+- It has been observed that the length of the polyA tail diminishes over time; it is believed that this is a regulatory process that can be used to control the levels of gene expression
+
+# Splicing
+
+In eukaryotes, genes are interrupted – the coding region contains both exons and introns
+
+- Exons encode the polypeptide (protein)
+- Introns are the intervening sequence and do not code for the protein
+- Introns must be removed prior to translation
+
+# Alternative Splicing
+
+The details of splicing are not relevant to this course, but the end result is!
+
+- Splicing results in a final mRNA transcript which can be translated by the ribosome to a protein
+- Some proteins have alternative splice sites
+
+# Consequences of Alternative Splicing
+
+## Intended variation
+
+- One gene can code for multiple proteins
+- Makes coding more efficient
+- Allows for modular evolution
+
+## Abnormal variation
+
+- Some alternative splicing is unintended
+- Can result in disease for example: DNMT splicing variant is associated with cancer
+
+# Translation
+
+Translation is the process by which the ribosome takes a processed mRNA and uses it to generate a protein
+
+## Three phases:
+
+1. Initiation
+2. Elongation
+3. Termination
+
+## Now let’s review the Initation process:
+ 
+- Initiation of translation begins with the 40S ribosomal subunit, the e1F2, e1F3, and e1F4 factors binding with the first tRNA (for Methionine, typically)
+- This complex binds the mRNA at the 5’ cap and scans for the START (AUG) codon
+- Once the START is found the 60s ribosomal subunut attaches, releasing the cofactors
+
+# Translation Elongation
+
+The ribosome contains two sites which can accept tRNAs: 
+
+- P (peptidyl) site
+- A (acceptor) site
+
+After initiation, the initiator tRNA resides in the P site, leaving the A site open for the next tRNA.
+
+Each tRNA has an anticodon site which can recognize exactly one codon on the mRNA.
+
+When the appropriate tRNA enters the A site, a peptide bond is formed between the first amino acid attached to the initiator tRNA in the P site and the amino acid connected to the tRNA in the A site. The peptide bond is formed between the carboxyl (C) group of the first amino acid and the amino (N) group of the incoming amino acid, and releases a water molecule.
+
+This process then ratchets forwards the mRNA, moving the tRNA from the A site to the P site, opening  up the A site for the next appropriate tRNA.
+
+# Translation Termination
+
+The elongation process continues until the ribosome encounters a STOP codon, which is recognized by a universal release co-factor, terminating the extension of the peptide chain.
+
+# Quiz
+
+Q1: The process of reading DNA and making mRNA is called?
+A1: Transcription
+
+Q2: The processing of reading mRNA and making a protein is called?
+A2: Translation
+
+Q3: The ribosome is comprised of.... Select all that apply.
+A3: rRNAs and proteins
+
+############################
+# Introduction to Proteins #
+############################
+
+# Protein structures
+
+- The amino acid chain that results from translation is called the primary structure of the protein – it is simply a long polymer of amino acids connected via peptide bonds
+- Because of the nature of the peptide bonds, the primary structure has an N terminus and a C terminus (see peptide bonds, above)
+- The peptide bonds are planar and cannot rotate, but the entire polypeptide can bend and take on additional structure
+## Secondary Structure
+- The secondary structure of a protein is any regular, repeating pattern of folding within the molecule
+- Secondary structure is stabilized by hydrogen bonds between the amino and keto groups of the peptide bonds
+
+# The amino acid chain that results from translation is called the primary structure of the protein – it is simply a long polymer of amino acids connected via peptide bonds
+Because of the nature of the peptide bonds, the primary structure has an N terminus and a C terminus (see peptide bonds, above)
+The peptide bonds are planar and cannot rotate, but the entire polypeptide can bend and take on additional structure
+Secondary Structure
+The secondary structure of a protein is any regular, repeating pattern of folding within the molecule
+Secondary structure is stabilized by hydrogen bonds between the amino and keto groups of the peptide bonds
+
+# Alpha Helix
+
+An alpha helix is a counter-clockwise spiral of a polypeptide chain with 3.6 amino acids per turn, for a size of 5.4 angstroms per turn, and are often associated with DNA binding regions of a protein
+
+# Secondary structure
+
+In a Beta strand, or sheet, the polypeptide backbone is lined up so that several strands form, with reference to the N termini, either parallel or anti-parallel blanket-like structures.
+
+# Secondary Structure: Beta Sheets
+
+1. Extremely stable
+2. Can result in high tensile strength
+- E.g. silk protein contains a large number of beta sheets
+- Combination of covalent bonds (peptide bonds) and hydrogen bonds forming the secondary structure makes this protein strong yet “soft”
+
+# Secondary Structure: PII
+
+There are many variations on helical structures:
+
+- PolyPro Helix, or PII
+
+Collagen, an important structural protein, is comprised of three PII helices wound around each other
+
+# Secondary Structure:Hairpin Turn
+
+Hairpin turns allow a protein to loop back on itself at a full 180 degree angle.
+- These are the connectors between strands of an anti-parallel beta sheet, for example
+
+## Turns typically contain 4 amino acids:
+
+- Rarer turns can contain 2 or 3 amino acids
+- Often contain Gly (the smallest amino acid) or Pro, which has a highly “flexible” peptide bond
+Like other secondary structures, the turn is formed through hydrogen bonding between amino acids
+
+" In a 3-amino acid hairpin turn, the N terminus is shown upper left, starting with a tyrosine, which is bound to a proline which comprises the “turn” region, and is bound to tryptophan. "
+
+# Secondary Structure: Coils
+
+The term “coil” is used to refer to any other secondary structure not defined above
+
+- While less structured, they are not “random” or unorganized – still important to structure and function of the protein!
+- You may see these referred to as “random coils” – this is only because they are not highly structured like helices, sheets, turns, etc..
+
+# Tertiary Structure
+
+Tertiary structure is the arrangement of a protein’s secondary structure in space
+
+- E.g. coils, sheets, turns, helices fold into a more complex globular (spherical) or filamentous/fibrous (elongated) form
+
+Tertiary structure is maintained by a variety of chemical bonds. Just as the primary structure folds into secondary structures, the secondary structures (and non-conjoined primary structure) can fold into tertiary structures       
+
+# Tertiary Structure & Function
+
+- The ultimate tertiary structure of a protein, along with the characteristics of the amino acids in each position, define the ultimate function of that protein
+- Collagen is a fibrous protein whose function is structural (as depicted on the left below)
+- Catalase is a globular protein, whose function is enzymatic/catalytic (as depicted on the right below)
+
+# Quaternary Structure
+
+- Proteins often form functional subunits of a larger complex.
+- A Quaternary structure is a special form of protein where two or more individual proteins come together to form a functional unit
+- These may be homoquaternary or heteroquaternary structures
+
+# Bond Forces & Bond Types
+
+Tertiary and quaternary structures are maintained by chemical bonding. The type of bond determines the strength of the bond, which in turn determines the flexibility and stability of the protein, which in turn affects function                                                                              
+
+Now let’s review the different types of bonds.                                                                    
+
+## Hydrophobic interactions
+
+- Occur between amino acids and side chains
+- Tendency of hydrophobic regions to associate in order to keep lower free energy in presence of water
+
+## Van Der Waals Interactions
+
+- Weak dipole interactions with a relatively long bond length of ~4 angstroms
+
+## Hydrogen Bonds
+
+- Interactions between permanent weak charges
+- Approximately 3 angstroms in length
+
+## Salt Bridges
+
+- Interactions between fully charged R groups
+- High energy and short length (2.8 angstroms)
+
+## Disulphide Bonds
+
+- Specialized bond formed between two cysteine residues once folded into proximity
+- Very high energy bonds and short lengths (2.6 angstroms)
+
+# Kinetics of Protein Folding
+
+- Amino acids in a primary protein structure have a choice of interaction: interact with the environment (essentially water) or with other amino acids.
+- The basic chemistry behind protein folding is the entropic tendency to achieve the lowest free energy state, which are affected by cofactors such as chaperones and chaperonins, which are in themselves proteins that bind unfolded proteins and affect the folding process by making certain sites more or less available
+
+# Free Energy
+
+## Levinthal's Paradox
+
+- Sampling all possible structural conformations available to a polypeptide chain - the protein primary structure -, to find the lowest-energy state would take millions of years. Yet proteins fold in seconds...
+
+## Gibb's Free Energy
+
+- Where G represents Gibb's free energy, H is enthalpy, T is temperature, and S is entropy
+- Proteins fold to minimize the amount of G in the system
+- The primary driving force will typically be entropy
+- An unfolded (primary structure) protein has high entropy; by folding the system attempts to reduce this to a minimum
+- Chaperones/chaperonins affect the free energy equation, helping proteins fold to the shape evolutionarily desirable, not necessarily just the lowest free energy state
+- Life is a battle against entropy, at the price of energy - so ATP (the energy molecule of life) can be expended to drive reactions/change shapes and conformations
+
+# QUIZ
+
+Q1: All proteins have which of the following forms? check all that apply 
+A1: Primany, Secondary, Tertiary
+
+Q2: Protein secondary structure is held together by what kind of bond?
+A2: Hydrogen
+
+Q3: How many amino acids are commonly found in proteins?
+A3: 20 
+
+# Summary
+
+- The basics of proteins
+- The different types of amino acids and their side groups
+- The different types of protein structures: primary, secondary, tertiary, & quarternary structures
+- The gene expression from DNA to amino acids

@@ -1,0 +1,71 @@
+# Week 1
+# @ sungml92
+# Introduction
+
+#################################
+# Challenges of Reproducibility #
+#################################
+
+Galaxy is a web-based platform for performing data intensive science
+It is particularly suited for genomics, and tools for many different types of genomic data analysis have been integrated in Galaxy
+will describe some of the research challenges that motivated the development of the Galaxy framework
+
+Biology has become data intensive, and dependent on complex computational and statistical method
+
+How can we ensure that scientific results is reproducible?
+- Reproducibility is an issue in genomic studies.
+- less than 30% of paper can be identified.
+- method and version matters in software and it is important for us to know for reproducibility.
+
+What is reproducibility?
+- not provenance, not reusability, not correctness.
+- an analysis is described in sufficient detail that it can be precisely reproduced.
+
+Recommendation
+1. Accept that computation is an integral component of biomedical research
+2. always provide access to raw primary data
+3. record versions of all auxillary datasets, or archive.
+4. store the exact version of all software used. Ideally archive the software.
+5. record all parameters, even if default values are used.
+
+Can reproducibility be achieved?
+1. Command line best practice
+2. Analysis environment
+3. Workflow systems
+4. Notebook style
+5. Literate programming
+6. System level provenance capture
+7. Complete environment capture
+
+Galaxy is one way to keep reproducibility!
+
+###################################
+# Introduction to Galaxy Platform #
+###################################
+
+Galaxy Platform
+- Available through the web.
+- integrating a wealth of tools, compute resources, terabytes of reference data and permanent storage.
+
+Core concepts of galaxy
+1. Describe analysis tool behaviour abstractly
+2. Analysis environment automatically and transparently tracks details
+3. workflow system for complex analysis, constructed explicitly or automatically
+4. pervasive sharing, and publication of documents with integrated analysis
+5. visualization and visual analysis platform
+
+But computing demand only increase over time, so galaxy can be a solution
+Alternative can be 1. local installation, and 2. cloud computing
+
+1. local installation, download and run
+- more than 60 known public galaxy server
+
+2. cloud computing
+- cloud man for any cloud such as amazon, nectar, or google and such
+
+###########
+# Summary #
+###########
+1. reproducibility is crucial to computational research, but currently poorly implemented
+2. galaxy is one platform that seeks to make computational analysis more accessible, transparent, and reproducible.
+3. It can be used as a free web service, installed locally, or deployed in a cloud environment.

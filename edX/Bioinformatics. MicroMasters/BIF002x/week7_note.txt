@@ -1,0 +1,367 @@
+# @sungml92
+# USMx: BIF002x
+# Proteins: Alignment, Analysis and Structure
+# Week 7 - Protein Modification and Binding
+
+# Objective
+
+= Outline the different functions & steps involved in protein modification, glycosylation adn protein phosphorylation
+- Highlight the different types of covalent and non-covalent bonds
+- Discuss the different aspects of protein-DNA and protein-RNA interactions
+- Illustrate the various functions of protein domains and motif searching
+
+########################
+# Protein Modification #
+########################
+
+- One of the difficulties we face in computational analysis of proteins is that the protein itself may be modified post-translation
+- Some of these modifications can be reversed in response to the environment (e.g. if the cell is subjected to hormones)
+- This is one way that the human genome, which contains roughly 23 thousand genes, can produce almost a million different protein products
+- By understanding the types of modifications and how they affect protein function, we can begin understand how to better engineer proteins – e.g. for drug targets, or genetic engineering
+- This requires the structural comparison of proteins with similar functions and structures and a comparison of their common features
+
+# Glycosylation
+
+- Glycosylation is the process of adding an oligosaccharide “tree” to a protein
+1. It’s called a tree because the structure can be fairly complex and branched
+2. Recall that oligosaccharides are sugars
+
+- Glycosylation typically occurs at the OH groups of SER or THR, or to the N group of ASN
+- Glycosylation occurs in the Endoplasmic Reticulum (ER) and Golgi apparatus, which means it is primarily a feature of membrane-bound and/or secreted proteins
+- qGlycosylation can be required for proper protein folding, and as such if we prevent glycosylation we can interfere with the activity of that protein
+1. A common antiviral drug approach is to target the glycosylation pathway of viral proteins and block glycosylation
+2. This is done by using a sugar analog – a chemical that has a structure similar to the sugar but different enough to prevent binding of additional oligosaccharides to the tree
+3. More interesting is that the oligosaccharides themselves function as unique addressing signatures – by understanding which oligosaccharide controls the locational routing and function of a protein we can again use this for our own purposes
+
+# Disulphide Bond Formation
+
+- Another important post-translational modification is the formation of disulphide bonds
+- Oxidation of the SH groups of two proximal cysteine residues links them via a strong covalent bond
+1. This oxidation effect can occur accidentally in the lab if cytosolic proteins are exposed to excessive oxygen
+
+- This can be mediated in the cell by tripeptide glutathione
+- Disulphide bonds occur exclusively in the ER
+- Protein Disulphide Isomerase (PDI) ensures that the correct CYS residues are bound
+- Disulphide bonds are also important in former structures between multiple proteins (e.g. dimers and quaternary proteins)
+- For example, antibody heavy and light chains are held together by disulphide bonds
+
+# Proteolysis
+
+- Disulphide bonds hold proteins together (whether modifying the structure within a single protein, or binding together multiple proteins as in the antibody example)
+- The opposite reaction, breaking proteins apart, is called proteolysis
+- Usually proteolysis is destructive to proteins
+- Some proteins, however, are produced as inactive “precursors”
+- This is done so that the proteins are not active until they are required
+- For example, digestive enzymes like trypsin and chymotrypsin must be released as inactive precursors (zymogens), otherwise they would damage the very cells that secrete them
+- Proteolysis is used to activate these proteins by cleaving off part of the protein which is blocking the active site
+- Proteolysis is also used to remove signal peptides – the signal may be relevant to cellular trafficking and protein localization, but not necessary to the actual function of the protein
+- One very interesting variant on proteolysis is protein splicing
+- Protein splicing is a form of self-proteolysis, where the protein itself contains a protease region (the intein), which splices itself out and rejoins the up and downstream regions of the protein
+1. The intein is the equivalent of the intron for a protein – so of course the non-spliced-out region is called the “extein”
+
+- Inteins may be an interesting new tool for protein engineering
+
+# Protein Splicing
+
+Engineered proteins may use inteins to allow for transport of hydrophobic proteins into previously inaccessible regions, eg. mitochondria
+
+# Protein Phosphorylation
+
+- By far one of the most common and important post-translational modifications is phosphorylation
+- Phosphorylation involves the transfer of phosphoryl groups from ATP to the hydroxy groups of SER, THR, or TYR
+- This reaction is easily reversible
+- Fully one-third of all proteins in the cell undergo phosphorylation/dephosphorylation
+- Phorphorylation is often used as a regulatory function, activating/inactivating proteins
+- The basic reaction is simple – a protein kinase (another protein, one that kinases a protein) mediates the transfer of PO4 from ATP
+- This is an energy consuming reaction, since ATP is the energetic molecule of the cell, and is converted to ADP in the reaction
+- Kinasing (adding the PO4) and de-phosphorylation (removing the PO4) serve to regulate the activity of many different proteins – including kinases themselves
+
+- By engineering proteins with appropriate kinase sites (SER, THR, or TYR residues that are available and will modify the conformation/function of the protein when phosphorylated/de-sphosphorylated) we can engineer control regions into proteins
+- Knowing which motifs work for this is crucial – another reason to construct databases of known phosphorylation targets
+- Phosphorylation introduces a charged, hydrophilic group onto the side chain on one (sometimes more) of the amino acids in a protein
+- This modification changes the protein structure by modifying the way that amino acid interacts with amino acids near it in the 3-dimensional folding conformation of the protein (not necessarily near it in the linear sequence
+
+# Additional Functions of Phosphorylation
+
+In addition to controlling the activation/inhibition of enzymes, phosphorylation has been shown to have a role in:
+
+- Protein degradation: Arginine phosphorylation by McsB kinase tags proteins for degradation by a Clp protease in gram-positive bacteria; a similar process occurs in eukaryotes through the ubiquitin-proteasome pathway
+- Protein-protein interactions: Phosphorylation can change the structure of a protein sufficiently so that it is able to (or unable to) bind to its binding partner
+- Receptor tyrosine kinases are important in the transduction of extracellular signals from hormones or growth factors
+
+# Acetylation
+
+- Describes a reaction that introduces an acetyl  functional group into a chemical compound
+- In acetylation, an acetyl group is transferred from an acetyl-CoA onto the amino group of a lysine by a protein acetylase
+- Acetylation refers to the process of introducing an acetyl group (resulting in an acetoxy group) into a compound, namely the substitution of an acetyl group for an active hydrogen atom
+
+# Deacetylation
+
+- Simply the reverse reaction where an acetyl group is removed from a molecule
+- Acetylation/Deacetylation are also used for regulation of enzymatic activity!
+1. In the human genome there are 1750 proteins that are regulated in this fashion
+2. Many DNA binding proteins are regulated in this fashion, because the acetylated Lysine is less liked to be protonated and thus less likely to bind to the negative charge on the DNA (think about transcription factors and how they may be regulated in this fashion)
+
+- Sirtuins are a common deacetylase that required NAD+ for their activity
+
+# Sirtuins
+
+"Sirtuins" are a class of proteins that possess either mono-ADP-ribosyltransferase, or deacylase activity, including deacetylase, desuccinylase, demalonylase, demyristoylase and depalmitoylase activity. Some of the common features are:
+
+- Regulate important biological pathways in bacteria, archaea and eukaryotes
+- Require NAD+ for their activity and their activity depends on the nutritional status of the cell/organism
+- This is suspected to be one of the factors that is involved in the correlation between low calorie diets and a prolonged life expectancy of laboratory animals
+
+# Methylation
+
+Methylation denotes the addition of a methyl group on a substrate, or the substitution of an atom (or group) by a methyl group. Methylation is a form of alkylation, with a methyl group, rather than a larger carbon chain, replacing a hydrogen atom. In methylation, a methyl group is transferred from
+
+S-Adenosyl Methionine (SAM) onto a protein in one of following three groups:
+
+- Carboxyl Groups: Adding a methyl group to a carboxyl group forms a methyl ether, and can be a signal for protein degradation.
+- Amino Groups: Addition of a methyl to an amino group forms a methyl amino - function unknown.
+- Thiol Groups: Addition of a methyl to a thiol group forms thioesters. Function unknown.
+
+# Hydrophobic Tails
+
+In biological systems, the phospholipids often occur with other molecules (e.g., proteins, glycolipids, sterols) in a bilayer such as a cell membrane. Lipid bilayers occur when hydrophobic tails line up against one another, forming a membrane of hydrophilic heads on both sides facing the water. Fatty acid groups such as palmitoyl or myristoyl can be added to proteins, converting normally cytosolic enzymes to membrane-bound enzymes
+
+- Can be used as an enzyme activation
+- Palmitoyl is usually added to internal cysteine or serines
+- Myristoyl is normally added to N-terminal glycines
+
+# Quiz
+
+Q1: Glycosylation is the process of adding oligosaccharides to:
+A1: ASN, SER, THR
+
+Q2: Disulfide bonds link the SH groups of two:
+A2: Proximal cysteines
+
+Q3: The bonds that hold protein dimers together are typically:
+A3: Disulfide bonds
+
+############################
+# Protein- Protein Binding #
+############################
+
+As we have already touched upon, protein-protein interactions are important in terms of regulation and activation of proteins
+How does protein-protein binding work?
+1. Protein-Protein Interactions (PPI) are actual physical contacts of high specificity between two or more proteins
+2. Aberrant PPI can result in “multiple aggregation” disease such as Creutzfeldt-Jakob or Alzheimers
+3. Understanding how PPI works is becoming critical for drug discovery
+
+We have discussed many functions of PPIs – and computational prediction of PPIs – but now we are going to discuss the actual binding characteristics, which are critical to computational prediction!
+- It is important to note that PPIs can be of two types:
+1. Stable Interactions
+2. Transient Interactions
+
+# Stable PPI
+
+Protein–Protein Interactions (PPIs) are the physical contacts of high specificity established between two or more protein molecules as a result of biochemical events steered by electrostatic forces including the hydrophobic effect.
+
+- Stable PPIs involve proteins that interact for a long time, or are part of a permanent complex as subunits, to carry out structural roles
+- Can involve homo-oligomers (e.g. cytochrome C) or hetero-oligomers (e.g. ATPase)
+- Can be non-reversible!
+- The bond types are usually stronger, such as covalent bonds
+
+# Transient PPI
+
+- Transient PPIs involve proteins that interact only briefly, and in a reversible manner
+- These types of interactions tend to be limited to special cellular contexts, e.g. they may only bond at certain times during the cell division cycle, or in particular cell types
+1. E.g. G-Protein Receptors
+
+- These bonds are typically “weaker”, involving hydrogen bonds, ionic interactions, Van der Waals forces, or hydrophobic bonds
+- This type of bond is referred to as non-covalent
+
+# Covalent Bonds
+
+- They are very strong and are formed by electron sharing
+- Each participant in the covalent bond has an incomplete outer electron orbital shell
+- The two members of the bond share electrons, fulfilling the electron shell requirement
+- The simplest case is the hydrogen atom, with one electron in the outer orbital:  by pairing with another hydrogen to form H2 (the stable form of hydrogen gas), both atoms complete their outer electron orbital shell
+- Similarly a carbon atom with 4 electrons can form 4 individual single-electron sharing bonds – for example, with four hydrogen atoms, to form methane, as shown below
+- In PPIs, covalent bonds are typically established between Sulphurs in the cysteins of the R-groups of two different amino acids in two different proteins
+- Disulfide bonds are formed from a single covalent bond
+
+# Non-Covalent Bonds
+
+- There are many more types of non-covalent bonds involved in PPIs than there are covalent
+- These fall into four classes:
+1. Electrostatic Interactions
+2. Van der Waals Forces
+3. Pi-Effect
+4. Hydrophobic Effects
+
+# Electrostatic Interactions
+
+- Ionic interactions involve the attraction of ions or molecules with full permanent charges of opposite signs
+1. Easily broken by water, so rarely used in proteins
+
+- Hydrogen bonds, however, are very prevalent in protein-protein interactions!
+1. Hydrogen bonds involve dipole-dipole attraction between hydrogen atoms and a partial/slight negatively-charged atom (e.g. oxygen nitrogen, sulfur, fluorine)
+2. Works because hydrogen can supply a mild positive charge even when bound to another atom
+
+# Hydrogen Bonds
+
+- Despite their “weakness”, hydrogen bonds are very important in much of biology – not just for PPIs
+- In the figure below, hydrogen bonds are all that are holding together the layers of the cellulose molecules
+
+# Van der Waals Forces
+
+- A Van der Waals (VdW) force is a weak and transient electrical attraction between two atoms
+- VdW exists only because of the fluctuation of the electron cloud/orbitals surrounding each atom, which can temporarily create a dipole
+- VdW forces contribute to interactions of proteins with other molecules or with surfaces, but because of the structural complexity of protein molecules, the magnitude of these effects is usually estimated based on idealized models of the molecular geometry, e.g., spheres or spheroids.
+- VdW forces are interesting in that they are weak, yet cumulatively they can provide a significant force
+- In addition, the electron cloud that is the source of the dipole/electrical attraction also enforces a minimum distance, as the electron clouds become repulsive at extremely close range
+- Van der Waals forces play a very signficant role in PPI bonding when complementary shapes are involved, e.g. anywhere the “lock and key” fit is important
+1. Antibody/antigen binding
+2. Enzyme/substrate binding
+
+# Pi-Effect
+
+- The Pi effect is a very specific form of non-covalent bond that exists between a cation (positively charged atom or molecule) and the face of an electron-rich pi-system
+- The Pi effect is involved in protein structure as well as PPI
+1. Pi effect can catalyze enzymatic reactions by providing the buildup of positive charges while an enzyme or its substrate are undergoing transition
+2. These transition states are critical to the idea of the “induced fit” model – recall that proteins need to “flex”; if the flex creates net positive charges (equivalent to a cation), Pi effects can prevent this from acting as repelling forces against each other
+
+-The Pi effect is important in policyclization enzymes
+1. Proton-triggered polycyclizations of squalene involved a cationic cascade
+2. Pi effects help stabilize the reaction
+
+# Hydrophobic Forces
+
+The last force we will discuss in terms of PPI is the hydrophobic force – the force created by non-polar regions (hydrophobic regions) in a solution (essentially) water by their disaffinity for water. It is very significant:
+
+- Nussinov (Protein Engineering vol.10 no.9 pp.999–1012, 1997) found that, on average, there are 10.7 hydrogen bonds and 2.0 salt bridges per interface. 17.4% of fully buried donors or acceptors in high- resolution structures do not form any hydrogen bonds, and some like charges are at a close distance. Polar atoms on the backbone have a strong tendency to form hydrogen bonds with backbone atoms across the interface, and some main chain–main chain hydrogen bonds can form β-sheets.
+- These results indicate that within the interface region of protein protein interactions, polar and charged residues constitute a larger percentage than would normally be found on the surface of proteins. Water molecules are often found buried within the interface and can form a network of hydrogen bonds that help stabilize the complex.
+- The release of water molecules from hydrophobic regions is critical to PPI
+- Unsurprisingly, two hydrophobic regions (one on each protein) can be driven together, forming a strong bond
+- By examining clusters of surface residues based on their hydrophobicity (remember the hydrophobicity plots we studied earlier?), one study was able to predict the PPI interaction sites with a high accuracy
+- Young, Jernigan, and Covell (Protein Science 1994) used hydrophobicity plots and accurately predicted the binding sites in 25 of 38 cases examined
+- In the remaining 13 cases the binding sites were still within the top 6 hydrophobic “clusters” (contiguous regions of high hydrophobicity)
+- Their results can be improved on if we take into account that only accessible hydrophobic clusters (those on the “outiside” of the protein) should be considered as binding domains
+
+# Bonding Forces
+
+- As you can see there are many different forces which need to be considered when modeling PPI
+- No one software model currently takes all of these into account
+- Many of the forces can be predicted, however, using the techniques we have covered
+1. Hydrophobicity plots
+2. Examination of the R groups of amino acids and their properties
+
+# Quiz
+
+Q1: The strongest single bond is:
+A1: The Covalent bond
+
+Q2: Protein-protein actions that are transient are:
+A2: Reversible, Involve weaker bonds, limited in cellular context
+
+Q3: Van der Waals forces are based on electron cloud orbital fluctuations.
+A3: True
+
+#####################
+# Protein-NABinding #
+#####################
+
+As important as PPI is the binding of proteins to DNA and RNA
+
+- Involved in regulation of gene expression
+- Involved in RNA translation regulation
+1. E.g. early degradation of RNA
+2. RNA splicing
+
+- For the most part this uses the same forces as PPI
+- In some ways the DNA binding site is more readily predictable using bioinformatics techniques since it is almost always strictly based on a consensus sequence
+- The protein binding site is more challenging
+
+# Protein-DNA Interaction
+
+- While there are many laboratory techniques to detect DNA bound to protein these do not tell us where the specific binding face on the protein is (the DNA Binding Domain, or DBD)
+- Luckily there are bioinformatics approaches that can identify DBDs
+- A DBD is a structural motif that recognizes double or single stranded DNA
+- DBD’s can target a specific DNA sequence or they can have a general affinity for DNA
+
+Protein–DNA interactions are when a protein binds a molecule of DNA, often to regulate the biological function of DNA, usually the expression of a gene.
+
+Among the proteins that bind to DNA are transcription factors that activate or repress gene expression by binding to DNA motifs and histones that form part of the structure of DNA and bind to it less specifically. Also proteins that repair DNA such as uracil-DNA glycosylase interact closely with it. DNA Binding Domains must be “shaped” so that they can fit in the “grooves” of the DNA double-helix. Only the major groove can be used for sequence-specific binding since the pattern of hydrogen bonds available is unique to each base there.
+
+Now let’s review a pictorial representation of the Protein-DNA interaction highlighting the major and minor grooves.
+
+# DNA-Binding Domain(DBD)
+
+A DNA-Binding domain (DBD) is an independently folded protein domain that contains at least one structural motif that recognizes double- or single-stranded DNA. A DBD can recognize a specific DNA sequence (a recognition sequence) or have a general affinity to DNA. Some DNA-binding domains may also include nucleic acids in their folded structure.
+
+As such, regulatory motifs will necessarily be specific to major groove binding and structural motifs (e.g. those used for histone binding) will be more minor-groove centric
+Prediction of DNA binding domains begins with a database of known DBD motifs – some of the most common are:
+1. bZIP domain
+2. Helix-loop-helix domains
+3. Helix-turn-helix domains
+4. HMG-box domains
+5. Leucine Zipper domains
+6. Zinc Finger Domains
+
+Since we’ve discussed domains and motifs previously, let’s look at how a typical domain/motif search engine may work instead
+
+# Protein- RNA Interaction
+
+- Since the structure of RNA is extremely similar to the structure of single-stranded DNA, we are going to ignore Protein-RNA interactions as a separate item and focus on general Protein-DNA interactions
+- Recall from your DNA course that RNA differs from DNA in that it uses Uracil instead of Thymidine as a base; the structure of Uracil is similar enough to Thymidine that binding differences between single-stranded DNA and RNA are minimal
+
+# Protein Domain/Motif Searching
+
+- The first step is to define the protein domain
+- This is done as described previously, where a protein sequence alignment is constructed from all known members of a specific class, e.g. proteins that bind a specific sequence of DNA
+- Outliers – protein sequences that don’t fit the alignment – are discarded, and a consensus protein sequence created
+- The consensus sequence may be as described previously, using symbols to indicate specific amino acid residues as well as symbols indicating “this” or “that” residue, or “any”
+- Once the motifs are identified in this fashion they are assembled into a motif database
+- The motif DB will contain the consensus sequences and other descriptors, as well links to the sequences and organisms where they are found
+- Searching the database can be done in two basic ways:
+1. A local alignment search (essentially BLAST)
+2. An HMM profile search
+
+# BLAST Algorithm
+
+- Remove low-complexity regions from the query (e.g. regions that are composed of the same elements, such as long repeats)
+- Make a k-letter word list of the query (e.g. all possible 3-residue sequences within the query)
+- Look for exact matches of those words in the target motif database
+- This may be done one motif at a time, or all at once, depending on the actual algorithm and hardware used
+- Extend any matches in both directions as far as they still match
+- This can include mismatches – normally there is a weight for how much mismatch is acceptable before stopping the extension process
+- Score and evaluate all matches, keeping those above a set threshold
+
+# HMM Methods
+
+The HMM method is based on hidden Markov Models (HMM)
+
+- An HMM is a statistical Markov model where the system being modeled (in our case, a consensus sequence) is assumed to be a Markov process with unobserved, or hidden, states)
+- Essentially each residue in the sequence is treated as a Markov Chain – the “end point” in a “chain” of residues which were in that position in a previous evolutionary state of the sequence
+- HMMs are statistical models and as such look at the overall match of the query to the consensus with a probabilistic score
+- In many ways HMMs are more appropriate as search tools, since sequences did in fact evolve in an evolutionary fashion
+
+# HMMer Algorithm
+
+- The motif search algorithm based on HMMs which is most widely used is HMMer (pronounced “hammer”)
+- We aren’t going to go into the math, but the general HMMer algorithm is:
+- Compare query to profile HMM
+1. each potential motif in the database is constructed as a stastical HMM model, where each residue position has x probability of being y residue
+
+- Query is compared to each possible profile HMM
+- Each query/profile HMM comparison is scored
+- Sequences that score significantly better to the profile HMM compared to a “null” model are considered to be homologous to the sequences used to construct the HMM
+
+# Quiz
+
+Q1: BLAST is an example of:
+A1: Heuristic search
+
+Q2: A hidden markov model requires that all states within the evolutionary history of a specific residue be known.
+A2: False
+
+# Summary
+
+- The different functions & steps involved in protein modifications, glycosylation, and protein phosphorylation
+- The different types of covalent and non-covalent bonds
+- The different aspects of protein-DNA and protein-RNA interactions
+- The various functions of protein domains and motif searching

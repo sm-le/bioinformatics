@@ -1,0 +1,591 @@
+---
+title: "Statistic_note_week1"
+author: "Sung"
+date: "4/7/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+## What is Statistics?
+
+The science of learning generalizable knowledge from data
+
+## Finding statistics you can trust
+
+1) Github
+2) R Cran
+3) Bioconductor
+
+Meters can be an amount of download, how responsive to the comment, and check
+
+4) ask on biostars, or on bioconductors support page
+
+## What is Data?
+
+Data are values of qualitative or quantitive variables, belonging to a set of items.
+
+- Set of items: Sometime called the population; the set of objects you are interested in
+
+- Variables: A measurement or characteristic of an item
+
+- Qualitative: Country of origin, sex, treatment
+
+- Quantitative: Height, weight, blood pressure
+
+## Representing Data
+
+	(inference)
+Sample -> Population
+(probability)
+
+parameters: characteristics of population, and treated as fixed value
+
+Symbol: value of particular sample
+
+For probability, always put hat to an estimate
+
+Key points
+
+1. Datapoint are represented by letters
+- H for height and such
+
+2. Subscripts are used for different data points
+- H1, H2, ..., are the count for people 1, 2, ...
+
+3. Sometimes we write X for all values
+- X1, X2, .. are the count for people 1, 2, ...
+
+4. We may need another subscript
+- X_{11} for the count for gene 1 on person 1
+
+5. Parameters are Greek letters
+- theta is average height in population
+
+6. Hat are used for estimates
+- theta-hat is our estimate of average height in population
+
+- Y is usually outcome, X is usually covariate
+
+# Module 1
+
+## Overview
+
+1. Background - Statistics, Genomics, and Bioconductors
+
+2. Exploratory data analysis
+
+## Reproducible Research
+
+It is critical that all the data and code are available and reproducible
+
+## Achieving reproducibility
+
+### How to share data?
+
+The raw data
+A tidy data set
+A code book describing each variable and its value in the tidy data set
+An explicit and exact recipe you used to go from 1->2,3
+
+1. Raw data
+
+- Usually fastq file and such 
+
+2. tidy data
+
+- In general, one variable per column, one observation per row, one table per kind of variable, linking indicator for column (link all the dataset together, so data analysis is possible).
+
+3. Code book
+
+- Variable acmes, descriptions, units, and study design quirks
+
+4. Recipe
+
+- Take raw data as an input and output a tidy. No parameter, so it is all fixed. 
+
+- If codes are not available, Explicit instructions, version of software, and parameters included in the recipe (not recommended). 
+
+R markdown so people can read code and explanations.
+
+## R Markdown
+
+One way to ensure reproducible analysis is to use R markdown
+
+
+## The Three Table in Genomics
+
+Table 1: information about Control vs Test, information on Batches how samples collected
+
+Table 2: Genomics data; any information that is genomic. 
+
+Table 3: Feature that is collected; which SNPs, which gene, what bio pathway, what genome. 
+
+
+### Basic check
+Row (Table 1) == Col (Table 2)
+Row (Table 2) == Row (Table 3) 
+
+## The Three Tables in Genomics (in R) 
+
+### Load the data from the connection
+
+```{r}
+con=url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+load(file=con)
+ls()
+close(con)
+```
+
+### Load bodymap eset and shorten the variable
+
+```{r}
+bm = bodymap.eset
+bm
+```
+
+evoking bm variable shows high level data summary
+
+#### Extracting Tables 
+
+#### Expression data 1, genomics data
+
+```{r expression_data}
+exp_data = exprs(bm)
+dim(exp_data)
+head(exp_data,n=5)
+```
+genes in rows, samples in column, and counts for each gene in the sample
+
+#### data 2: the phenotype data
+
+```{r phenotype_data}
+pheno_data = pData(bm)
+dim(pheno_data)
+head(pheno_data)
+```
+
+this is the description of what are the samples made up of, how are they collected, information of those kind
+
+#### data 3: the feature data
+
+```{r feature_data}
+feature_data = fData(bm)
+dim(fData(bodymap.eset))
+fData(bodymap.eset)[1:15,1]
+```
+
+Feature data describes the gene
+
+Above are three tables in genomic expression set
+
+## Experimental Design: Variability, Replication, and Power
+
+Central dogma of statistics is that, we used probability and sampling to measure and use that information to infer population.
+
+Var(Genomic measurement) = Phenotypic variability + Measurement error + Natural biological variation
+
+- phenotypic variability: variation by control vs cancer and such.
+- measurement variability: correlated or biased, measure things differently or batch effect.
+- biological variability: any two individual samples will be different because they are different.
+
+Replicates in the experiment
+
+1) Technical replicates: same sample, but processing different times
+2) Biological replicates: different samples with same preparation method. This measures variability in biological sample, not just variability in the machine. 
+- Variability in biological replicates is natural regarldess of technical use
+
+So we need to keep in mind that how we are separating biological variability from technical variability. 
+
+N is number of measurement, typical sample size for..
+
+1) Rare mendelian disease (genetic disorder in the family)
+- N ~ 3-5
+
+2) RNA-sequencing study
+- N ~ 10-1000
+
+3) DNA methylation study, EWAS study
+- N ~ 10-1000
+
+4) Common disease genome-wide association
+- N ~ 10000-1000000+
+
+Keep in mind that sequencing technology does not eliminate biological variability
+
+### Why small replicate is a problem?
+
+Because you will not have power to discover what you are looking for
+
+Power = Probability of discovering a real signal if it is there
+
+- Power is typically set at 80%
+- Calculations are based on made up assumptions
+- Higher power is better
+- Low powered studies don't replicate
+
+Number of sample will tell what the actual average is or if they are different from each other
+
+Power is a function of number of sample, difference between two groups and variance.
+
+Rather than making specific assumption, plot a power curve
+
+## Experimental Design: Confounding and Randomization
+
+One of the most important issue in designing an experiment is confounding and one good way to take care of confounding is through randomization. For example, when compare literacy and shoe size, there might be a significant correlation of literacy with shoe size. However, this ignore intermediate variable, age, which also called confounder.
+
+Randomization the confounding variable does not differ among treatments
+
+Another way to deal with confounding is blocking. Equally distributing all confounding variable with treatment variable if all cannot be tested on same period of time.
+
+Another things to consider
+
+- make sure experiment is balanced
+- replicates
+- have controls, negative and positive
+
+## Exploratory Analysis
+
+First thing to do with any type of genomic data set
+
+### Why explore data?
+
+- To understand data properties
+- To find patterns in data
+- To suggest modeling strategies
+- To debug analyses
+- To communicate results
+
+## Exploratory Analysis in R Part I 
+
+### Set up aesthetic
+
+```{r}
+tropical = c('darkorange','dodgerblue','hotpink','limegreen','yellow')
+palette(tropical)
+par(pch=19)
+```
+
+### Load packages
+
+```{r}
+library(dplyr)
+library(gplots)
+library(devtools)
+library(Biobase)
+library(RSkittleBrewer)
+library(AnnotationDbi)
+library(org.Hs.eg.db)
+library(dendextend)
+```
+
+### Load data
+
+```{r}
+con=url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+load(file=con)
+close(con)
+bm = bodymap.eset
+pdata = pData(bm)
+edata = exprs(bm)
+fdata = fData(bm)
+ls()
+```
+
+### Tables - gender info
+
+```{r}
+table(pdata$gender)
+table(pdata$gender,pdata$race) # comparison
+```
+
+### Check for distribution
+
+```{r}
+summary(edata)
+```
+
+### Check for missing value
+
+```{r}
+table(pdata$age)
+table(pdata$age,useNA='ifany') # option use NA to include NA in table
+table(is.na(pdata$age)) # check for NA values
+sum(pdata$age==' ') # check for common missing names
+sum(pdata$age==' ',na.rm=TRUE) # remove NA values and check
+sum(is.na(edata)) # check genomic data for NA
+gene_na = rowSums(is.na(edata)) # make distribution of NA by genes
+table(gene_na)
+sample_na = rowSums(is.na(edata)) # make the distribution of NA by sample
+table(sample_na)
+```
+
+### Check for dimensions
+
+```{r}
+dim(fdata)
+dim(pdata)
+dim(edata)
+```
+
+number of row in p data should match columns with edata
+
+## Exploratory Analysis in R Part II 
+
+### boxplot
+
+```{r}
+boxplot(edata[,1]) # but most of the data is in the bottom which makes the box plot very skewed
+boxplot(log2(edata[,1]+1)) # sadly this did not help either
+boxplot(log2(edata+1),col=2,range=0) # data is skewed
+```
+
+### histogram
+
+```{r}
+par(mfrow=c(1,2)) # set up screen to have one row and two column
+hist(log2(edata[,1]+1),col=2) # first sample
+hist(log2(edata[,2]+1),col=2) # second sample
+```
+
+### density plot
+
+or we can overlay plot with density plot
+
+```{r}
+plot(density(log2(edata[,1]+1)),col=2) 
+lines(density(log2(edata[,2]+1)),col=3) # line command overlay density plot, don't use another density plot
+```
+
+### qqplot
+
+to check if sample is consistent, compare two distributions
+
+```{r}
+qqplot(log2(edata[,1]+1),log2(edata[,2]+1),col=3)
+abline(c(0,1))
+```
+
+### other comparison method
+
+other ways to compare samples is to ma plot
+
+```{r}
+mm = log2(edata[,1]+1) - log2(edata[,2]+1) # difference between two sample in y axis
+aa = log2(edata[,1]+1) + log2(edata[,2]+1) # addition of two sample in x axis
+plot(aa,mm,col=2)
+```
+if plot is all 0, there is no difference between two samples.
+
+As it goes higher, samples tend to become similar to each others
+
+### remove row counts
+
+plot for count based data
+
+```{r}
+edata=as.data.frame(edata)
+filt_edata = filter(edata,rowMeans(edata) > 1) # dplyr filter to keep only rowmean over 1
+dim(filt_edata)
+```
+
+```{r}
+boxplot(as.matrix(log2(filt_edata + 1)),col=2)
+```
+
+filtering to give an idea of what is real distribution of a data look like
+
+## Exploratory Analysis in R Part II
+
+check for consistency, using external data if available
+
+### load ENSEMBL chromosome data
+
+```{r}
+aeid = as.character(fdata[,1]) # get id for feature
+chr = AnnotationDbi::select(org.Hs.eg.db,keys=aeid,keytype="ENSEMBL",columns="CHR") # ENSEMBL chrmosome id
+dim(chr)
+dim(edata)
+```
+
+two different dimension between expression data and chromosome
+Maybe some labels are duplicated
+
+### remove duplication
+
+```{r}
+chr = chr[!duplicated(chr[,1]),]
+dim(chr)
+all(chr[,1] == rownames(edata)) # check if chromosome data matches expression data
+```
+
+### Filter chromosome Y samples
+
+```{r}
+edata = as.data.frame(edata)
+edatay = dplyr::filter(edata,chr$CHR=="Y")
+dim(edatay)
+```
+
+Now it contains only genes from Y chromosome
+
+### boxplot
+
+```{r}
+boxplot(colSums(edatay) ~ pdata$gender,col=2)
+boxplot(colSums(edatay) ~ pdata$gender)
+points(colSums(edatay) ~ jitter(as.numeric(pdata$gender)),
+       col=as.numeric(pdata$gender),
+       pdata=19) # overlay datapoints
+```
+
+### Multivariate plot
+
+```{r}
+ematrix = as.matrix(edata)[rowMeans(edata) > 10000,]
+dim(ematrix)
+heatmap(ematrix) # y=genes, x=sample
+
+colramp = colorRampPalette(c(3,"white",2))(9)
+heatmap(ematrix,col=colramp) # different color scheme
+
+heatmap(ematrix,col=colramp,Rowv=NA,Colv=NA) # no clustering
+heatmap.2(ematrix,col=colramp,Rowv=NA,Colv=NA,
+          dendogram="none",scale="row",trace="none") # add legend for low and high value
+```
+
+## Data transforms
+
+Often to visualize or model genomic data is you need to make some data transformations that put it on a more appropriate scale or a scale that's easier to interpret.
+
+### Look at simulated normal data
+
+```{r}
+hist(rnorm(1000),col=2)
+hist(edata[,1],col=2,breaks=100)
+```
+
+As data is skewed, transformation is good way to tackle this data. First approach is log transformation
+
+### Log transformation
+
+```{r}
+hist(log(edata[,1]),col=2,breaks=100) # but this is cheating as log(0) is undefined, checking follows
+min(log(edata))
+quantile(log(edata[,1]))
+```
+
+one way to tackle this log(0) problem is to add 1 to data as it won't disturb the big values
+
+```{r}
+hist(log(edata[,1]+1)) # or log2 transformation
+hist(log2(edata[,1]+1),col=2,breaks=100) # log2 transformation is useful, when to compare two values. Increase of one is doubling in this sense
+```
+
+### Zoom in
+
+```{r}
+hist(log2(edata[,1]+1),breaks=100,col=2,xlim=c(1,15),ylim=c(0,400))
+```
+
+### Count 0 on each gene
+
+```{r}
+hist(rowSums(edata==0),col=2)
+```
+
+Most of the gene is equal to 0. To filter these out,
+
+### Filtering
+
+```{r}
+low_genes = rowMeans(edata) < 5
+table(low_genes)
+filt_edata = filter(edata,!low_genes)
+dim(filt_edata) 
+
+# or filter by low median
+
+low_genes2 = rowMedians(as.matrix(edata)) < 5
+table(low_genes2,low_genes)
+filt_edata2 = filter(edata,!low_genes2)
+dim(filt_edata2)
+```
+
+```{r}
+hist(log2(filt_edata[,1]+1),col=2)
+hist(log2(filt_edata2[,1]+1),col=2)
+```
+
+## Clustering
+
+One of the most widely used exploratory data analysis method is clustering
+
+Idea behind clustering is to answer "can we identify points that are close to each other"
+
+### Different ways to cluster
+
+#### Hierarchical clustering
+
+start with two nearest point, merge them together and so on. However, it can be confusing sometimes if you don't know how to read the tree
+
+#### k-mean clustering
+
+we guess k in the beginning, and start off by guessing centers
+Once we have center, assign all the points to closest center. When keep on doing this, cluster with centroid will be optimized (iterative process).
+
+- Clustering can be useful for exploring multivariate relationships
+- Things that have a bigger than expected impact 1) Scaling, 2) outliers, 3) starting values
+- Selecting the number of cluster isn't trivial
+- Better to visualize
+- Widely overutilized/overinterpreted
+
+## Clustering in R
+
+```{r}
+edata = edata[rowMeans(edata) > 5000,] # filter data to make it easy to work with
+edata = log2(edata+1)
+```
+
+### distance calculation
+
+```{r}
+dist1 = dist(t(edata)) # transpose and calculate distance
+colramp = colorRampPalette(c(3,"white",2))(9)
+heatmap(as.matrix(dist1),col=colramp,Colv=NA,Rowv=NA)
+```
+### Hierarchical clustering
+
+```{r}
+hclust1 = hclust(dist1)
+plot(hclust1)
+plot(hclust1,hang=-1) # all label at same level
+```
+
+### color dendogram
+
+```{r}
+dend = as.dendrogram(hclust1)
+dend=color_labels(hclust1,4,1:4) # four clusters
+plot(dend)
+labels_colors(dend) = c(rep(1,10),rep(2,9))
+plot(dend)
+```
+
+### k-mean clustering
+
+```{r}
+kmeans1 = kmeans(edata,centers=3)
+names(kmeans1) # information about k-mean clustering
+matplot(t(kmeans1$centers), col=1:3,type="l",lwd=3) 
+table(kmeans1$cluster)
+heatmap(as.matrix(edata)[order(kmeans1$cluster),],col=colramp,Colv=NA,Rowv=NA)
+kmeans2 = kmeans(edata,centers=3)
+table(kmeans1$cluster,kmeans2$cluster) # cluster number is randomly assigned
+```

@@ -1,0 +1,545 @@
+---
+title: "Introduction to Bioconductor-week1"
+author: "Sung"
+date: "5/17/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Week 1
+
+## What is Bioconductor?
+
+Bioconductor is a software repository of R packages with some rules and guiding principles.
+
+Bioconductor emphasized "Reproducible Research"
+
+### Why Bioconductor?
+
+1. Productivity
+2. Flexibility
+
+## Installing Bioconductor
+
+```{r bioconductor}
+#source("http://www.bioconductor.org/biocLite.R")
+
+#biocValid() # check version of bioconductor
+
+#biocLite("package") # download packages
+```
+
+## The Bioconductor Website
+
+### under use tab
+
+Click on the software tab, it will guide you to access all list of available Bioconductor packages - (easier to navigate through multiple packages)
+
+To access vignettes: click on the website or directly through from R
+
+### under learn tab
+
+Workflow show how to use packages to acheive something. It is limited, but shows workflow on how some things are done with Bioconductor packages.
+
+Courses contain tutorial on how to do analysis
+
+## Useful Online resources
+
+1. Support is a great resource to ask questions on specific packages
+
+2. Alternative is stack overflow
+
+3. rdocumentation.com search all packages in R against specific input 
+
+4. rseek.com
+
+## R base types
+
+### Atomic vectors
+
+atomic vectors are vectors where every single element is of same type. e.g) sequence of number from one to ten
+
+```{r}
+# set up atomic vectors
+x = 1:10
+
+# assign columns to vector
+names(x) = letters[1:10]
+
+# filter vector
+x[1:3]
+
+# slice vector
+x[c("a","b")]
+
+# call only find first occurrence
+x = 1:3
+names(x) = c("a","a","b")
+x["a"]
+
+# find duplicates
+anyDuplicated(names(x)) # find index of duplicate. It makes sense to keep this number to zero.
+```
+
+### Integers vs numerics
+
+Numerics allow you to hold numbers of arbitary precision and integers are standard integers.
+
+```{r}
+x=1
+class(x) # actually x is numeric not integers
+
+x=1:3
+class(x) # now it is integers
+
+# to express integer
+x=1L
+class(x)
+
+# limit of integer by R
+.Machine$integer.max # 2^31 - 1, number slightly smaller than human genome
+
+# work around
+as.numeric(1L) # this will fix the integer limitation
+```
+
+### Matrices
+
+```{r}
+x = matrix(1:9, ncol=3, nrow=3)
+
+# like vectors, rowname and colname do not have to be unique
+rownames(x) = letters[1:3]
+
+# dimensions
+dim(x)
+nrow(x)
+ncol(x)
+
+# subsetting
+x[,1:2]
+x["a",] # first row back as vector, not matrix
+x["a",,drop=FALSE] # return matrix
+x[x>5]
+
+# by row to fill up matrix
+x = matrix(1:9, ncol=3, nrow=3, byrow=TRUE)
+```
+
+### List
+
+A list is a list of different objects
+
+```{r}
+x = list(a = rnorm(3), b = letters[1:5], matrix) # no requirement to make sense
+
+# return list of one element
+x[1]
+
+# return vector or element itself
+x[[1]]
+
+# return list by name
+x["a"]
+x$a
+
+# Partial match is possible, but can be source of error
+names(x) = c("a","letters","letters2")
+x$letters
+x$let
+x["letters"] # single bracket does not give you partial matching
+
+# list of single number
+as.list(1:3)
+
+# list operation
+x = list(rnorm(3), 3:9)
+lapply(x,mean) # return list
+unlist(lapply(x,mean)) # return vector
+sapply(x,mean) # return vector
+```
+
+### Dataframe
+
+dataframe hold observations from different type
+
+```{r}
+x <- data.frame(sex=c("M","M","F"),age=c(32,34,29)) # col=var, row=obs from different samples, row name has to be unique
+x[["sex"]]
+x[1,"sex"]
+
+sapply(x,class)
+
+# convert to matrix
+as.matrix(x) # character matrix
+
+# convert to list
+as.list(x)
+
+# same thing for complicated object?
+library(methods)
+as(x, "matrix")
+```
+
+## GRanges
+
+GRange is a data structure for storing genomic intervals
+- fast and efficient 
+
+Many entities in genomics are intervals or sets of intervals e.g) Promoters, genes, SNP, and so on
+
+Many genomic tasks are to relate intervals to each other promoter-SNP, TF-binding-promoter, and sequencing_read-gene
+
+It is a functionality in the GenomicRanges and IRanges packages
+
+## IRanges - Basic Usage
+
+```{r}
+library(IRanges)
+
+# we need to give two of three arguments: start, end, and width
+ir1 <- IRanges(start=c(1,3,5),end=c(3,5,7))
+ir2 <- IRanges(start=c(1,3,5),width=3) # same
+
+# start vector
+start(ir1)
+
+# resize with width
+width(ir2) <- 1
+
+# can have names
+names(ir1) <- paste("A",1:3,sep="")
+
+# index
+length(ir1)
+ir1[1]
+ir1["A1"]
+
+# concetenate
+c(ir1,ir2)
+
+# Plot IRanges
+
+PlotRanges <- function(x, xlim=x, main=deparse(substitute(x)),
+                       col="black", sep=0.5, ...){
+  height <- 1
+  if(is(xlim,"Ranges"))
+  xlim <- c(min(start(xlim)), max(end(xlim)))
+  bins <- disjointBins(IRanges(start(x),end(x)+1))
+  plot.new()
+  plot.window(xlim,c(0,max(bins)*(height+sep)))
+  ybottom <- bins*(sep+height)-height
+  rect(start(x)-0.5,ybottom,end(x)+0.5, ybottom + height, col=col,...)
+  title(main)
+  axis(1)
+}
+
+par(mfrow=c(2,1))
+
+ir <- IRanges(start=c(1,3,7,9),end=c(4,4,8,10 ))
+PlotRanges(ir)
+PlotRanges(reduce(ir))
+#PlotRanges(disjoint(ir))
+```
+
+Each integer belong to one or more original ranges to a single range. Ranges can be as big as they can be. This is a minimal representation of the integers that belongs to the original IRanges. Disjoin creates kind of a set of disjoint, non-overlapping intervals.
+
+One of manipulations of IRange is a manipulation that take all of original ranges and produce a single new range for each of original
+
+```{r}
+resize(ir, width=1, fix="center") # other manipulation such as shift and flank are available
+```
+
+Another way to manipulate is to think IRanges as set of integers. Converting them to IRanges first, and, then union or intersection.
+
+```{r}
+ir1 <- IRanges(start=c(1,3,5),width=1)
+ir2 <- IRanges(start=c(4,5,6),width=1)
+union(ir1,ir2)
+#reduce(ir1,ir2)
+intersect(ir1,ir2)
+
+# findOverlaps allows us to relate two sets of IRanges to each other
+ir1 <- IRanges(start=c(1,4,8),end=c(3,7,10))
+ir2 <- IRanges(start=c(3,4),width=1)
+ov <- findOverlaps(ir1,ir2) 
+
+# access Queryhits
+queryHits(ov)
+unique(queryHits(ov))
+
+# another way
+countOverlaps(ir1,ir2) # is fast and memory efficient
+
+# nearest find
+nearest(ir1,ir2)
+```
+
+## GenomicRanges - GRanges
+
+GRange is a GRange constructor and is similar to IRanges with addtional feature with chromosome and strength. Strand in GRange can have three different values: +,-, and * (for unknown value or entity present in both strand).
+
+```{r}
+library(GenomicRanges)
+gr = GRanges(seqnames=c("chr1"), strand=c("+","-","+"), ranges=IRanges(start=c(1,3,5),width=3))
+
+flank(gr,5) # flanking is relative to sequence direction.
+promoters(gr)
+
+# seqinfo <- chromosome info given by
+seqinfo(gr)
+seqlengths(gr) = c("chr1"=10)
+seqinfo(gr)
+seqlevels(gr) # different chromosome names
+
+# part not covered by a range or granges
+gaps(gr)
+
+# assign different chr
+seqlevels(gr) = c("chr1","chr2")
+seqnames(gr) = c("chr1","chr2","chr1")
+
+# change seq level
+seqlevels(gr) = c("chr2","chr1")
+sort(gr)
+
+# set genome
+genome(gr) = "hg19"
+
+# e.g)
+gr2 = gr
+genome(gr2) = "hg18"
+#findOverlaps(gr,gr2) # Error as designed
+```
+
+## GenomicRanges - Basic GRanges Usage
+
+why DataFrame? 
+
+it allows many types of objects of arbitrary type as long as they have a length attribute to be stored in them.
+
+```{r}
+ir = IRanges(start=1:3,width=2)
+df = DataFrame(ir=ir, score=rnorm(3))
+
+# standard subsetting and dollar operator works too
+df[1,1]
+df$ir
+
+# What happens if we do classic dataframe
+df2 <- data.frame(ir=ir) # gives three different columns and not keeping the original format
+```
+
+Let's go back to GRanges
+
+```{r}
+gr <- GRanges(seqnames="chr1",strand=c("+","-","+"),
+              ranges = IRanges(start=c(1,3,5),width=3))
+gr
+
+# Unlike IRanges, GRange can have addtional columns
+values(gr) = DataFrame(score=rnorm(3))
+
+# To access this score column
+values(gr)
+mcols(gr)
+gr$score
+
+# Or operate on column
+gr$score2 = gr$score/3
+```
+
+Main ecosystem in GRanges is to find overlap and it takes care of bookkeeping element in GRanges
+
+```{r}
+gr2 <- GRanges(seqnames = c("chr1","chr2","chr1"), strand = "*",
+               ranges = IRanges(start=c(1,3,5),width=3))
+gr2
+
+findOverlaps(gr,gr2)
+
+# we can do this by ignoring strand
+findOverlaps(gr,gr2,ignore.strand=TRUE) # same output because of no incompatible strand
+
+# Only select overlaps some other elements by subset by overlaps
+subsetByOverlaps(gr,gr2)
+subsetByOverlaps(gr2,gr)
+```
+
+Make GRange from data frame. Often we find classic dataframe we alike genomic ranges and we want to convert them to GRanges
+
+```{r}
+df = data.frame(chr="chr1",start=1:3,end=4:6,score=rnorm(3))
+makeGRangesFromDataFrame(df,keep.extra.columns = TRUE)
+```
+
+## GenomicRanges - seqinfo
+
+```{r}
+gr = GRanges(seqnames=c("chr1","chr2"),ranges=IRanges(start=1:2,end=4:5))
+seqlevels(gr) == "chr1"
+
+# or
+gr = GRanges(seqnames=c("chr1","chr2"),ranges=IRanges(start=1:2,end=4:5))
+dropSeqlevels(gr,"chr2",pruning.mode="coarse")
+keepSeqlevels(gr,"chr1",pruning.mode="coarse")
+
+# for weird chromosome names
+gr = GRanges(seqnames=c("chr1","chrU345"),ranges=IRanges(start=1:2,end=4:5))
+keepStandardChromosomes(gr,pruning.mode="coarse")
+```
+
+Convert between different styles
+
+```{r}
+gr = GRanges(seqnames=c("chr1","chr2"),ranges=IRanges(start=1:2,end=4:5))
+newStyle = mapSeqlevels(seqlevels(gr),"NCBI")
+newStyle
+
+gr = renameSeqlevels(gr,newStyle)
+```
+
+## AnnotationHub
+
+AnnotationHub is an interface to a lot of different online resources. The idea is that you create a hub which is a local database of lot of different online data. You take this local database and query it and figure out which data do you want and then retrive them.
+
+```{r include=FALSE}
+#BiocManager::install("AnnotationHub")
+#BiocManager::install("rtracklayer")
+library(AnnotationHub)
+
+oh = AnnotationHub()
+oh
+oh[1]
+
+# One way to retrieve data is to use double bracket. Then it will go online and retrieve
+oh[[1]]
+
+# dataproviders
+unique(oh$dataprovider)
+
+# species
+unique(oh$species)
+
+# subsetting
+oh = subset(oh, species=="Homo sapiens")
+
+# search or query
+query(oh, "H3K4me3")
+
+# add cell type on query
+query(oh, c("H3K4me3","Gm12878"))
+
+# or manual select rows by
+#oh2 <- display(oh)
+```
+
+## Usecase: AnnotationHub and GRanges, part 1
+
+```{r}
+ahub = AnnotationHub()
+# target human
+ahub = subset(ahub,species == "Homo sapiens")
+# target histone modification
+qhs = query(ahub, c("H3K4me3","Gm12878"))
+
+# select data from incode project
+gr1 = qhs[[2]]
+gr2 = qhs[[4]]
+
+# let's see how broads are the peaks
+summary(width(gr1))
+summary(width(gr2)) # very extreme
+table(width(gr2)) #hg19 genome
+
+# let's use narrow peaks
+peaks = gr2
+```
+
+Are these peaks on promoter?
+
+Before doing that, we will be looking at Refseq. Refseq gives a highly curated sets of validate genes.
+
+```{r}
+qhsref = query(ahub,"RefSeq")
+# why there are so many refseq?
+qhsref$genome # b.c different genome
+genes <- qhsref[[1]] # block gives coordinate of exons
+
+# how many genes? or how many single, double,... transcripts?
+table(table(genes$name))
+```
+
+Now back to answering are these peaks on promoter?
+
+```{r}
+# In GRanges we have promoter function
+prom = promoters(genes)
+
+# how wide are they?
+table(width(prom))
+
+# look at argument of promoter
+args(promoters)
+
+# Now do we have some significant overlaps?
+```
+
+## Usecase: AnnotationHub and GRanges, part 2
+
+```{r}
+ov = findOverlaps(prom,peaks)
+
+# how many percentages of promoter overlap?
+length(unique(queryHits(ov)))
+length(unique(subjectHits(ov)))
+length(subsetByOverlaps(peaks,prom,ignore.strand=TRUE))
+length(subsetByOverlaps(peaks,prom,ignore.strand=TRUE)) / length(peaks)
+
+# how many promoters have peaks?
+length(subsetByOverlaps(prom,peaks,ignore.strand=TRUE)) / length(prom) # Any given cell types, 50% of genes are expressed. A lot of gene are not expressed
+
+# Is this big or not? How many bases that peaks really call?
+sum(width(reduce(peaks, ignore.strand=TRUE))) / 10^6
+
+# How many bases that promoter really call?
+sum(width(reduce(prom, ignore.strand=TRUE))) / 10^6
+
+# How big is that overlap?
+sum(width(intersect(peaks,prom,ignore.strand=TRUE))) / 10^6
+```
+
+Let's find significant peaks in the overlap
+
+```{r}
+# first generate 2x2 matrix
+inOut = matrix(0,ncol=2,nrow=2)
+inOut
+colnames(inOut) = c("in","out")
+rownames(inOut) = c("in","out")
+
+inOut[1,1] = sum(width(intersect(peaks,prom,ignore.strand=TRUE))) # Peaks on the row and promoter on the column
+inOut[1,2] = sum(width(setdiff(peaks,prom,ignore.strand=TRUE))) # Bases on peaks, but not promoter
+inOut[2,1] = sum(width(setdiff(prom,peaks,ignore.strand=TRUE))) # Bases on prom, but not peaks
+
+# Last we need to fill out number of human genomes that are not part of this
+inOut[2,2] = 3*10^9 - sum(inOut)
+
+# Fisher stat
+#fisher.test(inOut)$statistic # but this gives error
+
+oddsRatio = inOut[1,1] * inOut[2,2] / (inOut[2,1] * inOut[1,2])
+oddsRatio # values greater than 1 means enrichment, The overlap between the peaks and promoter is 18 fold more than we would expect
+
+# Since the test is sensitive to number of human genome and we cannot be confident on the number. We can do sensitivity analysis
+inOut[2,2] = 0
+inOut[2,2] = 1.5*10^9 - sum(inOut)
+oddsRatio = inOut[1,1] * inOut[2,2] / (inOut[2,1] * inOut[1,2]) # and this dramatically reduce the enrichment but still much bigger. This does not change our conclusion
+oddsRatio
+```
+
+
+

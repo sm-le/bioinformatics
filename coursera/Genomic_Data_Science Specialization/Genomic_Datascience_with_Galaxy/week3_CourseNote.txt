@@ -1,0 +1,116 @@
+# Week 3
+# @ sungml92
+# Genomic Data Science with Galaxy
+
+#################################
+# Sequence Data Quality Control #
+#################################
+
+In this module, we are going to look at doing sequence quality control.
+
+Quality control analysis
+
+- Get the data
+1. Import (Shared data)
+2. Data Libraries
+3. illumina iDEA datasets (sub-sampled)
+4. BT20 paired-end RNA-seq subsampled (end 1)
+
+What is FASTQ
+- Specifies sequence (FASTA) and quality scores (PHRED)
+- Text format, 4 lines per entry
+- Several variants to how FASTQ scores are encoded.
+
+NGS Data Quality: Assessment tools
+- NGS QC and Manipulation -> FastQC
+    Gives you a lot of information but little control over how it is calculated or presented
+- In Galaxy under tool menu
+  1. Find fastQC
+  2. Load dataset and execute
+
+- Webpage sequence quality summary summarize NGS quality
+
+NGS Data Quality: Trim as we see fit
+- trim as we see fit: Option 1 (Trim in Galaxy) (delete column)
+  1. NGS QC and Manipulation -> FASTQ Trimmer by column
+  2. Trim same number of columns from every record
+  3. Can specify different trim for 5' and 3' ends
+  - Select high quality segment, Manipulate FASTQ, FASTQ Quality Trimmer
+
+NGS Data quality: Base Quality Trimming
+- filter as we see fit: option 2 (delete entire read)
+  1. NGS QC and manipulation -> Filter FASTQ reads by quality score and length
+  2. Keep or discard whole reads
+  3. Can have different thresholds for different regions of the reads
+  4. Keeps original read length
+
+- trim as we see fit: Option 3
+  1. NGS QC and Manipulation -> FASTQ Quality Trimmer by sliding window
+  2. Trim from both ends, using sliding windows, until you hit a high-quality section
+  3. Produces variable length reads
+
+How we decide?
+- Choice depends on downstream tools
+- Find out assumptions & requirements for downstream tools and make appropriate choices now.
+- How to do that?
+  1. read the tool documentation
+  2. biostars.org
+  3. seqanswers.com
+  4. galaxyproject.org/search
+
+Summary
+1. Many factors can effect the quality of DNA sequencing data
+2. FASTQC is one tool that allows evaluating a number of quality metrics for FASTQ datasets from many sequencing platforms
+3. The galaxy FASTQ manipulation tools can help to salvage quality sequences from lower quality data
+4. When filtering or trimmering reads, be sure to take into account the requirements of downstream analysis
+
+####################################
+# ChIP-Sequence Analysis with MACS #
+####################################
+
+ChiP sequence analysis in Galaxy with tool called MACS
+- Tag distributions represent the end of the sequenced fragment. A shift is necessary to resolve the center of the bound region (peak)
+- MACS empirically models the amount of this shift to better determine the bound region
+
+MACS fragment shift
+- Given a sonication size (b) and fold enrichement (f), find windows of size 2b that are f-fold enriched
+- Sample 1000 of these high-quality windows, separate tage by strands, and find distance between the modes to estimate d
+- Shift all tags by d/2 in the 3' direction
+
+Work Flow, ChIP-Seq Analysis: Get the Data
+1. Shared Data from Data libraries
+2. Demonstration Datasets
+3. Select everything in the Mouse ChIP-seq: G1E CTCF Binding folder
+
+To analyze G1E CTCF on mm9
+1. Choose bowtie2
+2. select G1E CTCF on mm9 reference genome
+
+ChIP-Seq Analysis: Find Peaks
+1. NGS: Peak Calling -> MACS
+2. Experiment name -> MACS G1E_CTCF
+3. Tag File -> G1E_CTCF BAM file
+4. Tag size -> 36 (length of base pair read)
+5. Leave MFOLD -> 32
+6. Check perform the new peak detection method (futuredir)
+
+Potential ChIP Biases
+- Problems
+1. chromatin accessibility affects fragmentation
+2. Amplification bias
+3. Repetitive regions
+
+- Solution: Controls
+1. Input DNA (after fragmentation but before IP)
+2. Non-specific IP
+
+MACS Peak detection
+- After shift, slide windows of size 2d across genome
+- Model tag count for windows as a poisson distribution, and calculate a p-value for each window
+- For the lambda parameter (~expected number of tags per window), estimate from sample or control if available
+  * Estimates for local windows of size 1kb, 5kb, 10kb or the whole genome and uses the max
+
+Summary
+1. MACS is one tool, available in Galaxy, for analysis of ChIP-seq data
+2. Controls are extremely important for accurately calling ChIP-seq peaks
+3. As for most genomics problem, there are other tools that may be more appropriate depending on the type of data, for example SICER for broad histone modifications.

@@ -1,0 +1,409 @@
+# @sungml92
+# USMx: BIF002x
+# Proteins: Alignment, Analysis and Structure
+# Week 3 - Protein Function II
+
+# Objective
+
+- Outlines the basics of Adhesive proteins and their functions
+- Highlights the different functions of Cell Motor proteins
+- Discusses the different types and features of Transmembrane proteins
+- Illustrates the process of Glycosylation
+
+#####################
+# Adhesive Proteins #
+#####################
+
+- in order to form complex structures (e.g. tissues, organs, etc) cells must interact with one another
+- This requires Cell Adhesion Molecules, which are typically proteins
+- Occurs in the Cell Junction
+
+# Types of cell-to-cell junction
+
+- Cadherins
+- Mucin-like CAMs
+- Integrins
+
+# Cadherins I
+
+- Cadherins (named for “Calcium-Dependent Adhesion") are a class of type-1 transmembrane proteins.
+- They play important roles in cell adhesion, forming adherens junctions to bind cells within tissues together.
+- The cadherin family consists of three different proteins, all of which prefer homophilic interactions – that is, they bind to the same type of protein (e.g. E-cadherin binds E-cadherin)
+- Cadherins are Type I membrane proteins
+- Cadherins are Calcium-dependent; require Ca2+ to function
+
+## E-cadherin:
+
+- the most abundant cadherin
+- Found in the pre-implantation embryo as well as in non-neuronal epithelia
+- Holds epithelia together
+
+## Cadherin II
+
+P-cadherin: found in the trophoblast, required for nidation
+N-cadherin: found in neuronal tissue, lens, heart, and skeletal muscle
+N-cadherin, also known as Cadherin-2 (CDH2) or neural cadherin (NCAD) is a protein that in humans is encoded by the CDH2 gene
+
+Changes in cadherin expression often accompany metastasis! Recall that metastasis is the process whereby cancerous cells break free from the primary tumor and spread. Reduced cell adhesion is essential for metastasis
+
+# NCAMs
+
+N-CAMs, also known as Nerve-Cell Adhesion Molecules or CD5 is a homophilic binding glycoprotein expressed on the surface of neurons, glia, skeletal muscle and natural killer cells.
+
+- Encoded by a single gene
+- a glycoprotein of Immunoglobulin (Ig) superfamily
+- Alternative splicing generates 3 isoforms
+1. NCAM 180 (long cytoplasmic domain)
+2. NCAM 140  (short cytoplasmic domain)
+3. NCAM120 (GPI anchored) has lost the transmembrane domain and is instead anchored to the membrane by glycosyl phosphatidylinositol
+* Function in learning and memory!
+
+# Mucin-like CAMs
+
+Mucin-like CAMs are hetrophilic
+
+- Mucins are a group of serine and threonine rich proteins and they are heavily glycosylated
+- Two mucin-like molecules (CD34 and GlyCAM-1) on certain endothelial cells of lymph nodes bind to L- selectin on leukocytes
+- PSGL-1 is a mucin-like molecule on neutrophils. It interacts with E-selectin and P-selectin on inflammed vascular endothelium
+- Prefer binding to different proteins: selectins (Selectins have a lectin binding domain and are important in leucocyte/tissue interactions, helping them pass through blood vessel walls)
+- Rich in carbohydrates
+
+# Integrins
+
+Integrins are transmembrane receptors that facilitate cell-extracellular matrix (ECM) adhesion:
+
+- Are also heterophilic
+- Heterodimers with an alpha and beta subunit
+- Primarily bind extracellular matrix (ECM) proteins such as fibronectin or laminin
+- Integrin expression is stimulated by Platelet Activating Factor (PAF), which is excreted by blood vessel endothelial cells
+
+# Types of Cell Junctions
+
+1. Tight Junctions
+2. Gap Junctions
+3. Cell-Cell Junctions
+
+# Tight Junctions
+
+- Tight junctions connect epithelial cells and prevent the movement of fluids from one side of the epithelium to the other.
+
+- Fluids and other essential molecules must therefore pass through the cells osmotically or actively if they are to move from one side of the epithelium to the other.
+
+E.g. stomach and intestinal lining
+* Note the components of the protein complex linking together the cells
+
+# Gap Junctions
+
+- Gap Junctions are distributed on the lateral surfaces of cells and allow the exchange of small molecules between neighboring cells
+- They are actual connections/portals between the cells but are highly regulated
+- The cytosols of the neighboring cells are linked by the hydrophilic channels, which are themselves comprised of transmembrane proteins called Connexin, which aggregates into Connexons.
+- These are plasma membrane specializations that contain channels which allow for the transportation of low molecular weight substances between the cytoplasm of neighboring cells
+- Each gap junction channel contains a hemi-channel that is situated in appositional membranes
+- Each hemi-channel consists of six subunit proteins called connexins
+- Sequencing of the human genome showed humans have 14 distinct connexins, subsets of which are expressed in all of the tissues of the body
+
+# Cell-Cell Junctions
+
+Cell-cell junctions tend to have structural roles. They hold cells together by forming a “bridge” between their individual cytoskeletons
+
+Two different types:
+
+1. Adherens junctions
+2. Desmosomes
+
+# Adherens Junctions
+
+- Defined as a cell junction whose cytoplasmic face is linked to the actin cytoskeleton
+- May form bands encircling the cell
+- Alternately may form as spots of attachment to the extracellular matrix
+* Notice the connection of Cadherin E to the actin cytoskeleton) via alpha and beta catenins.
+
+# Desmosomes
+
+- Desmosomes are formed when desmocollin and desmoglein (both cadherins) are cross-linked to keratin filaments, forming a cytoplasmic plaque
+- The keratin (a form of IF, recall) helps distribute forces between layers of a tissue due to their full permeation through cells
+
+# Quiz
+
+Q1: Cadherins are an example of...
+A1: Homophilic CAMs
+
+Q2: Integrins primarily bind to....
+A2: ECM proteins
+
+#######################
+# Cell Motor Proteins #
+#######################
+
+Some of the more interesting systems of proteins in the human body are those which help form cellular motors. Cellular motors are involved in:
+
+- Muscular contractions (both smooth and skeletal)
+- Intracellular transport
+- Extracellular transport
+- Movement of chromosomes during mitosis/meiosis
+- Cellular motility
+
+# Myosin
+
+Myosin is a superfamily of genes
+
+- 13 different genes in humans but only 3 are well characterized:
+1. Myosin I
+2. Myosin II
+3. Myosin V
+
+- All myosin isoforms have an N-terminal head and a C-terminal tail
+- The myosin “tail” is a coiled coil of two alpha helix
+- The head is comprised of two identical units containing a heavy chain and two light chains
+- The light chains will bind Ca2+
+- This structure is critical to the motor function of myosin!
+
+# Myosin I & II
+
+The Myosin I protein serves a very different purpose from the Myosin II we’ve been looking at so far.
+
+- Cellular structure & organelle motility
+- Stabilizes microvilli by linking the plasma membrane to the actin bundles
+- Co-purifies with Golgi vesicles, which suggests that it is strongly bound to golgi and is involved in their movement along actin microfilaments
+
+The Myosin II protein is involved in muscular contraction. There are three classes of muscle:
+
+- Skeletal
+- Smooth
+- Heart
+
+# Myosin I, II & V Structures
+
+While the myosins are in general very similar, their differential functions derive from the differences in their structures
+
+- Myosin II and V are very similar, with differences primarily the light chain region
+- Myosin 1 has a single alpha helical coil tail, which is significantly shorter, and only a single head (motor domain)
+- Myosin V appears to be involved in the transport of exocytotic vesicles to the plasma membrane
+- These vesicles typically contain materials to be exported from the cell
+- Thus Myosin V is involved in extracellular transport
+
+# Skeleton Muscle
+
+- Able to contract rapidly but tires quickly
+- Comprised of an organized complex of actin and myosin (actomyosin)
+* The actomyosin complex is visibly striated under a microscope.
+
+# Skeleton Muscle Action I
+
+1: ATP-binding to myosin results in opening of actin binding site
+2: bound ATP hydrolysed to ADP joint between stem and head of myosin extends, new actin bound
+3: Pi released, the myosin joint flexes, actin is pushed toward (-): power stroke.
+4: ADP is released, closing the cycle
+
+# Skeleton Muscle Action II
+
+- Troponin and tropomyosin wind around the actin filaments
+- The organized structure of these individual filaments comprises the actual skeletal muscle fibers
+
+# Smooth muscle is involuntary and non-striated:
+
+- Does not form ordered arrays like skeletal muscle
+- Lines the walls of hollow organs
+- E.g. urinary tract, digestive system, reproductive organs, etc..
+- Contractions are smoother and slower
+- Regulated by autonomic nervous system as well as hormones and growth factors
+- Smooth muscle contains the protein caldesmon instead of troponin
+- Ca2+ dependent phosphorylation of caldesmon and myosin light chains causes contraction
+
+# Cardiac Muscle
+
+Cardiac muscle is involuntary like smooth muscle, but striated like skeletal muscle.
+
+- Powerful and strong
+- Like skeletal muscle, composed of actin & myosin
+- Actin filaments are thin, causing lighter appearance to the actin bands
+- Myosin filament is thicker, lending a darker appearance to the  myosin bands
+- Cardiac muscle cells are typically branch-like instead of linear
+- Basic contractile function is similar to skeletal muscle
+
+# Intracellular transport
+
+Living cells have been observed to have organelles and vesicles moving long distances in straight lines
+
+- This is non-random motion or directed transport
+- E.g. transport of proteins from ribosome to synapse in neural cells
+- This transport has been shown to be protein-dependent and occurs in both anterograde (center of the cell towards the periphery) and retrograde (periphery of the cell towards the center) directions
+
+# Anterograde Cellular Transport
+
+- Anterograde cellular motion along microtubules is kinesin-dependent
+- Kinesin is a protein with 14 different isoforms in humans (similar to myosin)
+
+# Kinesin
+
+* 380kDa protein
+
+- 2 heavy chains
+- Heavy chain n-terminal head has an ATPase-domain and a tubulin binding domain
+- C terminal ends wrap around each other in a coil
+- 2 light chains
+- Binds microtubules and “ratchets”, consuming ATP
+
+# Retrograde Cellular Transport
+
+- Retrograde cellular motion along microtubules is dynein-dependent
+- Dynein is composed of four different subunits
+1.Total mass of 1.5MDa
+2. Two heavy chains with ATPase activity
+3. Two intermediate chains
+4. Several light chains
+- Cargo binding domain
+
+# Dynein
+
+Dynein is a family of cytoskeletal motor proteins that move along microtubules in cells
+
+- Convert the chemical energy stored in ATP to mechanical work
+- Transports various cellular cargos, provides forces and displacements important in mitosis
+- Drives the beat of eukaryotic cilia and flagella
+- Retrograde cellular motion along microtubules is ATP and dynein-dependent
+- Dynein is composed of four different subunits
+1. Total mass of 1.5MDa
+2. Two heavy chains with ATPase activity
+3. Two intermediate chains
+4. Several light chains
+5. Cargo binding domain
+
+# Cellular Motility
+
+Protozoans are not the only cells that are motile
+
+- Sperm cells are propelled by cilia and flagella
+- Epithelial cells in the lungs use cilia to remove contaminants
+- Nearly every vertebrate cell has a cilium; usually they are nonmotile and carry receptors for signaling
+- Retinal rod/cone cells have an outer segment connected to the cell body by cilium
+- Olfactory neurons use cilia to carry G-protein chemoreceptors
+
+# Cilia and Flagella
+
+- Cilia and flagella are similar in structure
+- Cilia are shorter and occur in larger numbers than flagella
+- A eukaryotic flagellum is a bundle of nine fused pairs of microtubule doublets surrounding two central single microtubules
+- The so-called "9 + 2" structure is characteristic of the core of the eukaryotic flagellum called an Axoneme
+1. 9 tubulin doublets surrounding 2 central tubulin singlets
+2. Doublets are linked by nexin bridges, contain dynein arms
+
+# Mitotic Spindle Apparatus
+
+- Mitotic Spindle Apparatus is responsible for the separation of chromosomes during cellular division
+- The MSA is composed of at least 795 proteins
+While a full review of mitosis/meiosis is beyond the scope of this course, it is important to understand that the underlying structural and motor proteins are the same as those we have already examined. e.g. microtubules, kinesin, dynein, etc..
+
+# Quiz
+
+Q1: Tight Junctions prevent the movement of fluids from one side of the epithelium to the other.
+A1: True
+
+Q2: How many different types of muscle are there?
+A2: 3
+
+Q3: Which type of myosin is involved in transport of vesicles to the plasma membrane?
+A3: Type V
+
+##########################
+# Transmembrane Proteins #
+##########################
+
+- Some of the most important transport functions involve ion channels, such as those used in the electronic transport chain, which is essential for metabolism and regeneration of ATP
+
+Integral membrane proteins are permanently attached to the cell membrane:
+
+- Transmembrane, or polytopic, proteins span the entire width of the membrane at least once, from the cytosol to the cell surface
+- Monotopic proteins are attached only to one side of the cell membrane
+
+# Transmembrane Proteins
+
+- Helix bundle (found in all membranes): primarily alpha helix structures
+- Beta Barrel (found only in bacterial or mitochondrial membranes): primarily beta-sheet structures
+
+## Not just transport across the primary cell membrane!
+- Also includes transport across mitochondrial membrane or endoplasmic reticulum
+
+## Unique structure is required for this function:
+- Amino acids in the region that spans the membrane must have exposed hydrophobic R groups, matching the environment of the membrane
+- Amino acids in the regions outside of the membrane must have exposed hydrophilic R groups
+
+# Hydropathy Plots
+
+* analyze proteins in the lab
+
+- One way is a hydropathy plot
+- Looks at the hydropathic value of the R group for each amino acid, in order, and plots it
+- Can often be used to predict structure, function, or location
+- Transmembrane proteins have a unique hydropathy plot profile
+
+# Monotopic Proteins
+
+1. Interaction by an amphipathic α-helix parallel to the membrane plane (in-plane membrane helix)
+2. Interaction by a hydrophobic loop
+3. Interaction by a covalently bound membrane lipid (lipidation)
+4. Electrostatic or ionic interactions with membrane lipids (e.g. through a calcium ion)
+
+# Peripheral Membrane Proteins
+
+Peripheral membrane proteins are only temporarily attached to the membrane, or to integral membrane proteins
+
+- This can include monotopic proteins that do not stay permanently attached
+- Can also include proteins that bind integral membrane proteins
+
+# Translocon
+
+- The translocon (commonly known as a translocator or translocation channel) is a complex of proteins associated with the translocation of polypeptides across membranes
+- Any protein that is destined to be bound to a membrane typically has one or more signal peptide regions
+- The transport process begins during translation of the protein, causing the robosome/RNA/nascent protein complex to be bound to what is called the Translocon
+- The translocon is a complex of proteins that assists in the transport of a nascent protein (one being synthesized) to, or across, the membrane
+- There is always a target AA sequence that helps direct the nascent polypeptide to the appropriate location
+- We can classify membrane proteins based on their target sequence
+
+# Membrane Proteins
+
+Type 1: Imported to ER until stop-transfer signal of 20-25 hydrophobic AAs, which form a transmembrane alpha helix, are detected. Results in integral membrane protein with C terminus on cytosolic side and N terminus in ER.
+Type 2: Contain an integral signal-anchor sequence similar to Type I, N terminus stays on cytosolic side of membrane.
+Type 3: Once they leave the translocon and anchor in the membrane, synthesis continues in the cytosol and further signal/stop transfer sequences are inserted into the membrane using the translocon.
+Type 4: Made by the combination of several Type I or Type II proteins into a quaternary structure.
+Type 5: Synthesized in the cytosol and then chemically linked to hydrophobic molecules anchored in the ER.
+Type 6: Synthesized like Type I but then linked to the ER membrane by a Glycosyl Phosphatidylinositol (GPI) residue bound to their C terminus.
+
+# Glycosylation
+
+The majority of secreted and transmembrane proteins are bound to sugars – this is called glycosylation
+
+- Can aid in protein folding
+- Can act as a targeting signal to direct proteins to a specific intracellular compartment
+- Can serve as receptors for cell-cell signaling
+- Can serve as binding sites for pathogens
+
+# N-Glycolysation & O-Glycolysation
+
+Sugars can be bound to proteins in two ways:
+- O linked:  bound to the OH groups of SER, THR
+- N Linked:  bound to the amino group of ASN
+
+- A protein can have both O and N linked sugars
+- Protein/sugar complexes are also referred to as Oligosaccharides
+- N-linked oligosaccharides are bound to proteins as a preformed block (rather than one sugar at a time, as with O-linked)
+- This process can involve many steps, including modification and trimming of the sugar residues to result in a final glycoprotein
+- O-linked oligosaccharides are produced in the Golgi apparatus by adding one sugar at a time to the protein, and results in a “sugar tree” complex where more than one sugar may be added to a specific site
+- The reaction is mediated by membrane-bound glycosyltransferases, which are specific for both the acceptor AA and the donor sugar
+
+# QUIZ
+Q1: Which of the following is true about smooth muscles? Select all that apply.
+A1: Contains actin and myosin, Requires Ca2+, Contains caldesmon
+
+Q2: Transmembrane Proteins tend to be:
+A2: Hydrophilic
+
+Q3: Signal Peptides help direct proteins from the Translocon.
+A3: True
+
+# Summary
+
+- The basics of Adhesive proteins and their functions
+- The different functions of Cell Motor proteins
+- The different types and features of Transmembrane proteins
+- An illustration of the process of Glycosylation

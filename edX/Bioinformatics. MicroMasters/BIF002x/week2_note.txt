@@ -1,0 +1,431 @@
+# @sungml92
+# USMx: BIF002x
+# Proteins: Alignment, Analysis and Structure
+# Week 2 - Protein Function I
+
+# Objective
+
+- Outlines the basics of enzymes and their role as catalysts
+- Highlights the different types of chemical reactions in life
+- Discusses the different types of EC codes
+- Describes the features of Structural and Cell Skeleton proteins
+- Illustrates the enzymatic cause for various diseases
+
+##############
+# Glycolysis #
+##############
+
+# Enzyme
+
+Enzymes are proteins that have a catalytic function
+
+- Recall that a catalyst increases the velocity of a chemical reaction
+- No effect on equilibrium, as they facilitate both the forward and the reverse reaction
+
+## Example: Sucrose metabolism
+
+One mol of sucrose releases 5700 kJ of energy when reduced
+
+## Now let’s review the following chemical reaction:
+
+* C12H22O11  12O2 -> 12CO2 + 11H2O with a change in G of 5700kJ
+
+- Sucrose + Oxygen can be oxidized – or metabolized – into carbon dioxide and water
+- Sucrose is very stable – this reaction cannot happen spontaneously
+- A catalyst facilitates the reaction
+- When this occurs non-biologically (e.g. burning the sucrose) it is simple chemistry
+
+# Introduction to Glycolysis
+
+- Cells undertake similar processes to derive energy; the oxidation of an energy rich molecule like glucose (another sugar) occurs within our cells daily
+- D-Glucose + 2NAD+ + 2ADP + 2Pi -> Pyruvate + 2NADH + 2H+ + 2ATP + 2H2O
+- In the simple reaction, one glucose molecule is broken down into two pyruvate molecules with a net gain of 2ATP (the energy carrying molecule of our cells)
+- In terms of biochemistry, this process actually takes 10 separate steps, some of which consume energy, others of which release energy
+
+# Glycolysis - Process Overview
+
+## Glycolysis -Step 1
+
+- In this step Glucose is first phosphorylated by a hexokinase enzyme to produce Glucose-6-phosphate (G6P). Note that this reaction consumes an ATP and as such is energy consuming.
+- By phosphorylating glucose into G6P, the cell keeps the internal concentration of glucose low, which maintains osmotic flow of glucose into the cell in a positive fashion.
+
+- D-Glucose -> a-D-Glucose-6-phosphate(G6P) by Hexokinase using ATP
+
+## Glycolysis -Step 2
+
+- In this step G6P is rearranged into fructose-6-phosphate (F6P) by glucose phosphate isomerase (as depicted below)
+- This isomerization process helps maintain stability of the reaction process
+
+- G6P -> b-D-Frutose-6-phosphate (F6P) by Phosphoglucose isomerase (PGI)
+
+## Glycolysis - Step 3
+
+- In another energy-consuming step, F6P is modified into Fructose 1,6 bisphosphate
+- This is a non-reversible reaction and helps drive the energetics by destabilizing the molecule
+
+- F6P -> b-D-Fructose 1,6-bisphosphate (F1,6BP) by phosphofructokinase (PFK-1) using ATP
+
+## Glycolysis - Step 4
+
+- In the next step, the destabilizing of the molecule in the previous reaction allows the hexose ring to be split by aldolase into two triose sugars:  dihydroxyacetone phosophate (DHAP) and glyceraldehyde 3-phosphate (GADP).
+
+- F1,6BP -> D-glyceraldehyde 3-phosphate (GADP) + dihydroxyacetone phosphate (DHAP) by fructose-bisphosphate aldolase
+
+## Glycolysis - Step 5
+
+- To simplify downstream reactions, triosephosphate isomerase now converts DHAP into GADP, which proceeds through the rest of the reactions
+- The dynamics is important – as GADP decreases in concentration through the subsequent stages of glycolysis
+- This reaction drives more DHAP to GADP because of the concentration differences
+
+- DHAP -> GADP by triosephosphate isomerase (TPI)
+
+## Glycolysis - Step 6
+
+- This begins the “payoff” phase, where energy is produced – the conversion of GADP to 1,3 bisphosphoglycerate (1,3BPG) results in the net production of an Nicotinamide Adenine Dinucleotide Hydrogen (NADH)
+
+- GADP -> D-1,3-bisphosphoglycerate (1,3BPG) by glyceraldehyde phosphate dehydrogenase (GAPDH) using NAD
+
+## Glycolysis - Step 7
+
+- The 1,3 BPG is now converted to 3-phosphoglycerate (3PG), producing an ATP
+- This is the break-even stage, since there are two 1,3BPGs created from one glucose at the cost of 2 ATP’s, and each 1,3 BPG has now yielded an ATP, for a net change of zero ATPs
+
+- 1,3BPG -> 3-phosphoglycerate (3PG) by phosphoglycerate kinase making ATP
+
+## Glycolysis - Step 8
+
+- In a simple isomerization step, 3PG is converted to 2-phosphoglycerate (2PG)
+
+- 3PG -> 2-phosphoglycerate by phosphoglycerate mutase (PGM)
+
+## Glycolysis - Step 9
+
+- In this step Enolase now converts 2PG to phosphoenolpyruvate (PEP) as shown below.
+
+- 2PG -> phosphoenolpyruvate by enolase (ENO) making H2O
+
+## Glycolysis - Step 10
+
+- Lastly, PEP is converted to pyruvate by pyruvate kinase, releasing an additional ATP
+
+- PEP -> Pyruvate (Pyr) by pyruvate kinase (PK) making ATP
+
+## Energy Change Table
+
+Step	Reaction	Energy Change (kJ / mol)
+1	Glucose + ATP4 -> Glucose-6-Phosphate2 + ADP3 + H+	-34
+2	Glucose-6-phosphate2 -> Fructose-6-phosphate2	-2.9
+3	Fructose-6-phosphate2 + ATP4 -> Fructose-1,6- bisphosphate4 + ADP3 + H+	-19
+4	Fructose-1,6- bisphosphate4 -> Dihydroxyacetone phosphate2 + Glyceraldehyde-3-phosphate2-	-0.23
+5	Dihydroxyacetone phosphate2 -> Glyceraldehyde-3- phosphate2	2.4
+6	Glyceraldehyde-3- phosphate2 +Pi2 + NAD+ -> 1,3- Bisphosphoglycerate4- + NADH + H+	-1.29
+7	1,3- Bisphosphoglycerate4 + ADP3 -> 3- Phosphoglycerate3- + ATP4-	0.09
+8	3-Phosphoglycerate3- -> 2-Phosphoglycerate3-	0.83
+9	2-Phosphoglycerate3- -> Phosphoenolpyruvate3- + H2O	1.1
+10	Phosphoenolpyruvate3- + ADP3- + H- -> Pyruvate- + ATP4-	-23
+TOTAL	-76
+
+* The above Energy Change Table shows that for each molecule of glucose that proceeds through the entire process of glycolysis, the change in free energy is approximately 76 kJ!
+* This energy is released by the molecules, which is why the free energy has a negative value – the reaction does not consume any net energy but rather releases it
+
+# Fermentation
+
+Glycolysis is only one essential enzymatic process, and as seen it actually requires 10 unique enzymes.
+
+Another important biological process is fermentation. Fermentation is a metabolic process that converts sugars to acids, gases, and alcohol.
+
+- Occurs in yeast and bacteria, and in oxygen-starved muscle cells, as in the case of lactic acid fermentation
+- Used more broadly to refer to the bulk growth of microorganisms on a growth medium, often with the goal of producing a specific chemical product
+
+There are many different types of fermentation, all of which are enzymatic.
+
+# Ethanol Fermentation
+
+- The reaction begins with sucrose (a dimer of glucose and fructose)
+- Sucrose is cleaved into glucose and fructose by the enzyme invertase
+- The glucose is broken down through glycolysis, as before, into pyruvate
+- BUT!  The pyruvate is then further broken down by pyruvate carboxylase, then alcohol dehydrogenase, yielding ethanol and CO2
+- Energetically, this results in the same energy yield as glycolysis, but has the additional benefit of the regeneration of NAD+, which is required for glycolysis, as seen previously. Now let's review the Ethanol Fermentation process as shown below.
+
+# Pepsin
+
+Pepsin is a protease – which as you might guess is an enzyme which can break down proteins
+
+- Pepsin is the primary digestive enzyme in our stomachs
+- Cleaves peptide bonds primarily between hydrophobic and aromatic amino acids
+- Important function is collagen digestion
+- Collagen is the fibrous portion of meats
+- Pepsin is capable of autolysis – it can cleave itself!
+
+# Ribozymes
+
+Ribozymes are “enzymes” – catalytic, biologically active – but comprised of an RNA which has formed a secondary structure.
+
+- RNA can be both genetic material (like DNA) and a biological catalyst (like protein enzymes)
+- RNA molecules that are capable of catalyzing specific biochemical reactions, similar to the action of protein enzymes
+- Various functions, but primarily involved in RNA/DNA transactions – include in the ribosome (protein synthesis)
+- The existence of ribozymes supports the RNA World hypothesis, which suggests that the first “living” molecule to evolve on the Earth was an RNA
+
+# Lock & Key Hypothesis
+
+- We have only looked at a few functional enzymes out of the thousands that exist
+- All of them function using what we suspect is the “lock and key” system first suggested by Emil Fisher
+- The lock represents an enzyme and the key represents the substrate it acts upon
+- Both enzyme and substrate have fixed, complementary conformations that lead to a fit
+- At the active sites, the enzyme has a specific geometric shape and orientation that a complementary substrate fits into perfectly
+
+A more modern understanding suggests that the induced fit model is more appropriate – enzymes and substrates are flexible and constantly in motion – vibrating – and their proximity can induce the correct fit, provided they are a match.
+
+# QUIZ
+
+Q1: Enzymes are... Select all choices that apply.
+A1: Protein, catalytically active
+
+Q2: Which of the following is NOT a part of Glycolysis?
+A2: Results in the production of Ribozymes
+
+Q3: How many enzymes are involved in glycolysis?
+A3: 10
+
+##################################
+# EC Codes & Structural Proteins #
+##################################
+
+While enzyme names tend to be named for the substrate and reaction, this can become unwieldy. So enzymes are additionally classified by their function using what is called an EC code.
+
+- The Enzyme Commission (EC) is a body of experts affiliated with the International Union for Biochemistry and Molecular Biology (IUBMB)
+
+An EC contains 4 codes separated by periods (e.g. 1.2.3.4) where the first number designates the class of reaction performed by the enzyme.
+
+# Top Level EC Codes
+
+EC Code 1: Oxydoreductases catalyze the transfer of electrons or hydrogen atoms between molecules (e.g. alcohol dehydrogenase).
+EC Code 2: Transferases catalyze the exchange of functional groups between molecules e.g. phosphotransfersases.
+EC Code 3: Hydrolases catalyze the transfer of functional groups to water, e.g. glucose-6-phosphatase.
+EC Code 4: Lyases remove functional groups from a molecule and create double-bonds in their place, e.g. aconitate hydratase.
+EC Code 5: Isomerases move functional groups from one location to another of the same molecule, e.g. glucose-6-phosphate isomerase.
+EC Code 6: Ligases consume ATP and form bonds between carbons and other primary atoms of other molecules (e.g. C, O, S, or N).
+
+# EC Specifiers
+
+- EC 3.4 are hydrolases that act on peptide bonds
+- EC 3.4.11 are those hydrolases that cleave off the amino-terminal amino acid from a polypeptide
+- EC 3.4.11.4 are those that cleave off the amino-terminal end from a tripeptide
+
+# Structural proteins
+
+In addition to catalytic proteins, there are proteins that serves a structural function. Some of these are involved inside the cell (e.g. cell skeleton proteins); others exist outside the cell (e.g. cell/tissue binding and communications & signaling).
+
+# Extra-Cellular Matrix
+
+The Extra-Cellular Matrix, or ECM, is a network of proteins and carbohydrates that is excreted by cells. ECM occupies the space between cells (e.g. the epithelial and endothelial cells in the diagram below).
+
+ECM consists of four major components
+
+1. Proteoglycans
+2. Collagen
+3. Elastin
+4. Multi-adhesive Proteins
+
+# Proteoglycans
+
+- Proteoglycans are simply heavily glycosylated proteins – essentially proteins with carbohydrate (think sugars!) bound to them
+- Proteoglycans form a thick matrix of negatively charged carbohydrates bound to a protein core and serve as a “filler”
+- The carbohydrate binds high quantities of water, making the ECM elastic and pressure-resistant
+
+# Collagen
+
+Collagen is a triple-helical coil of three separate protein chains, each approximately 1050 amino acids in length, with a core of repeated GLY-X-Pro/Hy-Pro residues, where X can be any amino acid except TRP.
+
+- Collagen is a strong, resilient, fibrous protein, which resists tension forces.
+- Hard and insoluble, almost 1/3 of all the protein in the human body is collagen.
+- There are 16 different isoforms, but 90% of collagen in humans is comprised of isoforms I, II, and III, which form fibrils.
+
+# Elastin
+
+- Elastin, as you may expect, forms elastic fibers, allowing tissue to elastically give to pulling forces and return to their original shape once the forces relent
+- This is a key characteristic of arteries, which need to expand and contract with blood flow pressure changes caused by the heart’s normal pumping behavior.
+- 750 amino acids in length, elastin is 5 times as stretchable as an equal sized rubber band.
+- Elastin is comprised of alternating hydrophilic and hydrophobic regions, which form fluctuating beta structures
+- Elastin is secreted into the folds in the cell surface and their forms fibers via cross-linking between lysine residues
+
+# Cell skeleton proteins
+
+Many structural proteins serve to provide structure to the internals of the cell:
+
+- Microfilaments
+- Microtubules
+- Intermediate Filaments
+
+These stabilize the shape of the cell as well as link internal cell structures
+
+# Microfilaments
+
+Microfilaments are comprised of actin:
+
+- 7-9 nm in diameter
+- Responsible for cytokinesis, muscular contraction, and cell shape
+- Free actin tends to have ATP bound to it, and can polymerise into long helical filaments called F-actin
+- Actin filaments in the cell are cross-linked into a network throughout the cytoplasm
+- Actin polymerization is required for muscular action; toxins such as phalloidin and latrunculin act by blocking this polymerization
+- Many other proteins involved in positioning and shape bind to actin, e.g. filamin, ankyrin, and dystrophin
+- Dystrophin is the protein which, in mutant form, is responsible for the disease muscular dystrophy
+
+# Actin polymerization
+
+Actin is a highly abundant (10-100 micromolar on average),~42 kDa structural protein found in all eukaryotic cells (except for nematode sperm). With more than 95% conservation in the primary structure, actin is one of the most highly-conserved proteins.
+
+The globular form of actin, known as G-actin, forms the basic unit for actin filaments. In many cases actin filaments may bundle together with other actin filaments, or, together with their associated motor proteins (e.g. myosin superfamily) form an elaborate network known as the actin cytoskeleton. This occurs primarily at or near the plasma membrane
+
+Actin filaments are highly dynamic and their polymerization is usually correlated to their disassembly. Generally, actin filament polymerization occurs over three phases:
+
+- Nucleation phase
+- Elongation phase
+- Steady state phase
+
+# Alpha & Beta Tubulin
+
+Microtubules are formed of heterodimers of alpha and beta tubulin.
+
+- Alpha and beta tubulin always bind in the same orientation, so that the resulting tubulins are considered polar in nature
+- Microtubule formation begins at the Microtubule Organizing Centre, or MTOC
+- Most cells contain only ONE MTOC
+- Other proteins can be found bound to microtubules; these are commonly referred to as Microtubule Associated Proteins, or MAPs
+
+# Microtubulin & Microtubule Assesmbly
+
+Microtubules are comprised of alpha and beta tubulin.
+
+- 24 nm in diameter, up to several hundred micrometers in length!
+- Responsible for chromosomal orientation during mitosis, intracellular trafficking, cell motility (e.g. cilia/crawling), and the cell wall organization in plants and yeast
+- Energy dependent (requires GTP)
+- Alpha + beta dimerize
+- Heterodimers aggregate
+
+# Intermediate Filaments
+
+Intermediate filaments are comprised of keratin OR vimentin.
+
+- 10 nm in diameter
+- Responsible for mechanical force stability, growth of nerve axons
+- Bind to transmembrane proteins
+- Help stabilize tissues
+
+# Types of Intermediate Filaments
+
+Now let's review the different types of Intermediate Filaments:
+
+Type 1: Acidic Keratins
+
+Type 2: Basic Keratins
+
+- Also epithelial; form hertodimers with Type I IF's; these hetrodimers can polymerise into fibers
+- Tend to from the "common" keratins, e.g. hair, horn, claw, hooves
+
+Type 3
+
+- Vimentin: found in leucocytes, blood vessel endothelia, and fibroblasts
+- Desmin: found in muscle cell sarcomeres
+- Peripherin: found in peripheral neurons
+- Gilal Fibrilary Acid Protein: found in gilal cells and astrocytes
+
+Type 4: Neurofilaments and internectin, found in nervous systems.
+
+Type 5: Lamins, found in the nuclear lamina.
+
+# Structure of Intermediate Filaments(IF)
+
+IF-proteins contain long helical segments, with more unordered heads and tails. Two IF-proteins dimerse in parallel with their helical segments winding around each other (coiled-coil held together mostly by hydrophobic interactions). Two such dimers then polymerise into an antiparallel tetramer. These form protofilaments; four of those form protofibrils and four of those intermediary filaments. The head-parts of the protein stick out from the filaments like the fibres from a lamp-brush, which can be seen in EM-pictures of the IF.
+
+* In IF tetramers both ends are identical; there are no + and – ends in tubulin or actin.
+
+# Structure of Intermediate Filaments(IF)
+
+Because IF proteins are very cell-type specific, they can be used to identify the source of metastatic tumours. During mitosis, IFs are depolymerized; they repolymerize after division is complete.
+
+Several other proteins have been found to bind IF proteins; these are called Intermediate Filament Associated Proteins, or IFAPs.
+
+- Plectin:  crosslinks IF to microtubules and the lamin network in the nculeus
+- Ankyrin: connects IF to plasma membrane proteins and microtubules
+
+# QUIZ
+
+Q1: The enzyme invertase is involved in.....
+A1: Fermentation
+
+Q2: How many different classes of enzymes are described by the EC?
+A2: 6
+
+Q3: Ligases use energy to create bonds between two individuals (i.e. two molecules).
+A3: True
+
+######################
+# Enzymes & Diseases #
+######################
+
+Many diseases are caused by mutations in enzymes. These can be the result of an error at any level of the process of making a protein, including:
+
+1. DNA sequence mutation
+2. Regulatory errors
+3. RNA transcription errors
+4. mRNA translation errors
+5. Protein folding errors
+
+# Sequence Mutations
+
+- From the previous course, you should be aware that each codon (set of 3 bases) in the DNA sequence for a protein coding gene corresponds to a specific amino acid
+- Changes in the sequence can result in a change to the amino acid coded for in that position; even worse, the resulting codon may code for a STOP signal
+- Alternately, the deletion or insertion of bases in the DNA can result in frameshift mutations
+
+# Regulatory & Transcription Errors
+
+A regulatory error can occur in several places.
+
+- Transcription control: e.g. the “wrong” amount of transcript produced, e.g. not enough, or too much
+- Translation control: a shorter polyA tail, for example, will cause the mRNA to degrade faster. Transcriptional errors can be caused if the RNApolymerase “misreads” the DNA, inserting an incorrect base into the RNA
+- RNApol-II has an error checking function
+- Error rate is approximately 2 x 10-6, or 2 errors in every million bases DNA polymerases adds nucleotides to the 3' end of a strand of DNA. If a mismatch is accidentally incorporated, the polymerase is inhibited from further extension. Proofreading removes the mismatched nucleotide and extension continues
+
+# Splicing & Translation Errors
+
+## Splicing Errors:
+
+- Recall that some genes have alternative splicing sites
+- Not all splice variants are appropriate in all tissues
+
+## Translation Errors:
+
+- Translation errors are even less common:  approximately 1 x 10-5, or 1 in 100,000 amino acids
+- But – this error rate results in 1 in 100,000 amino acids being wrong (An error rate of 1 x 10-6 in transcription, (i.e. 1 in 1,000,000 amino acids), may result in fewer amino acid changes, depending on where the errors occur!)
+
+# Protein Folding Errors
+
+## As previously discussed, folding is not simply a matter of finding the lowest free energy.
+
+- Chaperones and chaperonins can bind the nascent amino acid chain and modify which residues are available to bind
+- The nascent amino acid chain begins folding while it is still being synthesized – so the parts of the chain that have already been translated may bind to themselves, making those regions unavailable to as-yet untranslated regions
+- Chaperones/chaperonins can prevent this preliminary folding, or modify folding in other ways
+
+## There are diseases that result from protein misfolding:
+
+- Protein folding errors are almost always due to an underlying sequence error in the protein, or in the chaperone/chaperonins involved in folding
+- There are cases where there is no sequence error – the reason for misfolding is less clearly understood in cases such as these
+
+# QUIZ
+
+Q1: Most errors in folding result from....
+A1: Sequence errors
+
+Q2: The cytoskeleton is NOT involved in....
+A2: Protein folding
+
+Q3: Muscular contraction in humans depends on.....
+A3: Microfilaments
+
+# Summary
+
+- The basics of enzymes and their role as catalysts
+- The different types of chemical reactions in life
+- The different types of EC codes
+- The features of Structural and Cell Skeleton proteins
+- The enzymatic cause for various diseases

@@ -1,0 +1,118 @@
+# Week 2
+# @ sungml92
+# Introduction
+
+#################################
+# Galaxy 101: Genomic Intervals #
+#################################
+
+In this module and the following modules we will start to use Galaxy to perform different types of analysis.
+Note that if you attempt these analysis yourself the tool versions and interfaces may be slightly different.
+Genomics is an extremely rapidly moving field, and tools change very frequently -- sometimes more than once a day.
+So while there may be additional or slightly modified options for some tools,
+all of the analysis we describe can still be performed, and it should be fairly obvious what options to use.
+
+Basic Analysis: on human chromosome 22, which coding exons have the most repeats in them?
+
+- General plan
+1. Get some data
+2. Identify which exons have Repeats
+3. Count repeats per exon
+4. Save, download exons with most repeats
+
+- usegalaxy.org
+get exon data
+1. create new to start new history
+2. grab public data from ucsc main
+3. crs22 and get exons, after configuration, click get output
+
+get repeats
+1. select Repeats group and track RepeatMasker
+2. select BED format and send to galaxy
+
+Both files will be in chromosome, position, Name, Score format, sequence
+
+Now we are going to look for cases they overlap
+
+- One way to do this is to count the overlap
+1. operate on genomic intervals -> Join (identify which exons have Repeats)
+2. In Join data, genome data, with repeats data to inner join
+3. first six field are genome file and other six files are from repeats file
+4. to get count, we need to use group tool (take all the row and group them)
+5. For this, we need join dataset which we just generated and load the dataset on group tool and execute on column 4
+
+Then we would like to get back exon information
+
+1. Join, Subtract, and Group -> Join (Incorporate the overlap count with rest of Exon information)
+2. Join genome and group data
+3. Cut columns 1,2,3,4, and 8 from the join table
+
+Summary
+1. Interactive analysis in Galaxy is performed by using tools to operate on datasets
+2. Datasets are immutable, and running tool always creates one or more new datasets
+3. Datasets are available through history, which provides complete provenance for each dataset
+
+
+#########################
+# Galaxy 101: Workflows #
+#########################
+
+In last exercise, we looked at human cr22 and overlap between exon and Repeats
+But it is not reusable workflow
+1. there is nothing inherent in the analysis about human, exons or repeats
+2. it is a series of steps that sets the score of one set of features to the number of overlaps from another set of features.
+
+Galaxy workflow
+- takes this abstract representation and represented as a tool without being tied to certain dataset
+
+We can do this either by 1) scratch or 2) by example
+1) We compose a workflow directly
+2) or we extract from previous history
+
+It is easier to extract workflow from history as we completed analysis previously
+- Click history option and extract workflow
+- Here, we should treat UCSC main as input datasets and create
+
+Now we want to test our workflow with different dataset.
+Use UCSC database to collect Regulation, CpG islands and send to Galaxy
+
+Now we are going to exactly same work but replace repeats with CpG islands.
+- Select all workflow under tools tab and run our custom workflow
+
+We simplify our history and workflow, we can filter in workflow editor
+
+Summary
+1. Galaxy workflows allow abstract multi-step analysis to be reused
+2. Workflows can be constructed either by example or from scratch
+3. The workflow editor allows workflows to be customized, and additional actions to be associated with each step
+
+###################################################
+# Galaxy 101: Annotating, Sharing, and Publishing #
+###################################################
+
+Tagging and annotation
+- To add extra information such as dataset, history
+- Nearly all Galaxy entities can be tagged or annotated
+1) Tag: short, structured metadata associated
+2) Annotation: Completely free-form text used to describe or contextualize
+
+Sharing and Publishing
+1) Share: Make something available to someone else
+2) Publish: Make something available to everyone
+3) Galaxy page: Analysis documentation within Galaxy
+
+Sharing and Publishing enables Reproducibility
+- Galaxy aims to push the goal of reproducibility from the bench to the bioinformatics realm
+- All analysis in Galaxy is recorded without any extra effort from the user
+- Histories, workflows, visualizations and pages can be shared with others
+
+From galaxy page, we can extract workflow and re-run to see the parameter ourselves.
+
+Way to share data
+1) Data library
+2) Galaxy Tool shed
+
+Summary
+1. Everything you do in Galaxy can be shared and published for others to access
+2. Tagging and annotations allow to provide more information about the steps of your analysis
+3. Galaxy pages provide a way for a way to describe multiple entities that make up an entire analysis in a way that readers can easily access all of the details

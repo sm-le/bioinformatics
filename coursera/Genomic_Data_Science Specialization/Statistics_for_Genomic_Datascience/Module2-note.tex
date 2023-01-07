@@ -1,0 +1,1841 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+            pdftitle={Module2-note},
+            pdfauthor={Sung},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Module2-note}
+\author{Sung}
+\date{4/16/2020}
+
+\begin{document}
+\maketitle
+
+\section{Module 2}\label{module-2}
+
+\subsection{Overview}\label{overview}
+
+Learning objective: Pre-processing
+
+\subsubsection{why pre-processing?}\label{why-pre-processing}
+
+When you get genomic measurements, especially if you consider getting
+genomic measurements across multiple samples, they're often incomparable
+in various different ways. The machine that you use to collect the
+measurements might vary from day to day, or different liaisons might be
+used, and so these differences translate into differences in the data
+from sample to sample.
+
+Pre-processing allow those samples comparable before statistical
+analyses.
+
+\subsection{Dimension Reduction}\label{dimension-reduction}
+
+One way to reduce dimension is to take the average in the rows and the
+columns
+
+\subsubsection{Related Problems}\label{related-problems}
+
+You have multivariate matrix of data X
+
+\begin{itemize}
+\tightlist
+\item
+  Find a new set of multivariate variables that are uncorrelated and
+  explain as much variance across rows as possible.
+\item
+  Find the best matrix created with fewer variables (lower rank) that
+  explains the original data
+\end{itemize}
+
+The first goal is statistical and the second goal is data compression.
+
+\paragraph{Solution 1: Singular value
+decomposition}\label{solution-1-singular-value-decomposition}
+
+Imagine we have samples in column and genes in row in a matrix, we can
+decompose into three matrices: left sigular vector, singular values, and
+right singular vectors.
+
+\begin{itemize}
+\tightlist
+\item
+  left singular vectors: patterns that exist across the different rows
+  of the data sets to identify patterns across the rows.
+\item
+  The D matrix tells you how much of each of the patterns that you have
+  in the U matrix explain.
+\item
+  Columns of V transpose tell you something about the relationship with
+  the column patterns or the patterns in the rows
+\end{itemize}
+
+Columns of \(V^T\)/rows of U are orthogonal and calculated one at a time
+
+Columns of \(V^T\) describe patterns across genes
+
+Columns of U describe patterns across arrays
+
+\(d^2l \sum_{i=1}^n d_i^2\)
+
+if you have have patterns, you'd like to identify more than one pattern
+
+\begin{itemize}
+\tightlist
+\item
+  There are many more dimensional decompositions people use
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  multidimensional scaling
+\item
+  indenpendent components analysis
+\item
+  non-negative matrix factorization
+\end{enumerate}
+
+\subsection{Dimension Reduction (in R)}\label{dimension-reduction-in-r}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# color setup}
+
+\KeywordTok{library}\NormalTok{(devtools)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: usethis
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(Biobase)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: BiocGenerics
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: parallel
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'BiocGenerics'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:parallel':
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     IQR, mad, sd, var, xtabs
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+##     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+##     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+##     union, unique, unsplit, which, which.max, which.min
+\end{verbatim}
+
+\begin{verbatim}
+## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     'browseVignettes()'. To cite Bioconductor, see
+##     'citation("Biobase")', and for packages 'citation("pkgname")'.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tropical =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"darkorange"}\NormalTok{, }\StringTok{"dodgerblue"}\NormalTok{, }\StringTok{"hotpink"}\NormalTok{, }\StringTok{"limegreen"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{)}
+\KeywordTok{palette}\NormalTok{(tropical)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(preprocessCore)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# load dataset}
+
+\NormalTok{con =}\StringTok{ }\KeywordTok{url}\NormalTok{(}\StringTok{"http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData"}\NormalTok{)}
+\KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\NormalTok{con)}
+\KeywordTok{close}\NormalTok{(con)}
+
+\NormalTok{mp =}\StringTok{ }\NormalTok{montpick.eset}
+\NormalTok{pdata =}\StringTok{ }\KeywordTok{pData}\NormalTok{(mp) }\CommentTok{# Phenotype data}
+\NormalTok{edata =}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{exprs}\NormalTok{(mp)) }\CommentTok{# Expression data}
+\NormalTok{fdata =}\StringTok{ }\KeywordTok{fData}\NormalTok{(mp) }\CommentTok{# feature data}
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "con"           "edata"         "fdata"         "montpick.eset"
+## [5] "mp"            "pdata"         "tropical"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Data modification}
+
+\NormalTok{edata =}\StringTok{ }\NormalTok{edata[}\KeywordTok{rowMeans}\NormalTok{(edata) }\OperatorTok{>}\StringTok{ }\DecValTok{100}\NormalTok{,] }\CommentTok{# substract row where rowMeans < 100}
+\NormalTok{edata =}\StringTok{ }\KeywordTok{log2}\NormalTok{(edata }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{) }\CommentTok{# log transformation + 1 as explained in Module 1}
+\NormalTok{edata_centered =}\StringTok{ }\NormalTok{edata }\OperatorTok{-}\StringTok{ }\KeywordTok{rowMeans}\NormalTok{(edata) }\CommentTok{# if not removed first singular vector will always be the mean level}
+\NormalTok{svd1 =}\StringTok{ }\KeywordTok{svd}\NormalTok{(edata_centered)}
+\KeywordTok{names}\NormalTok{(svd1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "d" "u" "v"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# plot singular values}
+
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{d, }\DataTypeTok{ylab=}\StringTok{"Singular value"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{d}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{d}\OperatorTok{^}\DecValTok{2}\NormalTok{),}\DataTypeTok{ylab=}\StringTok{"Percent Variance Explained"}\NormalTok{, }\DataTypeTok{col=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-4-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# PC comparison}
+
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)) }\CommentTok{# split view plot}
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"1st PC"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{2}\NormalTok{],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"2nd PC"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{2}\NormalTok{],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"2nd PC"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"1st PC"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{2}\NormalTok{],}\DataTypeTok{ylab=}\StringTok{"2nd PC"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"1st PC"}\NormalTok{,}\DataTypeTok{col=}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{study))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-5-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Alternatively showing with boxplot}
+
+\KeywordTok{boxplot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{study,}\DataTypeTok{border=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{points}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{] }\OperatorTok{~}\StringTok{ }\KeywordTok{jitter}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{study)), }\DataTypeTok{col=}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{study))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Do principle component}
+
+\NormalTok{pc1 =}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(edata)}
+\KeywordTok{plot}\NormalTok{(pc1}\OperatorTok{$}\NormalTok{rotation[,}\DecValTok{1}\NormalTok{],svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{]) }\CommentTok{# They are not the same as they are not scaled in the same way}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edata_centered2 =}\StringTok{ }\KeywordTok{t}\NormalTok{(}\KeywordTok{t}\NormalTok{(edata) }\OperatorTok{-}\StringTok{ }\KeywordTok{colMeans}\NormalTok{(edata))}
+\NormalTok{svd2 =}\StringTok{ }\KeywordTok{svd}\NormalTok{(edata_centered2)}
+\KeywordTok{plot}\NormalTok{(pc1}\OperatorTok{$}\NormalTok{rotation[,}\DecValTok{1}\NormalTok{],svd2}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{) }\CommentTok{# Then they are exactly same to each other}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Investigate effect of outlier}
+
+\NormalTok{edata_outlier =}\StringTok{ }\NormalTok{edata_centered}
+\NormalTok{edata_outlier[}\DecValTok{6}\NormalTok{,] =}\StringTok{ }\NormalTok{edata_centered[}\DecValTok{6}\NormalTok{,] }\OperatorTok{*}\StringTok{ }\DecValTok{10000} \CommentTok{# introducing artificial outliers}
+\NormalTok{svd3 =}\StringTok{ }\KeywordTok{svd}\NormalTok{(edata_outlier)}
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],svd3}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],}\DataTypeTok{xlab=}\StringTok{"Without outlier"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"With outlier"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(svd3}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],edata_outlier[}\DecValTok{6}\NormalTok{,],}\DataTypeTok{col=}\DecValTok{4}\NormalTok{) }\CommentTok{# outlier in one gene expressed way higher than others. }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-8-2.pdf}
+
+When using this decomposition make sure you pick scaling and center so
+that all measure and features on common scale
+
+\subsection{Pre-processing and
+Normalization}\label{pre-processing-and-normalization}
+
+Pre-processing is to add up all the reads and getting a number of each
+gene, for each sample
+
+\subsubsection{MA-normalization}\label{ma-normalization}
+
+technique where they try to take replicate samples make sure that the
+bulk distributions look alike
+
+\begin{itemize}
+\tightlist
+\item
+  if there are huge changes in the bulk measurment between two samples,
+  it is due to technology and it may need to be removed.
+\end{itemize}
+
+\subsubsection{Quantile normalization}\label{quantile-normalization}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Order value
+\item
+  Average across rows and substitute value with average
+\item
+  Re-order averaged values in original order
+\end{enumerate}
+
+Forces the distribution to be exactly the same as each other.
+
+\begin{itemize}
+\tightlist
+\item
+  not necessarily good thing if you see big bulk difference in biology.
+\end{itemize}
+
+\paragraph{When to and When not to?}\label{when-to-and-when-not-to}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Use QN but not necessarily
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Small variablity within groups and across groups
+\item
+  Small technical variability
+\item
+  No global changes.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Use QN
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Large variability within groups, but small across groups
+\item
+  Large technical variability or batch effects within groups
+\item
+  No global changes
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Depends on situation
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Small variability within groups, but large across groups
+\item
+  Global techinical variability or batch effect across groups
+  -\textgreater{} use QN
+\item
+  Global biological variability across group -\textgreater{} do not use
+  QN
+\end{itemize}
+
+QN will force distribution to look exactly the same, but sometimes they
+should not look exactly the same
+
+When QN, it sometimes makes sense to normalize within groups that are
+similar or should have similar distribution
+
+\paragraph{Note in QN}\label{note-in-qn}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Preprocessing and normalization are highly platform/problem dependent.
+\item
+  In general check to make sure there are not bulk differences between
+  samples, especially due to technology.
+\item
+  Bioconductor are a good place to start
+\end{enumerate}
+
+\subsection{Quantile Normalization (in
+R)}\label{quantile-normalization-in-r}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edata =}\StringTok{ }\KeywordTok{log2}\NormalTok{(edata}\OperatorTok{+}\DecValTok{1}\NormalTok{)}
+\NormalTok{edata =}\StringTok{ }\NormalTok{edata[}\KeywordTok{rowMeans}\NormalTok{(edata)}\OperatorTok{>}\DecValTok{3}\NormalTok{,]}
+\KeywordTok{dim}\NormalTok{(edata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2383  129
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{colramp =}\StringTok{ }\KeywordTok{colorRampPalette}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\StringTok{"white"}\NormalTok{,}\DecValTok{2}\NormalTok{))(}\DecValTok{20}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{(edata[,}\DecValTok{1}\NormalTok{]),}\DataTypeTok{col=}\NormalTok{colramp[}\DecValTok{1}\NormalTok{],}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,.}\DecValTok{30}\NormalTok{))}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\DecValTok{20}\NormalTok{)\{}\KeywordTok{lines}\NormalTok{(}\KeywordTok{density}\NormalTok{(edata[,i]),}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{col=}\NormalTok{colramp[i])\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/show_distribution-1.pdf}
+
+Differences may be from technology differences
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{norm_edata =}\StringTok{ }\KeywordTok{normalize.quantiles}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(edata)) }\CommentTok{# force distribution to be exactly the same}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{(norm_edata[,}\DecValTok{1}\NormalTok{]),}\DataTypeTok{col=}\NormalTok{colramp[}\DecValTok{1}\NormalTok{],}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,.}\DecValTok{30}\NormalTok{))}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\DecValTok{20}\NormalTok{)\{}\KeywordTok{lines}\NormalTok{(}\KeywordTok{density}\NormalTok{(norm_edata[,i]),}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{col=}\NormalTok{colramp[i])\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/quantile_normalization-1.pdf}
+
+for most part, distribution lay exactly on top of each other. However,
+QN did not remove gene variability but bulk differences
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(norm_edata[}\DecValTok{1}\NormalTok{,],}\DataTypeTok{col=}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{study))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+Can stil see the difference between two studies
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{svd1 =}\StringTok{ }\KeywordTok{svd}\NormalTok{(norm_edata }\OperatorTok{-}\StringTok{ }\KeywordTok{rowMeans}\NormalTok{(norm_edata))}
+\KeywordTok{plot}\NormalTok{(svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{1}\NormalTok{],svd1}\OperatorTok{$}\NormalTok{v[,}\DecValTok{2}\NormalTok{],}\DataTypeTok{col=}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{study))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/svd-1.pdf}
+
+Even though we have done quantile normalization, we have not removed
+gene to gene variability.
+
+\subsection{The Linear Model}\label{the-linear-model}
+
+\subsubsection{Basic idea}\label{basic-idea}
+
+\begin{itemize}
+\tightlist
+\item
+  fit the ``best line'' relating two variables
+\item
+  In math we are minimizing the relationship\((Y-b_0 - b_1X)^2\)
+\item
+  You can always fit a line, the question is whether it is a good fit or
+  not
+\end{itemize}
+
+\subsubsection{Besting fitting line}\label{besting-fitting-line}
+
+\$ C = b\_0 + b\_1P \$
+
+line does not perfectly describe the data
+
+\subsubsection{With noise}\label{with-noise}
+
+Another way to do this is to expand the equation
+
+\$ C = b\_0 + b\_1P + e \$ \# e is everything we did not measure fit by
+minimizing \(\sum(C-b_0-b_1P)^2\)
+
+\subsubsection{Make sense with fitted
+line}\label{make-sense-with-fitted-line}
+
+Does fitted line makes sense?
+
+One way to do this is by taking residuals - Take the line and calculate
+the distance between every data point and actual line, and then make a
+plot
+
+Ideally, you would like to see similar variability, no big outliers. and
+centered at zero
+
+\subsubsection{Note}\label{note}
+
+We can always fit a line, but line does not always make sense
+
+\subsection{Linear Models with Categorical
+Covariates}\label{linear-models-with-categorical-covariates}
+
+In genomics, you often have either non-continuous outcomes or
+non-covariates.
+
+Here, we will discuss continuous outcome, but a not continous covariate
+or a categorical covariate or a factor-level covariate
+
+Many analyses fit the
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  additive model \$ y = \beta\_0 + \beta \times no.minor\_alleles\$
+\item
+  dominant model \$ y = \beta\_0 + \beta \times (G!=AA) \$
+\item
+  recessive model \$ y = \beta\_0 + \beta \times (G==AA) \$
+\item
+  two degrees of freedom model \$ y = \beta\emph{0 + \beta}\{Aa\}
+  \times (G == Aa) + \beta\_\{aa\} \times (G==aa)\$ fit two different
+  two variates
+\end{enumerate}
+
+By changing the covariate definition, we have changed the regression
+model
+
+\subsubsection{Note}\label{note-1}
+
+Basic thing to keep in mind is how many levels do you want to fit? What
+makes sense biologically?
+
+\subsection{Adjusting for Covariates}\label{adjusting-for-covariates}
+
+In general in genomic study, you may have measured many covariates.
+
+e.g.~technological covariates such as batch effect and biological
+variables such as demographics of samples
+
+These need adjustments for linear regression models
+
+\subsubsection{Parallel lines}\label{parallel-lines}
+
+\$ Hu\_i = b\_0 + b\_1Y\_i + b\_2F\_i + e\_i \$
+
+One way to model error is to color the sample according to measurement.
+Then new regression model can be modeled.
+
+This way you end up with two regression lines that are parallel to each
+other
+
+\(b_0\) - percent hungry at year zero for males \(b_0+b_2\) - percent
+hungry at year zero for females \(b_1\) - change in percent hungry (for
+either males or females in one year) \(e_i\) - everything we did not
+measure
+
+This is the way that you often fit these regression models. Careful
+about how you interpret the coefficients once you have fit adjustment
+variables especially if you are adjusting for many variables.
+
+\subsubsection{Interaction terms}\label{interaction-terms}
+
+Expression = Baseline + RM Effect + BY Effect + (RM effect * BY Effect)
++ Noise
+
+If fitting these more complicated regression models, it is worth taking
+a worth while to think exactly what does each of the beta coefficients
+mean.
+
+\subsubsection{Note}\label{note-2}
+
+Keep in mind, how many levels do you want to fit and what makes sense
+biologically
+
+\subsection{Linear Regression in R}\label{linear-regression-in-r}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tropical =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"darkorange"}\NormalTok{, }\StringTok{"dodgerblue"}\NormalTok{, }\StringTok{"hotpink"}\NormalTok{, }\StringTok{"limegreen"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{)}
+\KeywordTok{palette}\NormalTok{(tropical)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(devtools)}
+\KeywordTok{library}\NormalTok{(Biobase)}
+\KeywordTok{library}\NormalTok{(broom)}
+\end{Highlighting}
+\end{Shaded}
+
+Load body map database
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{con =}\StringTok{ }\KeywordTok{url}\NormalTok{(}\StringTok{"http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData"}\NormalTok{)}
+\KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\NormalTok{con)}
+\KeywordTok{close}\NormalTok{(con)}
+\NormalTok{bm =}\StringTok{ }\NormalTok{bodymap.eset}
+\NormalTok{pdata =}\StringTok{ }\KeywordTok{pData}\NormalTok{(bm)}
+\NormalTok{edata =}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{exprs}\NormalTok{(bm))}
+\NormalTok{fdata =}\StringTok{ }\KeywordTok{fData}\NormalTok{(bm)}
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "bm"              "bodymap.eset"    "colramp"         "con"            
+##  [5] "edata"           "edata_centered"  "edata_centered2" "edata_outlier"  
+##  [9] "fdata"           "i"               "montpick.eset"   "mp"             
+## [13] "norm_edata"      "pc1"             "pdata"           "svd1"           
+## [17] "svd2"            "svd3"            "tropical"
+\end{verbatim}
+
+First thing, convert the edata into a matrix (easier to deal with values
+on numeric scale). You can fit a linear model by lm command. We can git
+the gene by gene, taking the first gene of the expression data. Then
+relate it using tilde operator to any variable
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edata =}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(edata)}
+\NormalTok{lm1 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{age)}
+\KeywordTok{tidy}\NormalTok{(lm1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic   p.value
+##   <chr>          <dbl>     <dbl>     <dbl>     <dbl>
+## 1 (Intercept)   2188.     403.        5.43 0.0000888
+## 2 pdata$age      -23.2      6.39     -3.64 0.00269
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{age, edata[}\DecValTok{1}\NormalTok{,], }\DataTypeTok{col=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(lm1, }\DataTypeTok{col=}\DecValTok{2}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+Relationship between gender
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## F M 
+## 8 8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{boxplot}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{gender)}
+\KeywordTok{points}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\KeywordTok{jitter}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{gender)), }\DataTypeTok{col=}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{gender))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+but how do we quantify?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dummy_m =}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{gender }\OperatorTok{==}\StringTok{ "M"}
+\NormalTok{dummy_f =}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{gender }\OperatorTok{==}\StringTok{ "F"}
+
+\NormalTok{lm2 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{gender)}
+\KeywordTok{tidy}\NormalTok{(lm2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 5
+##   term          estimate std.error statistic p.value
+##   <chr>            <dbl>     <dbl>     <dbl>   <dbl>
+## 1 (Intercept)       837       229.     3.66  0.00258
+## 2 pdata$genderM    -106.      324.    -0.326 0.749
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod2 =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\NormalTok{pdata}\OperatorTok{$}\NormalTok{gender)}
+\NormalTok{mod2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    (Intercept) pdata$genderM
+## 1            1             0
+## 2            1             1
+## 3            1             0
+## 4            1             0
+## 5            1             0
+## 6            1             1
+## 7            1             0
+## 8            1             1
+## 9            1             1
+## 10           1             0
+## 14           1             0
+## 15           1             1
+## 16           1             1
+## 17           1             1
+## 18           1             0
+## 19           1             1
+## attr(,"assign")
+## [1] 0 1
+## attr(,"contrasts")
+## attr(,"contrasts")$`pdata$gender`
+## [1] "contr.treatment"
+\end{verbatim}
+
+We can do this with more category
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{tissue.type)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##          adipose          adrenal            brain           breast 
+##                1                1                1                1 
+##            colon            heart           kidney            liver 
+##                1                1                1                1 
+##             lung        lymphnode          mixture            ovary 
+##                1                1                3                1 
+##         prostate  skeletal_muscle           testes          thyroid 
+##                1                1                1                1 
+## white_blood_cell 
+##                1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pdata}\OperatorTok{$}\NormalTok{tissue.type }\OperatorTok{==}\StringTok{ "adipose"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pdata}\OperatorTok{$}\NormalTok{tissue.type }\OperatorTok{==}\StringTok{ "adrenal"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tidy}\NormalTok{(}\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{tissue.type))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 5
+##    term                              estimate std.error statistic p.value
+##    <chr>                                <dbl>     <dbl>     <dbl>   <dbl>
+##  1 (Intercept)                         1354.      1018.    1.33    0.315 
+##  2 pdata$tissue.typeadrenal           -1138.      1440.   -0.790   0.512 
+##  3 pdata$tissue.typebrain             -1139.      1440.   -0.791   0.512 
+##  4 pdata$tissue.typebreast             -430.      1440.   -0.299   0.793 
+##  5 pdata$tissue.typecolon              -629.      1440.   -0.437   0.705 
+##  6 pdata$tissue.typeheart             -1229.      1440.   -0.854   0.483 
+##  7 pdata$tissue.typekidney             -558.      1440.   -0.388   0.736 
+##  8 pdata$tissue.typeliver               600.      1440.    0.417   0.717 
+##  9 pdata$tissue.typelung               -539.      1440.   -0.374   0.744 
+## 10 pdata$tissue.typelymphnode         -1105.      1440.   -0.768   0.523 
+## 11 pdata$tissue.typemixture            4043.      1175.    3.44    0.0751
+## 12 pdata$tissue.typeovary                96.0     1440.    0.0667  0.953 
+## 13 pdata$tissue.typeprostate           -573.      1440.   -0.398   0.729 
+## 14 pdata$tissue.typeskeletal_muscle   -1285.      1440.   -0.893   0.466 
+## 15 pdata$tissue.typetestes              534       1440.    0.371   0.746 
+## 16 pdata$tissue.typethyroid            -371.      1440.   -0.258   0.821 
+## 17 pdata$tissue.typewhite_blood_cell  -1351.      1440.   -0.938   0.447
+\end{verbatim}
+
+adjust for variables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm3 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{age }\OperatorTok{+}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{gender)}
+\KeywordTok{tidy}\NormalTok{(lm3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 5
+##   term          estimate std.error statistic  p.value
+##   <chr>            <dbl>     <dbl>     <dbl>    <dbl>
+## 1 (Intercept)     2332.     438.       5.32  0.000139
+## 2 pdata$age        -23.9      6.49    -3.69  0.00274 
+## 3 pdata$genderM   -207.     236.      -0.877 0.397
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm4 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{age}\OperatorTok{*}\NormalTok{pdata}\OperatorTok{$}\NormalTok{gender)}
+\KeywordTok{tidy}\NormalTok{(lm4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4 x 5
+##   term                    estimate std.error statistic p.value
+##   <chr>                      <dbl>     <dbl>     <dbl>   <dbl>
+## 1 (Intercept)               1679.     610.        2.75  0.0175
+## 2 pdata$age                  -13.5      9.43     -1.43  0.178 
+## 3 pdata$genderM              913.     793.        1.15  0.272 
+## 4 pdata$age:pdata$genderM    -18.5     12.5      -1.47  0.167
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm4 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{6}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{age)}
+\KeywordTok{plot}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{age, edata[}\DecValTok{6}\NormalTok{,], }\DataTypeTok{col=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(lm4, }\DataTypeTok{col=}\DecValTok{1}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+check outlier case
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{index =}\StringTok{ }\DecValTok{1}\OperatorTok{:}\DecValTok{19}
+\NormalTok{lm5 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{6}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{index)}
+\KeywordTok{plot}\NormalTok{(index, edata[}\DecValTok{6}\NormalTok{,], }\DataTypeTok{col=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(lm5, }\DataTypeTok{col=}\DecValTok{1}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+
+\NormalTok{lm6 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{6}\NormalTok{,}\OperatorTok{-}\DecValTok{19}\NormalTok{] }\OperatorTok{~}\StringTok{ }\NormalTok{index[}\OperatorTok{-}\DecValTok{19}\NormalTok{])}
+\KeywordTok{abline}\NormalTok{(lm6, }\DataTypeTok{col=}\DecValTok{3}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+
+\KeywordTok{legend}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{1000}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"With outlier"}\NormalTok{, }\StringTok{"Without outlier"}\NormalTok{), }\DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{), }\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(lm6}\OperatorTok{$}\NormalTok{residuals, }\DataTypeTok{col=}\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(lm5}\OperatorTok{$}\NormalTok{residuals, }\DataTypeTok{col=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gene1 =}\StringTok{ }\KeywordTok{log2}\NormalTok{(edata[}\DecValTok{1}\NormalTok{,]}\OperatorTok{+}\DecValTok{1}\NormalTok{)}
+\NormalTok{lm7 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(gene1 }\OperatorTok{~}\StringTok{ }\NormalTok{index)}
+\KeywordTok{hist}\NormalTok{(lm7}\OperatorTok{$}\NormalTok{residuals, }\DataTypeTok{col=}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm8 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(gene1 }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{tissue.type}\OperatorTok{+}\NormalTok{pdata}\OperatorTok{$}\NormalTok{age)}
+\KeywordTok{tidy}\NormalTok{(lm8)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 5
+##    term                              estimate std.error statistic p.value
+##    <chr>                                <dbl>     <dbl>     <dbl>   <dbl>
+##  1 (Intercept)                        10.4          NaN       NaN     NaN
+##  2 pdata$tissue.typeadrenal           -2.64         NaN       NaN     NaN
+##  3 pdata$tissue.typebrain             -2.65         NaN       NaN     NaN
+##  4 pdata$tissue.typebreast            -0.551        NaN       NaN     NaN
+##  5 pdata$tissue.typecolon             -0.900        NaN       NaN     NaN
+##  6 pdata$tissue.typeheart             -3.43         NaN       NaN     NaN
+##  7 pdata$tissue.typekidney            -0.766        NaN       NaN     NaN
+##  8 pdata$tissue.typeliver              0.529        NaN       NaN     NaN
+##  9 pdata$tissue.typelung              -0.732        NaN       NaN     NaN
+## 10 pdata$tissue.typelymphnode         -2.44         NaN       NaN     NaN
+## 11 pdata$tissue.typeovary              0.0988       NaN       NaN     NaN
+## 12 pdata$tissue.typeprostate          -0.793        NaN       NaN     NaN
+## 13 pdata$tissue.typeskeletal_muscle   -4.27         NaN       NaN     NaN
+## 14 pdata$tissue.typetestes             0.479        NaN       NaN     NaN
+## 15 pdata$tissue.typethyroid           -0.462        NaN       NaN     NaN
+## 16 pdata$tissue.typewhite_blood_cell  -8.40         NaN       NaN     NaN
+## 17 pdata$age                          NA             NA        NA      NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(}\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{tissue.type}\OperatorTok{+}\NormalTok{pdata}\OperatorTok{$}\NormalTok{age))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 16 18
+\end{verbatim}
+
+you are fitting too many data points.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{colramp =}\StringTok{ }\KeywordTok{colorRampPalette}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{)(}\DecValTok{17}\NormalTok{)}
+\NormalTok{lm9 =}\StringTok{ }\KeywordTok{lm}\NormalTok{(edata[}\DecValTok{2}\NormalTok{,] }\OperatorTok{~}\StringTok{ }\NormalTok{pdata}\OperatorTok{$}\NormalTok{age)}
+\KeywordTok{plot}\NormalTok{(lm9}\OperatorTok{$}\NormalTok{residuals, }\DataTypeTok{col=}\NormalTok{colramp[}\KeywordTok{as.numeric}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{tissue.type)])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\subsection{Many Regressions at Once}\label{many-regressions-at-once}
+
+You would like to associate each feature with case control status and
+you would like to discover those features that are differentially
+expressed or differentially associated with those different conditions.
+
+Every single row of this matrix, you will fit a regression model that
+has some B coefficients multiplied by some design matrix, multipled by
+some variables, S(Y), that you care about, plus some corresponding error
+term (E) for just that gene.
+
+\paragraph{X = B * S(Y) + E}\label{x-b-sy-e}
+
+There is much more subtle effect. Intensity dependent effects in the
+measurements from the genomic data or dye effects or probe composition
+effects since this is microarray, and many other unknown variables needs
+to be modeled. When you do this, it becomes a slightly more complicated
+model.
+
+\paragraph{data = primary variables * adjustment variables + random
+variation.}\label{data-primary-variables-adjustment-variables-random-variation.}
+
+We need to think linear models as one tool can be applied many many
+times across many different samples.
+
+\subsection{Many Regressions in R}\label{many-regressions-in-r}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tropical =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"darkorange"}\NormalTok{, }\StringTok{"dodgerblue"}\NormalTok{, }\StringTok{"hotpink"}\NormalTok{, }\StringTok{"limegreen"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{)}
+\KeywordTok{palette}\NormalTok{(tropical)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{)}
+
+\KeywordTok{library}\NormalTok{(devtools)}
+\KeywordTok{library}\NormalTok{(Biobase)}
+\KeywordTok{library}\NormalTok{(limma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'limma'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:BiocGenerics':
+## 
+##     plotMA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(edge)}
+
+\NormalTok{con =}\StringTok{ }\KeywordTok{url}\NormalTok{(}\StringTok{"http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData"}\NormalTok{)}
+\KeywordTok{load}\NormalTok{(}\DataTypeTok{file=}\NormalTok{con)}
+\KeywordTok{close}\NormalTok{(con)}
+\NormalTok{bot =}\StringTok{ }\NormalTok{bottomly.eset}
+\NormalTok{pdata =}\StringTok{ }\KeywordTok{pData}\NormalTok{(bot)}
+\NormalTok{edata =}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(}\KeywordTok{exprs}\NormalTok{(bot))}
+\NormalTok{fdata =}\StringTok{ }\KeywordTok{fData}\NormalTok{(bot)}
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "bm"              "bodymap.eset"    "bot"             "bottomly.eset"  
+##  [5] "colramp"         "con"             "dummy_f"         "dummy_m"        
+##  [9] "edata"           "edata_centered"  "edata_centered2" "edata_outlier"  
+## [13] "fdata"           "gene1"           "i"               "index"          
+## [17] "lm1"             "lm2"             "lm3"             "lm4"            
+## [21] "lm5"             "lm6"             "lm7"             "lm8"            
+## [25] "lm9"             "mod2"            "montpick.eset"   "mp"             
+## [29] "norm_edata"      "pc1"             "pdata"           "svd1"           
+## [33] "svd2"            "svd3"            "tropical"
+\end{verbatim}
+
+remove lowly expressed gene
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edata =}\StringTok{ }\KeywordTok{log2}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(edata) }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\NormalTok{edata =}\StringTok{ }\NormalTok{edata[}\KeywordTok{rowMeans}\NormalTok{(edata) }\OperatorTok{>}\StringTok{ }\DecValTok{10}\NormalTok{,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\NormalTok{pdata}\OperatorTok{$}\NormalTok{strain)}
+\NormalTok{fit =}\StringTok{ }\KeywordTok{lm.fit}\NormalTok{(mod,}\KeywordTok{t}\NormalTok{(edata))}
+\KeywordTok{names}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "coefficients"  "residuals"     "effects"       "rank"         
+## [5] "fitted.values" "assign"        "qr"            "df.residual"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit}\OperatorTok{$}\NormalTok{coefficients[,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        (Intercept) pdata$strainDBA/2J 
+##         10.4116634          0.3478919
+\end{verbatim}
+
+look at distribution of coefficients
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(fit}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{,],}\DataTypeTok{breaks=}\DecValTok{100}\NormalTok{,}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Intercept"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(fit}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,],}\DataTypeTok{breaks=}\DecValTok{100}\NormalTok{,}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Intercept"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-28-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(fit}\OperatorTok{$}\NormalTok{residuals[,}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-29-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(fit}\OperatorTok{$}\NormalTok{residuals[,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-29-2.pdf}
+
+fit adjusted model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod_adj =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\NormalTok{pdata}\OperatorTok{$}\NormalTok{strain }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{lane.number))}
+\NormalTok{fit_adj =}\StringTok{ }\KeywordTok{lm.fit}\NormalTok{(mod_adj,}\KeywordTok{t}\NormalTok{(edata))}
+\NormalTok{fit_adj}\OperatorTok{$}\NormalTok{coefficient[,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   (Intercept)            pdata$strainDBA/2J 
+##                   10.31359781                    0.28934825 
+## as.factor(pdata$lane.number)2 as.factor(pdata$lane.number)3 
+##                    0.05451431                    0.02502244 
+## as.factor(pdata$lane.number)5 as.factor(pdata$lane.number)6 
+##                    0.07200502                    0.38038016 
+## as.factor(pdata$lane.number)7 as.factor(pdata$lane.number)8 
+##                    0.21815863                    0.15103858
+\end{verbatim}
+
+limma to fit model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_limma =}\StringTok{ }\KeywordTok{lmFit}\NormalTok{(edata, mod_adj)}
+\KeywordTok{names}\NormalTok{(fit_limma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "coefficients"     "rank"             "assign"           "qr"              
+##  [5] "df.residual"      "sigma"            "cov.coefficients" "stdev.unscaled"  
+##  [9] "pivot"            "Amean"            "method"           "design"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_limma}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   (Intercept)            pdata$strainDBA/2J 
+##                   10.31359781                    0.28934825 
+## as.factor(pdata$lane.number)2 as.factor(pdata$lane.number)3 
+##                    0.05451431                    0.02502244 
+## as.factor(pdata$lane.number)5 as.factor(pdata$lane.number)6 
+##                    0.07200502                    0.38038016 
+## as.factor(pdata$lane.number)7 as.factor(pdata$lane.number)8 
+##                    0.21815863                    0.15103858
+\end{verbatim}
+
+edge\_study is good for when you don't have good knowledge on model
+matrix
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edge_study =}\StringTok{ }\KeywordTok{build_study}\NormalTok{(}\DataTypeTok{data=}\NormalTok{edata,}\DataTypeTok{grp=}\NormalTok{pdata}\OperatorTok{$}\NormalTok{strain, }\DataTypeTok{adj.var =} \KeywordTok{as.factor}\NormalTok{(pdata}\OperatorTok{$}\NormalTok{lane.number))}
+\NormalTok{fit_edge =}\StringTok{ }\KeywordTok{fit_models}\NormalTok{(edge_study)}
+\KeywordTok{summary}\NormalTok{(fit_edge)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## deFit Summary 
+##  
+## fit.full: 
+##                    SRX033480 SRX033488 SRX033481 SRX033489 SRX033482 SRX033490
+## ENSMUSG00000000131      10.3      10.3      10.4      10.4      10.3      10.3
+## ENSMUSG00000000149      10.6      10.6      10.8      10.8      10.7      10.7
+## ENSMUSG00000000374      10.7      10.7      10.7      10.7      10.7      10.7
+##                    SRX033483 SRX033476 SRX033478 SRX033479 SRX033472 SRX033473
+## ENSMUSG00000000131      10.4      10.7      10.5      10.5      10.6      10.7
+## ENSMUSG00000000149      10.7      11.2      10.9      10.9      10.6      10.7
+## ENSMUSG00000000374      10.7      11.0      10.8      10.8      10.9      10.9
+##                    SRX033474 SRX033475 SRX033491 SRX033484 SRX033492 SRX033485
+## ENSMUSG00000000131      10.6      10.7      10.7      11.0      11.0      10.8
+## ENSMUSG00000000149      10.6      10.6      10.6      11.1      11.1      10.9
+## ENSMUSG00000000374      10.9      10.9      10.9      11.2      11.2      11.0
+##                    SRX033493 SRX033486 SRX033494
+## ENSMUSG00000000131      10.8      10.8      10.8
+## ENSMUSG00000000149      10.9      10.8      10.8
+## ENSMUSG00000000374      11.0      10.9      10.9
+## 
+## fit.null: 
+##                    SRX033480 SRX033488 SRX033481 SRX033489 SRX033482 SRX033490
+## ENSMUSG00000000131      10.4      10.4      10.5      10.5      10.4      10.4
+## ENSMUSG00000000149      10.6      10.6      10.8      10.8      10.7      10.7
+## ENSMUSG00000000374      10.8      10.8      10.8      10.8      10.7      10.7
+##                    SRX033483 SRX033476 SRX033478 SRX033479 SRX033472 SRX033473
+## ENSMUSG00000000131      10.6      10.9      10.7      10.7      10.4      10.5
+## ENSMUSG00000000149      10.6      11.1      10.9      10.8      10.6      10.8
+## ENSMUSG00000000374      10.8      11.1      10.9      10.9      10.8      10.8
+##                    SRX033474 SRX033475 SRX033491 SRX033484 SRX033492 SRX033485
+## ENSMUSG00000000131      10.4      10.6      10.6      10.9      10.9      10.7
+## ENSMUSG00000000149      10.7      10.6      10.6      11.1      11.1      10.9
+## ENSMUSG00000000374      10.7      10.8      10.8      11.1      11.1      10.9
+##                    SRX033493 SRX033486 SRX033494
+## ENSMUSG00000000131      10.7      10.7      10.7
+## ENSMUSG00000000149      10.9      10.8      10.8
+## ENSMUSG00000000374      10.9      10.9      10.9
+## 
+## res.full: 
+##                    SRX033480 SRX033488 SRX033481 SRX033489 SRX033482 SRX033490
+## ENSMUSG00000000131    -0.567     0.616    -0.806     0.654    -0.498     0.748
+## ENSMUSG00000000149    -0.793     0.602    -0.986     0.551    -0.523     0.636
+## ENSMUSG00000000374    -0.491     0.620    -0.697     0.646    -0.427     0.756
+##                    SRX033483 SRX033476 SRX033478 SRX033479 SRX033472 SRX033473
+## ENSMUSG00000000131    -0.231    0.0237   0.00934    0.0511   -0.0493    0.1523
+## ENSMUSG00000000149    -0.362    0.5347   0.20909    0.1327    0.1911    0.4355
+## ENSMUSG00000000374    -0.232   -0.0977  -0.09356    0.0165   -0.1285    0.0506
+##                    SRX033474 SRX033475 SRX033491 SRX033484 SRX033492 SRX033485
+## ENSMUSG00000000131    -0.250    -0.345     0.576    -0.408    0.3841    -0.470
+## ENSMUSG00000000149    -0.112    -0.347     0.709    -0.516   -0.0182    -0.601
+## ENSMUSG00000000374    -0.329    -0.455     0.687    -0.325    0.4227    -0.401
+##                    SRX033493 SRX033486 SRX033494
+## ENSMUSG00000000131     0.461    -0.284     0.233
+## ENSMUSG00000000149     0.392    -0.615     0.482
+## ENSMUSG00000000374     0.495    -0.328     0.312
+## 
+## res.null: 
+##                    SRX033480 SRX033488 SRX033481 SRX033489 SRX033482 SRX033490
+## ENSMUSG00000000131    -0.664     0.520    -0.902     0.557    -0.594     0.651
+## ENSMUSG00000000149    -0.764     0.631    -0.957     0.580    -0.494     0.665
+## ENSMUSG00000000374    -0.558     0.554    -0.763     0.580    -0.493     0.689
+##                    SRX033483 SRX033476 SRX033478 SRX033479 SRX033472 SRX033473
+## ENSMUSG00000000131    -0.424    -0.169    -0.184    -0.142    0.1436     0.345
+## ENSMUSG00000000149    -0.303     0.593     0.268     0.191    0.1324     0.377
+## ENSMUSG00000000374    -0.365    -0.231    -0.226    -0.116    0.0044     0.183
+##                    SRX033474 SRX033475 SRX033491 SRX033484 SRX033492 SRX033485
+## ENSMUSG00000000131   -0.0568    -0.249     0.672    -0.311    0.4805    -0.374
+## ENSMUSG00000000149   -0.1709    -0.376     0.680    -0.546   -0.0476    -0.630
+## ENSMUSG00000000374   -0.1960    -0.389     0.754    -0.259    0.4892    -0.335
+##                    SRX033493 SRX033486 SRX033494
+## ENSMUSG00000000131     0.557    -0.188     0.330
+## ENSMUSG00000000149     0.363    -0.645     0.453
+## ENSMUSG00000000374     0.561    -0.262     0.378
+## 
+## beta.coef: 
+##                    [,1]   [,2]    [,3]    [,4]  [,5]  [,6]   [,7]    [,8]
+## ENSMUSG00000000131 10.3 0.0545  0.0250  0.0720 0.380 0.218 0.1510  0.2893
+## ENSMUSG00000000149 10.6 0.1455  0.0784  0.0596 0.531 0.304 0.2083 -0.0881
+## ENSMUSG00000000374 10.7 0.0322 -0.0246 -0.0164 0.273 0.121 0.0576  0.1993
+## 
+## stat.type: 
+## [1] "lrt"
+\end{verbatim}
+
+\subsection{Batch Effects and
+Confounders}\label{batch-effects-and-confounders}
+
+\subsubsection{Sources of batch effects}\label{sources-of-batch-effects}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  External factors
+\item
+  genetics/epigenetics
+\item
+  technical factors
+\end{enumerate}
+
+\subsubsection{When to tell batch
+effect}\label{when-to-tell-batch-effect}
+
+If each biological group is run on its own batch then it's impossible to
+tell the differences between group biology and batch variable.
+
+If run replicates of the different groups on the different batches, it's
+possible to distinguish the difference between the batch effects and
+group effects.
+
+First thing to dealing with these batch effects is a good study design
+and you get randomization of samples.
+
+\subsubsection{Model the effective
+batch}\label{model-the-effective-batch}
+
+people fit regression model to model the effective batch. This only
+works if there are not intense correlations.
+
+Y= b0 + b1P + b2B + e
+
+Y is genomic measurement P is phenotype B is batch variable
+
+\subsubsection{Empirical Bayes method}\label{empirical-bayes-method}
+
+Shrink down the estimate toward their common mean. If you don't know
+what the batch effects are. This is common in genomics experiment where
+batch effects could be due to a large number of things.
+
+Data = primary variables + random variation (sample error or batch
+effects), so normally decompose this to random indenpendent variation
+and dependent variation.
+
+Data = primary variables + dependent variation + independent variation.
+The dependent variation can further be divided into estimated batch
+variable.
+
+The idea here is to estimate batch from the data itself and the
+algorithm is ``Surrogate Variable Analysis''
+
+\subsection{Batch Effects in R: Part A}\label{batch-effects-in-r-part-a}
+
+\subsubsection{Technological effect}\label{technological-effect}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tropical =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"darkorange"}\NormalTok{, }\StringTok{"dodgerblue"}\NormalTok{, }\StringTok{"hotpink"}\NormalTok{, }\StringTok{"limegreen"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{)}
+\KeywordTok{palette}\NormalTok{(tropical)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{)}
+
+\KeywordTok{library}\NormalTok{(devtools)}
+\KeywordTok{library}\NormalTok{(Biobase)}
+\KeywordTok{library}\NormalTok{(sva)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: mgcv
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: nlme
+\end{verbatim}
+
+\begin{verbatim}
+## This is mgcv 1.8-33. For overview type 'help("mgcv-package")'.
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: genefilter
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: BiocParallel
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(bladderbatch)}
+\KeywordTok{library}\NormalTok{(snpStats)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: survival
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'survival'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:edge':
+## 
+##     kidney
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Matrix
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(bladderdata)}
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "bladderEset"     "bm"              "bodymap.eset"    "bot"            
+##  [5] "bottomly.eset"   "colramp"         "con"             "dummy_f"        
+##  [9] "dummy_m"         "edata"           "edata_centered"  "edata_centered2"
+## [13] "edata_outlier"   "edge_study"      "fdata"           "fit"            
+## [17] "fit_adj"         "fit_edge"        "fit_limma"       "gene1"          
+## [21] "i"               "index"           "lm1"             "lm2"            
+## [25] "lm3"             "lm4"             "lm5"             "lm6"            
+## [29] "lm7"             "lm8"             "lm9"             "mod"            
+## [33] "mod_adj"         "mod2"            "montpick.eset"   "mp"             
+## [37] "norm_edata"      "pc1"             "pdata"           "svd1"           
+## [41] "svd2"            "svd3"            "tropical"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pheno =}\StringTok{ }\KeywordTok{pData}\NormalTok{(bladderEset)}
+\NormalTok{edata =}\StringTok{ }\KeywordTok{exprs}\NormalTok{(bladderEset)}
+\KeywordTok{head}\NormalTok{(edata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           GSM71019.CEL GSM71020.CEL GSM71021.CEL GSM71022.CEL GSM71023.CEL
+## 1007_s_at    10.115170     8.628044     8.779235     9.248569    10.256841
+## 1053_at       5.345168     5.063598     5.113116     5.179410     5.181383
+## 117_at        6.348024     6.663625     6.465892     6.116422     5.980457
+## 121_at        8.901739     9.439977     9.540738     9.254368     8.798086
+## 1255_g_at     3.967672     4.466027     4.144885     4.189338     4.078509
+## 1294_at       7.775183     7.110154     7.248430     7.017220     7.896419
+##           GSM71024.CEL GSM71025.CEL GSM71026.CEL GSM71028.CEL GSM71029.CEL
+## 1007_s_at    10.023133     9.108034     8.735616     9.803271    10.168602
+## 1053_at       5.248418     5.252312     5.220931     5.595771     5.025180
+## 117_at        5.796155     6.414849     6.846798     5.841478     6.352257
+## 121_at        8.002870     9.093704     9.263386     7.789240     9.834564
+## 1255_g_at     3.919740     4.402590     4.173666     3.590649     4.338196
+## 1294_at       7.944676     7.469767     7.281925     7.367814     7.825735
+##           GSM71030.CEL GSM71031.CEL GSM71032.CEL GSM71033.CEL GSM71034.CEL
+## 1007_s_at     8.420904    10.194269    10.184201     9.621902    10.330774
+## 1053_at       5.909075     5.307699     5.311109     5.542951     5.458996
+## 117_at        5.967566     6.171909     6.156392     6.120551     5.571636
+## 121_at        7.844720     7.862812     8.387105     8.646292     8.395863
+## 1255_g_at     3.952783     3.985398     3.863569     3.923745     3.815636
+## 1294_at       7.401377     8.252998     7.564053     7.009706     8.772693
+##           GSM71035.CEL GSM71036.CEL GSM71037.CEL GSM71038.CEL GSM71039.CEL
+## 1007_s_at     8.986572    10.639548    10.054243     9.768019     9.328306
+## 1053_at       5.430052     5.587119     5.493452     5.633127     5.159921
+## 117_at        6.000733     6.187920     6.114563     7.011835     6.336885
+## 121_at        7.813381     8.752571     8.576715     8.254420     7.959826
+## 1255_g_at     3.813763     3.928739     3.942883     3.764742     4.097321
+## 1294_at       7.728379     7.553263     7.197903     8.149383     7.636171
+##           GSM71040.CEL GSM71041.CEL GSM71042.CEL GSM71043.CEL GSM71044.CEL
+## 1007_s_at    10.196158    10.292591    10.320349     9.323106     9.628180
+## 1053_at       6.076057     5.338113     5.187639     5.955838     5.450218
+## 117_at        6.092187     6.088709     6.303387     5.888935     8.477193
+## 121_at        8.096221     8.158816     8.598261     7.389635     8.508515
+## 1255_g_at     3.774978     3.893144     4.065195     3.633987     3.967857
+## 1294_at       8.028049     7.684338     8.122264     7.019915     8.083954
+##           GSM71045.CEL GSM71046.CEL GSM71047.CEL GSM71048.CEL GSM71049.CEL
+## 1007_s_at    10.493403    10.840534     9.368271    10.337764     9.803385
+## 1053_at       5.366804     5.437124     5.793530     5.247940     5.320422
+## 117_at        6.011152     5.903212     6.313240     5.729220     6.161011
+## 121_at        8.336089     7.792873     8.990317     8.976696     8.439951
+## 1255_g_at     3.836356     3.799026     4.054613     3.844070     4.202248
+## 1294_at       7.964711     7.862600     7.303318     8.013374     7.820776
+##           GSM71050.CEL GSM71051.CEL GSM71052.CEL GSM71053.CEL GSM71054.CEL
+## 1007_s_at    10.158010     9.096022     9.287650     9.636696     9.911038
+## 1053_at       5.826067     5.265145     5.391201     5.677830     5.373810
+## 117_at        5.944079     6.727406     6.860623     5.862206     6.032169
+## 121_at        8.259074     8.992336     8.617814     8.373513     8.227620
+## 1255_g_at     3.865914     3.897634     4.019904     3.815712     3.841906
+## 1294_at       8.499586     7.015544     7.358916     7.885461     7.288989
+##           GSM71055.CEL GSM71056.CEL GSM71058.CEL GSM71059.CEL GSM71060.CEL
+## 1007_s_at    10.505014    10.417704     9.911863    10.545780    10.131537
+## 1053_at       5.441140     5.579827     5.395288     5.524846     5.901671
+## 117_at        6.033868     6.077683     6.791961     6.157637     6.058080
+## 121_at        8.946566     8.505293     8.291846     8.214104     7.917774
+## 1255_g_at     4.017547     3.879476     3.890512     3.894170     3.547688
+## 1294_at       7.952671     7.490074     7.450992     8.086814     7.614454
+##           GSM71061.CEL GSM71062.CEL GSM71063.CEL GSM71064.CEL GSM71065.CEL
+## 1007_s_at     9.712869    10.401919     8.763484     9.994538     9.790791
+## 1053_at       5.841468     5.656442     5.723440     5.727089     5.484076
+## 117_at        6.339688     5.648701     5.211550     6.177668     6.398325
+## 121_at        7.968398     8.835210     7.469142     8.256623     8.211274
+## 1255_g_at     3.831119     3.706997     3.668804     3.823414     4.164475
+## 1294_at       7.676996     8.290899     6.749402     8.355787     7.311462
+##           GSM71066.CEL GSM71067.CEL GSM71068.CEL GSM71069.CEL GSM71070.CEL
+## 1007_s_at    10.292308    10.627200    10.582892    10.009028     9.912853
+## 1053_at       5.304608     5.491903     5.615926     5.151548     5.237126
+## 117_at        5.891567     6.383317     5.913488     5.904794     5.960948
+## 121_at        8.532695     8.016517     8.049998     8.407351     8.985741
+## 1255_g_at     3.824158     3.783804     3.775194     3.995371     4.322380
+## 1294_at       7.876914     8.554634     8.042399     7.680460     7.199866
+##           GSM71071.CEL GSM71072.CEL GSM71073.CEL GSM71074.CEL GSM71075.CEL
+## 1007_s_at     9.096809     9.011927     8.396062     8.903465     9.501538
+## 1053_at       5.093278     5.353248     5.214357     5.251383     5.223598
+## 117_at        6.394089     6.425034     6.372520     6.095344     5.811968
+## 121_at        8.817789     8.866083     8.704385     9.375736     8.580523
+## 1255_g_at     4.141255     3.997644     4.219360     4.454771     4.188310
+## 1294_at       7.378438     7.354380     7.179849     7.143989     7.136764
+##           GSM71076.CEL GSM71077.CEL
+## 1007_s_at     9.540766     9.039143
+## 1053_at       5.191392     5.235880
+## 117_at        6.007461     6.314809
+## 121_at        8.848099     9.663298
+## 1255_g_at     4.284053     4.877523
+## 1294_at       7.369991     6.992046
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(pheno)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              sample outcome batch cancer
+## GSM71019.CEL      1  Normal     3 Normal
+## GSM71020.CEL      2  Normal     2 Normal
+## GSM71021.CEL      3  Normal     2 Normal
+## GSM71022.CEL      4  Normal     3 Normal
+## GSM71023.CEL      5  Normal     3 Normal
+## GSM71024.CEL      6  Normal     3 Normal
+\end{verbatim}
+
+If you have batch variable, you can adjust it directly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\KeywordTok{as.factor}\NormalTok{(cancer) }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(batch), }\DataTypeTok{data=}\NormalTok{pheno)}
+\NormalTok{fit =}\StringTok{ }\KeywordTok{lm.fit}\NormalTok{(mod, }\KeywordTok{t}\NormalTok{(edata))}
+\KeywordTok{hist}\NormalTok{(fit}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{breaks=}\DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-35-1.pdf}
+
+Another approach is to use ``Combat'' which is similar approach to
+direct linear adjustment.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{batch =}\StringTok{ }\NormalTok{pheno}\OperatorTok{$}\NormalTok{batch}
+\NormalTok{modcombat =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\DecValTok{1}\NormalTok{,}\DataTypeTok{data=}\NormalTok{pheno)}
+\NormalTok{modcancer =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\NormalTok{cancer, }\DataTypeTok{data=}\NormalTok{pheno)}
+\NormalTok{combat_edata =}\StringTok{ }\KeywordTok{ComBat}\NormalTok{(}\DataTypeTok{dat=}\NormalTok{edata, }\DataTypeTok{batch=}\NormalTok{batch, }\DataTypeTok{mod=}\NormalTok{modcombat, }\DataTypeTok{par.prior=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prior.plots =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Found5batches
+\end{verbatim}
+
+\begin{verbatim}
+## Adjusting for0covariate(s) or covariate level(s)
+\end{verbatim}
+
+\begin{verbatim}
+## Standardizing Data across genes
+\end{verbatim}
+
+\begin{verbatim}
+## Fitting L/S model and finding priors
+\end{verbatim}
+
+\begin{verbatim}
+## Finding parametric adjustments
+\end{verbatim}
+
+\begin{verbatim}
+## Adjusting the Data
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{combat_fit =}\StringTok{ }\KeywordTok{lm.fit}\NormalTok{(modcancer,}\KeywordTok{t}\NormalTok{(combat_edata))}
+\KeywordTok{hist}\NormalTok{(combat_fit}\OperatorTok{$}\NormalTok{coefficient[}\DecValTok{2}\NormalTok{,],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{breaks=}\DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(fit}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,],combat_fit}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{"Linear Model"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Combat"}\NormalTok{, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{),}\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{col=}\DecValTok{1}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+If you don't have batch variable. You might want to infer the batch
+variable with sva package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\NormalTok{cancer, }\DataTypeTok{data=}\NormalTok{pheno)}
+\NormalTok{mod0 =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\DecValTok{1}\NormalTok{,}\DataTypeTok{data=}\NormalTok{pheno)}
+\NormalTok{sval =}\StringTok{ }\KeywordTok{sva}\NormalTok{(edata,mod,mod0,}\DataTypeTok{n.sv=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of significant surrogate variables is:  2 
+## Iteration (out of 5 ):1  2  3  4  5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(sval)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "sv"        "pprob.gam" "pprob.b"   "n.sv"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(sval}\OperatorTok{$}\NormalTok{sv) }\CommentTok{# new covariants that are potential batch effect}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 57  2
+\end{verbatim}
+
+correlate batch effect with observed batch variants
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{lm}\NormalTok{(sval}\OperatorTok{$}\NormalTok{sv }\OperatorTok{~}\StringTok{ }\NormalTok{pheno}\OperatorTok{$}\NormalTok{batch))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Response Y1 :
+## 
+## Call:
+## lm(formula = Y1 ~ pheno$batch)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.26953 -0.11076  0.00787  0.10399  0.19069 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)
+## (Intercept) -0.018470   0.038694  -0.477    0.635
+## pheno$batch  0.006051   0.011253   0.538    0.593
+## 
+## Residual standard error: 0.1345 on 55 degrees of freedom
+## Multiple R-squared:  0.00523,    Adjusted R-squared:  -0.01286 
+## F-statistic: 0.2891 on 1 and 55 DF,  p-value: 0.5929
+## 
+## 
+## Response Y2 :
+## 
+## Call:
+## lm(formula = Y2 ~ pheno$batch)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.23973 -0.07467 -0.02157  0.08116  0.25629 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  0.121112   0.034157   3.546 0.000808 ***
+## pheno$batch -0.039675   0.009933  -3.994 0.000194 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1187 on 55 degrees of freedom
+## Multiple R-squared:  0.2248, Adjusted R-squared:  0.2107 
+## F-statistic: 15.95 on 1 and 55 DF,  p-value: 0.0001945
+\end{verbatim}
+
+surrogate variable versus the batch effects in box plot
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{boxplot}\NormalTok{(sval}\OperatorTok{$}\NormalTok{sv[,}\DecValTok{2}\NormalTok{] }\OperatorTok{~}\StringTok{ }\NormalTok{pheno}\OperatorTok{$}\NormalTok{batch)}
+\KeywordTok{points}\NormalTok{(sval}\OperatorTok{$}\NormalTok{sv[,}\DecValTok{2}\NormalTok{] }\OperatorTok{~}\StringTok{ }\KeywordTok{jitter}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(pheno}\OperatorTok{$}\NormalTok{batch)), }\DataTypeTok{col=}\KeywordTok{as.numeric}\NormalTok{(pheno}\OperatorTok{$}\NormalTok{batch))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-40-1.pdf}
+
+what we've done here with the SVA is not necessarily actually cleaning
+the data set. We've just identified new covariates that we now need to
+include in our model fit
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modsv =}\StringTok{ }\KeywordTok{cbind}\NormalTok{(mod,sval}\OperatorTok{$}\NormalTok{sv)}
+
+\NormalTok{fitsv =}\StringTok{ }\KeywordTok{lm.fit}\NormalTok{(modsv, }\KeywordTok{t}\NormalTok{(edata))}
+\end{Highlighting}
+\end{Shaded}
+
+compare different model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(fitsv}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,],combat_fit}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{"SVA"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Combat"}\NormalTok{, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{), }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{col=}\DecValTok{1}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(fitsv}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,], fit}\OperatorTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{,],}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{"SVA"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Linear Model"}\NormalTok{, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{), }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DataTypeTok{col=}\DecValTok{1}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-42-1.pdf}
+
+\subsection{Batch Effects in R: Part B}\label{batch-effects-in-r-part-b}
+
+\subsubsection{Biological effect}\label{biological-effect}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tropical =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"darkorange"}\NormalTok{, }\StringTok{"dodgerblue"}\NormalTok{, }\StringTok{"hotpink"}\NormalTok{, }\StringTok{"limegreen"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{)}
+\KeywordTok{palette}\NormalTok{(tropical)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(for.exercise)}
+\NormalTok{controls <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(subject.support)[subject.support}\OperatorTok{$}\NormalTok{cc}\OperatorTok{==}\DecValTok{0}\NormalTok{]}
+\NormalTok{use <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\KeywordTok{ncol}\NormalTok{(snps.}\DecValTok{10}\NormalTok{), }\DecValTok{10}\NormalTok{)}
+\NormalTok{ctl.}\DecValTok{10}\NormalTok{ <-}\StringTok{ }\NormalTok{snps.}\DecValTok{10}\NormalTok{[controls,use]}
+\end{Highlighting}
+\end{Shaded}
+
+calculate principle components
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xxmat <-}\StringTok{ }\KeywordTok{xxt}\NormalTok{(ctl.}\DecValTok{10}\NormalTok{, }\DataTypeTok{correct.for.missing=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{evv <-}\StringTok{ }\KeywordTok{eigen}\NormalTok{(xxmat, }\DataTypeTok{symmetric=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{pcs <-}\StringTok{ }\NormalTok{evv}\OperatorTok{$}\NormalTok{vectors[,}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Look at what population they come from
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pop <-}\StringTok{ }\NormalTok{subject.support[controls,}\StringTok{"stratum"}\NormalTok{]}
+\KeywordTok{plot}\NormalTok{(pcs[,}\DecValTok{1}\NormalTok{],pcs[,}\DecValTok{2}\NormalTok{],}\DataTypeTok{col=}\KeywordTok{as.numeric}\NormalTok{(pop),}
+     \DataTypeTok{xlab=}\StringTok{"PC1"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"PC2"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{0.15}\NormalTok{,}\DataTypeTok{legend=}\KeywordTok{levels}\NormalTok{(pop),}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{col=}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Module2-note_files/figure-latex/unnamed-chunk-46-1.pdf}
+
+\end{document}

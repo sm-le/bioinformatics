@@ -1,0 +1,704 @@
+---
+title: "Module2-note"
+author: "Sung"
+date: "4/16/2020"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Module 2
+
+## Overview
+
+Learning objective: Pre-processing
+
+### why pre-processing?
+
+When you get genomic measurements, especially if you consider getting genomic measurements across multiple samples, they're often incomparable in various different ways. The machine that you use to collect the measurements might vary from day to day, or different liaisons might be used, and so these differences translate into differences in the data from sample to sample.
+
+Pre-processing allow those samples comparable before statistical analyses.
+
+## Dimension Reduction
+
+One way to reduce dimension is to take the average in the rows and the columns
+
+### Related Problems
+
+You have multivariate matrix of data X
+
+- Find a new set of multivariate variables that are uncorrelated and explain as much variance across rows as possible.
+- Find the best matrix created with fewer variables (lower rank) that explains the original data
+
+The first goal is statistical and the second goal is data compression. 
+
+#### Solution 1: Singular value decomposition
+
+Imagine we have samples in column and genes in row in a matrix, we can decompose into three matrices: left sigular vector, singular values, and right singular vectors.
+
+- left singular vectors: patterns that exist across the different rows of the data sets to identify patterns across the rows. 
+- The D matrix tells you how much of each of the patterns that you have in the U matrix explain. 
+- Columns of V transpose tell you something about the relationship with the column patterns or the patterns in the rows 
+
+Columns of $V^T$/rows of U are orthogonal and calculated one at a time
+
+Columns of $V^T$ describe patterns across genes
+
+Columns of U describe patterns across arrays
+
+$d^2l \sum_{i=1}^n d_i^2$
+
+
+if you have have patterns, you'd like to identify more than one pattern
+
+
+- There are many more dimensional decompositions people use
+
+1) multidimensional scaling
+2) indenpendent components analysis
+3) non-negative matrix factorization
+
+## Dimension Reduction (in R)
+
+```{r}
+# color setup
+
+library(devtools)
+library(Biobase)
+tropical = c("darkorange", "dodgerblue", "hotpink", "limegreen", "yellow")
+palette(tropical)
+par(pch=19)
+library(preprocessCore)
+```
+
+```{r}
+# load dataset
+
+con = url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
+load(file=con)
+close(con)
+
+mp = montpick.eset
+pdata = pData(mp) # Phenotype data
+edata = as.data.frame(exprs(mp)) # Expression data
+fdata = fData(mp) # feature data
+ls()
+
+```
+
+```{r}
+# Data modification
+
+edata = edata[rowMeans(edata) > 100,] # substract row where rowMeans < 100
+edata = log2(edata + 1) # log transformation + 1 as explained in Module 1
+edata_centered = edata - rowMeans(edata) # if not removed first singular vector will always be the mean level
+svd1 = svd(edata_centered)
+names(svd1)
+```
+
+```{r}
+# plot singular values
+
+plot(svd1$d, ylab="Singular value",col=2)
+plot(svd1$d^2/sum(svd1$d^2),ylab="Percent Variance Explained", col=2)
+```
+
+```{r}
+# PC comparison
+
+par(mfrow=c(1,2)) # split view plot
+plot(svd1$v[,1],col=2,ylab="1st PC")
+plot(svd1$v[,2],col=2,ylab="2nd PC")
+
+par(mfrow=c(1,1))
+plot(svd1$v[,1],svd1$v[,2],col=2,ylab="2nd PC",xlab="1st PC")
+plot(svd1$v[,1],svd1$v[,2],ylab="2nd PC",xlab="1st PC",col=as.numeric(pdata$study))
+```
+
+```{r}
+# Alternatively showing with boxplot
+
+boxplot(svd1$v[,1] ~ pdata$study,border=c(1,2))
+points(svd1$v[,1] ~ jitter(as.numeric(pdata$study)), col=as.numeric(pdata$study))
+```
+
+```{r}
+# Do principle component
+
+pc1 = prcomp(edata)
+plot(pc1$rotation[,1],svd1$v[,1]) # They are not the same as they are not scaled in the same way
+
+edata_centered2 = t(t(edata) - colMeans(edata))
+svd2 = svd(edata_centered2)
+plot(pc1$rotation[,1],svd2$v[,1],col=2) # Then they are exactly same to each other
+
+```
+
+```{r}
+# Investigate effect of outlier
+
+edata_outlier = edata_centered
+edata_outlier[6,] = edata_centered[6,] * 10000 # introducing artificial outliers
+svd3 = svd(edata_outlier)
+plot(svd1$v[,1],svd3$v[,1],xlab="Without outlier",ylab="With outlier")
+
+plot(svd3$v[,1],edata_outlier[6,],col=4) # outlier in one gene expressed way higher than others. 
+```
+
+When using this decomposition make sure you pick scaling and center so that all measure and features on common scale
+
+## Pre-processing and Normalization
+
+Pre-processing is to add up all the reads and getting a number of each gene, for each sample
+
+### MA-normalization
+
+technique where they try to take replicate samples make sure that the bulk distributions look alike
+
+- if there are huge changes in the bulk measurment between two samples, it is due to technology and it may need to be removed.
+
+### Quantile normalization
+
+1) Order value
+2) Average across rows and substitute value with average
+3) Re-order averaged values in original order
+
+Forces the distribution to be exactly the same as each other.
+
+- not necessarily good thing if you see big bulk difference in biology.
+
+#### When to and When not to?
+
+1. Use QN but not necessarily
+- Small variablity within groups and across groups
+- Small technical variability
+- No global changes.
+
+2. Use QN
+- Large variability within groups, but small across groups
+- Large technical variability or batch effects within groups
+- No global changes
+
+3. Depends on situation
+
+- Small variability within groups, but large across groups
+- Global techinical variability or batch effect across groups -> use QN
+- Global biological variability across group -> do not use QN
+
+
+QN will force distribution to look exactly the same, but sometimes they should not look exactly the same
+
+When QN, it sometimes makes sense to normalize within groups that are similar or should have similar distribution
+
+#### Note in QN
+
+1. Preprocessing and normalization are highly platform/problem dependent.
+2. In general check to make sure there are not bulk differences between samples, especially due to technology.
+3. Bioconductor are a good place to start
+
+## Quantile Normalization (in R)
+
+```{r load_data}
+edata = log2(edata+1)
+edata = edata[rowMeans(edata)>3,]
+dim(edata)
+```
+
+```{r show_distribution}
+colramp = colorRampPalette(c(3,"white",2))(20)
+plot(density(edata[,1]),col=colramp[1],lwd=3,ylim=c(0,.30))
+for(i in 2:20){lines(density(edata[,i]),lwd=3,col=colramp[i])}
+```
+
+Differences may be from technology differences
+
+```{r quantile_normalization}
+norm_edata = normalize.quantiles(as.matrix(edata)) # force distribution to be exactly the same
+plot(density(norm_edata[,1]),col=colramp[1],lwd=3,ylim=c(0,.30))
+for(i in 2:20){lines(density(norm_edata[,i]),lwd=3,col=colramp[i])}
+```
+
+for most part, distribution lay exactly on top of each other. However, QN did not remove gene variability but bulk differences
+
+```{r}
+plot(norm_edata[1,],col=as.numeric(pdata$study))
+```
+
+Can stil see the difference between two studies
+
+```{r svd}
+svd1 = svd(norm_edata - rowMeans(norm_edata))
+plot(svd1$v[,1],svd1$v[,2],col=as.numeric(pdata$study))
+```
+
+Even though we have done quantile normalization, we have not removed gene to gene variability.
+
+## The Linear Model
+
+### Basic idea
+
+- fit the "best line" relating two variables
+- In math we are minimizing the relationship$(Y-b_0 - b_1X)^2$
+- You can always fit a line, the question is whether it is a good fit or not
+
+### Besting fitting line
+
+$ C = b_0 + b_1P $
+
+line does not perfectly describe the data
+
+### With noise
+
+Another way to do this is to expand the equation
+
+$ C = b_0 + b_1P + e $ # e is everything we did not measure
+fit by minimizing $\sum(C-b_0-b_1P)^2$
+
+### Make sense with fitted line
+
+Does fitted line makes sense?
+
+One way to do this is by taking residuals
+- Take the line and calculate the distance between every data point and actual line, and then make a plot
+
+Ideally, you would like to see similar variability, no big outliers. and centered at zero
+
+### Note
+
+We can always fit a line, but line does not always make sense
+
+## Linear Models with Categorical Covariates
+
+In genomics, you often have either non-continuous outcomes or non-covariates.
+
+Here, we will discuss continuous outcome, but a not continous covariate or a categorical covariate or a factor-level covariate
+
+Many analyses fit the 
+
+1) additive model $ y = \beta_0 + \beta \times no.minor\_alleles$
+2) dominant model $ y = \beta_0 + \beta \times (G!=AA) $
+3) recessive model $ y = \beta_0 + \beta \times (G==AA) $
+4) two degrees of freedom model $ y = \beta_0 + \beta_{Aa} \times (G == Aa) + \beta_{aa} \times (G==aa)$ fit two different two variates
+
+By changing the covariate definition, we have changed the regression model
+
+### Note
+
+Basic thing to keep in mind is how many levels do you want to fit? What makes sense biologically?
+
+## Adjusting for Covariates
+
+In general in genomic study, you may have measured many covariates.
+
+e.g. technological covariates such as batch effect and biological variables such as demographics of samples
+
+These need adjustments for linear regression models
+
+### Parallel lines
+
+$ Hu_i = b_0 + b_1Y_i + b_2F_i + e_i $
+
+One way to model error is to color the sample according to measurement. Then new regression model can be modeled.
+
+This way you end up with two regression lines that are parallel to each other
+
+$b_0$ - percent hungry at year zero for males
+$b_0+b_2$ - percent hungry at year zero for females
+$b_1$ - change in percent hungry (for either males or females in one year)
+$e_i$ - everything we did not measure
+
+This is the way that you often fit these regression models. Careful about how you interpret the coefficients once you have fit adjustment variables especially if you are adjusting for many variables.
+
+### Interaction terms
+
+Expression = Baseline + RM Effect + BY Effect + (RM effect * BY Effect) + Noise
+
+If fitting these more complicated regression models, it is worth taking a worth while to think exactly what does each of the beta coefficients mean.
+
+### Note
+
+Keep in mind, how many levels do you want to fit and what makes sense biologically
+
+## Linear Regression in R
+
+```{r}
+tropical = c("darkorange", "dodgerblue", "hotpink", "limegreen", "yellow")
+palette(tropical)
+par(pch=19)
+```
+
+```{r}
+library(devtools)
+library(Biobase)
+library(broom)
+```
+
+Load body map database
+
+```{r}
+con = url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+load(file=con)
+close(con)
+bm = bodymap.eset
+pdata = pData(bm)
+edata = as.data.frame(exprs(bm))
+fdata = fData(bm)
+ls()
+```
+
+First thing, convert the edata into a matrix (easier to deal with values on numeric scale). You can fit a linear model by lm command. We can git the gene by gene, taking the first gene of the expression data. Then relate it using tilde operator to any variable 
+
+```{r}
+edata = as.matrix(edata)
+lm1 = lm(edata[1,] ~ pdata$age)
+tidy(lm1)
+
+plot(pdata$age, edata[1,], col=1)
+abline(lm1, col=2, lwd=3)
+```
+
+Relationship between gender
+
+```{r}
+table(pdata$gender)
+
+boxplot(edata[1,] ~ pdata$gender)
+points(edata[1,] ~ jitter(as.numeric(pdata$gender)), col=as.numeric(pdata$gender))
+```
+
+but how do we quantify?
+
+```{r}
+dummy_m = pdata$gender == "M"
+dummy_f = pdata$gender == "F"
+
+lm2 = lm(edata[1,] ~ pdata$gender)
+tidy(lm2)
+
+mod2 = model.matrix(~pdata$gender)
+mod2
+```
+
+We can do this with more category
+
+```{r}
+table(pdata$tissue.type)
+pdata$tissue.type == "adipose"
+pdata$tissue.type == "adrenal"
+
+tidy(lm(edata[1,] ~ pdata$tissue.type))
+
+```
+adjust for variables
+
+```{r}
+lm3 = lm(edata[1,] ~ pdata$age + pdata$gender)
+tidy(lm3)
+```
+
+```{r}
+lm4 = lm(edata[1,] ~ pdata$age*pdata$gender)
+tidy(lm4)
+```
+
+```{r}
+lm4 = lm(edata[6,] ~ pdata$age)
+plot(pdata$age, edata[6,], col=2)
+abline(lm4, col=1, lwd=3)
+```
+
+check outlier case
+
+```{r}
+index = 1:19
+lm5 = lm(edata[6,] ~ index)
+plot(index, edata[6,], col=2)
+abline(lm5, col=1, lwd=3)
+
+lm6 = lm(edata[6,-19] ~ index[-19])
+abline(lm6, col=3, lwd=3)
+
+legend(5,1000, c("With outlier", "Without outlier"), col=c(1,3), lwd=3)
+```
+
+```{r}
+par(mfrow=c(1,2))
+hist(lm6$residuals, col=2)
+hist(lm5$residuals, col=3)
+```
+
+```{r}
+gene1 = log2(edata[1,]+1)
+lm7 = lm(gene1 ~ index)
+hist(lm7$residuals, col=4)
+```
+
+```{r}
+lm8 = lm(gene1 ~ pdata$tissue.type+pdata$age)
+tidy(lm8)
+dim(model.matrix(~ pdata$tissue.type+pdata$age))
+```
+
+you are fitting too many data points. 
+
+```{r}
+colramp = colorRampPalette(1:4)(17)
+lm9 = lm(edata[2,] ~ pdata$age)
+plot(lm9$residuals, col=colramp[as.numeric(pdata$tissue.type)])
+```
+
+## Many Regressions at Once
+
+You would like to associate each feature with case control status and you would like to discover those features that are differentially expressed or differentially associated with those different conditions.
+
+Every single row of this matrix, you will fit a regression model that has some B coefficients multiplied by some design matrix, multipled by some variables, S(Y), that you care about, plus some corresponding error term (E) for just that gene.
+
+#### X = B * S(Y) + E
+
+There is much more subtle effect. Intensity dependent effects in the measurements from the genomic data or dye effects or probe composition effects since this is microarray, and many other unknown variables needs to be modeled. When you do this, it becomes a slightly more complicated model. 
+
+#### data = primary variables * adjustment variables + random variation. 
+
+We need to think linear models as one tool can be applied many many times across many different samples. 
+
+## Many Regressions in R
+
+```{r}
+tropical = c("darkorange", "dodgerblue", "hotpink", "limegreen", "yellow")
+palette(tropical)
+par(pch=19)
+
+library(devtools)
+library(Biobase)
+library(limma)
+library(edge)
+
+con = url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
+load(file=con)
+close(con)
+bot = bottomly.eset
+pdata = pData(bot)
+edata = as.matrix(exprs(bot))
+fdata = fData(bot)
+ls()
+```
+
+remove lowly expressed gene
+
+```{r}
+edata = log2(as.matrix(edata) + 1)
+edata = edata[rowMeans(edata) > 10,]
+```
+```{r}
+mod = model.matrix(~pdata$strain)
+fit = lm.fit(mod,t(edata))
+names(fit)
+fit$coefficients[,1]
+```
+
+look at distribution of coefficients
+
+```{r}
+par(mfrow=c(1,2))
+hist(fit$coefficients[1,],breaks=100,col=2,xlab="Intercept")
+hist(fit$coefficients[2,],breaks=100,col=2,xlab="Intercept")
+
+```
+```{r}
+plot(fit$residuals[,1])
+plot(fit$residuals[,2])
+```
+
+fit adjusted model
+```{r}
+mod_adj = model.matrix(~pdata$strain + as.factor(pdata$lane.number))
+fit_adj = lm.fit(mod_adj,t(edata))
+fit_adj$coefficient[,1]
+```
+
+limma to fit model
+```{r}
+fit_limma = lmFit(edata, mod_adj)
+names(fit_limma)
+fit_limma$coefficients[1,]
+```
+
+edge_study is good for when you don't have good knowledge on model matrix
+```{r}
+edge_study = build_study(data=edata,grp=pdata$strain, adj.var = as.factor(pdata$lane.number))
+fit_edge = fit_models(edge_study)
+summary(fit_edge)
+```
+
+## Batch Effects and Confounders
+
+### Sources of batch effects
+
+1. External factors
+2. genetics/epigenetics
+3. technical factors
+
+### When to tell batch effect
+
+If each biological group is run on its own batch then it's impossible to tell the differences between group biology and batch variable. 
+
+If run replicates of the different groups on the different batches, it's possible to distinguish the difference between the batch effects and group effects. 
+
+First thing to dealing with these batch effects is a good study design and you get randomization of samples. 
+
+### Model the effective batch
+
+people fit regression model to model the effective batch. This only works if there are not intense correlations.
+
+Y= b0 + b1P + b2B + e
+
+Y is genomic measurement 
+P is phenotype
+B is batch variable
+
+### Empirical Bayes method
+
+Shrink down the estimate toward their common mean. If you don't know what the batch effects are. This is common in genomics experiment where batch effects could be due to a large number of things.
+
+Data = primary variables + random variation (sample error or batch effects), so normally decompose this to random indenpendent variation and dependent variation.
+
+Data = primary variables + dependent variation + independent variation. The dependent variation can further be divided into estimated batch variable.
+
+The idea here is to estimate batch from the data itself and the algorithm is "Surrogate Variable Analysis"
+
+## Batch Effects in R: Part A
+
+### Technological effect
+
+```{r}
+tropical = c("darkorange", "dodgerblue", "hotpink", "limegreen", "yellow")
+palette(tropical)
+par(pch=19)
+
+library(devtools)
+library(Biobase)
+library(sva)
+library(bladderbatch)
+library(snpStats)
+```
+
+```{r}
+data(bladderdata)
+ls()
+pheno = pData(bladderEset)
+edata = exprs(bladderEset)
+head(edata)
+head(pheno)
+```
+
+If you have batch variable, you can adjust it directly.
+
+```{r}
+mod = model.matrix(~as.factor(cancer) + as.factor(batch), data=pheno)
+fit = lm.fit(mod, t(edata))
+hist(fit$coefficients[2,],col=2,breaks=100)
+```
+
+Another approach is to use "Combat" which is similar approach to direct linear adjustment.
+
+```{r}
+batch = pheno$batch
+modcombat = model.matrix(~1,data=pheno)
+modcancer = model.matrix(~cancer, data=pheno)
+combat_edata = ComBat(dat=edata, batch=batch, mod=modcombat, par.prior=TRUE, prior.plots = FALSE)
+combat_fit = lm.fit(modcancer,t(combat_edata))
+hist(combat_fit$coefficient[2,],col=2,breaks=100)
+```
+```{r}
+plot(fit$coefficients[2,],combat_fit$coefficients[2,],col=2,
+     xlab="Linear Model", ylab="Combat", xlim=c(-5,5),ylim=c(-5,5))
+abline(c(0,1),col=1,lwd=3)
+```
+
+If you don't have batch variable. You might want to infer the batch variable with sva package.
+```{r}
+mod = model.matrix(~cancer, data=pheno)
+mod0 = model.matrix(~1,data=pheno)
+sval = sva(edata,mod,mod0,n.sv=2)
+
+names(sval)
+dim(sval$sv) # new covariants that are potential batch effect
+```
+
+correlate batch effect with observed batch variants
+```{r}
+summary(lm(sval$sv ~ pheno$batch))
+```
+surrogate variable versus the batch effects in box plot
+```{r}
+boxplot(sval$sv[,2] ~ pheno$batch)
+points(sval$sv[,2] ~ jitter(as.numeric(pheno$batch)), col=as.numeric(pheno$batch))
+```
+
+what we've done here with the SVA is not necessarily actually cleaning the data set. We've just identified new covariates that we now need to include in our model fit
+```{r}
+modsv = cbind(mod,sval$sv)
+
+fitsv = lm.fit(modsv, t(edata))
+```
+
+compare different model
+```{r}
+par(mfrow=c(1,2))
+plot(fitsv$coefficients[2,],combat_fit$coefficients[2,],col=2,
+     xlab="SVA", ylab="Combat", xlim=c(-5,5), ylim=c(-5,5))
+abline(c(0,1),col=1,lwd=3)
+plot(fitsv$coefficients[2,], fit$coefficients[2,],col=2,
+     xlab="SVA", ylab="Linear Model", xlim=c(-5,5), ylim=c(-5,5))
+abline(c(0,1), col=1,lwd=3)
+```
+
+## Batch Effects in R: Part B
+
+### Biological effect
+
+```{r}
+tropical = c("darkorange", "dodgerblue", "hotpink", "limegreen", "yellow")
+palette(tropical)
+par(pch=19)
+```
+
+```{r}
+data(for.exercise)
+controls <- rownames(subject.support)[subject.support$cc==0]
+use <- seq(1,ncol(snps.10), 10)
+ctl.10 <- snps.10[controls,use]
+```
+
+calculate principle components
+```{r}
+xxmat <- xxt(ctl.10, correct.for.missing=FALSE)
+evv <- eigen(xxmat, symmetric=TRUE)
+pcs <- evv$vectors[,1:5]
+```
+
+Look at what population they come from
+```{r}
+pop <- subject.support[controls,"stratum"]
+plot(pcs[,1],pcs[,2],col=as.numeric(pop),
+     xlab="PC1",ylab="PC2")
+legend(0,0.15,legend=levels(pop),pch=19,col=1:2)
+```
+```{r}
+
+```
+
+```{r}
+
+```
+```{r}
+
+```
+
+```{r}
+
+```

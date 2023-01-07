@@ -1,0 +1,527 @@
+---
+title: "Module3-note"
+author: "Sung"
+date: "11/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview 
+
+1. Modeling
+2. Statistical significance
+
+## Logistic Regression
+
+For case-control study for genetic association. You found C and T variation within cases population and controls population. One way to deal with this is standard linear regression model $ C_{i} = b_{0} + b_{1}G_{i} + e_{i} $, where C = 1 if case, 0 if control. G=0 if C, 1 if T.
+
+imagine getting a model fit..
+1. error term such that that fit was outside of 0,1 even though the variable itself is 0 or 1.
+2.get any continuous number for this regression over here on the right, and you actually only had two potential real values on the left-hand side. 
+
+First step we can do is to recognize Ci is not a continuous variable, but a probability. 
+
+$ Pr(C_{i}=1) = b_{0} + b_{1}G_{i} $
+
+The problem is the probability is always between 0 and 1, so if you fit linear regression you can get values larger than 1 or smaller than 0. 
+
+Another way is that we can take a log of probability. 
+
+$ log(p) = b_{0} + b_{1}G_{i} $
+
+p = Pr(C=1)
+
+we can go further,
+
+$ log(p/(1-p)) = b_{0} + b_{1}G_{i} $ can take between minus infinity and infinity.
+
+increase in log odds of case status given genotype. odd depends on probability and can be very large number. Odd ratio of infinity can behave like step function. 
+
+### Odds/log odds
+
+log odds is the log of the probability of being a case divided by 1 minus the probability of being a case. and the odds is just that exponentiated. you can get that from coefficients in logistic regression model; b in log odds and exp(b) in odds. Definition of no effect is 0 in log odds and 1 in odds. 
+
+## Regression for Counts
+
+Commonly observed outcome in genomic data from NGS is count data. This is where you have a number of reads that overlap a particular region or variant and you want to make a "regressional model" for those counts. 
+
+We may want to count how many reads cover each gene. Counts can be made by calculating the total number of reads cover that gene. After this, we have a count for each sample and read coverage for each gene. 
+
+Now you want to model this distribution. So the regression model comes in. Based on the relationship between the phenotype we care about and the counts for a particular gene. The most commonly used distribution to model counts are Poisson distribution. Keep in mind that the mean and the variation is the same. 
+
+This distribution is very good for count data because it only concerns the positive. Now you can fit a regression model, but it is more complicated. 
+
+$ g(E[f(c_{ij}|y_{j})]) = b_{i0} + \eta_{i}log(q_{j}) + b_{i1}y_{j} $
+
+Above is an example of genearlized linear model. Logistic regression is another example where we take a function of the expected value of the thing that we care about. 
+
+g() is a link function for modelling count. c_ij is normalized counts for gene i and sample j. y_j is group indicator. q_i is normalization count for sample j and b_i1 is parameter we test.
+
+If you fit your data using this model, it will slightly better than when using a standard linear regression model.
+
+Possion concern same mean and variance, so sometimes it is not true for count data. Two most popular modelling count data are edgeR and DEseq. Both use local or smooth regression. Then we can plug in to more flexible model such as negative binomial model. 
+
+## GLMs in R
+
+```{r}
+tropical = c("darkorange", "dodgerblue", "hotpink", "limegreen", "yellow")
+palette(tropical)
+par(pch=19)
+
+suppressPackageStartupMessages({
+  library(devtools)
+  library(Biobase)
+  library(snpStats)
+  library(broom)
+  library(MASS)
+  library(DESeq2)
+})
+```
+
+Load SNP data
+
+```{r}
+data(for.exercise) # snp data from snpStats package
+use <- seq(1, ncol(snps.10),10)
+sub.10 <- snps.10[,use] # subset to smaller subset
+```
+
+Compute principal components
+
+```{r}
+xxmat <- xxt(sub.10, correct.for.missing = FALSE) # xx transpose, preliminary step in PC computation.
+evv <- eigen(xxmat, symmetric=TRUE) # calculate eigen values
+pcs <- evv$vectors[,1:5] # calculate PCs 
+dim(pcs)
+```
+
+### Additive model
+
+```{r}
+snpdata = sub.10@.Data # take out data so it is more manageable
+#dim(snpdata)
+#head(snpdata)
+status = subject.support$cc # case control status for the people
+#length(status)
+snp1 = as.numeric(snpdata[,1]) # take first snp
+#length(snp1)
+table(snp1) # 0 value are meant to be missing data, so need to be removed
+snp1[snp1==0] = NA
+
+glm1 = glm(status ~ snp1, family="binomial") # relate case control to snp1 var on additive scale then make it via logistic regression model
+tidy(glm1) # model has been fit and tidy up for estimate
+
+# the estimate from glm1 is per allele change in the log odds ratio for each additional allele
+```
+
+### Dominant model
+
+```{r}
+snp1_dom = (snp1==1)
+glm1_dom = glm(status ~ snp1_dom, family="binomial")
+tidy(glm1_dom)
+```
+
+Directly adjust principal components because it is a typical confounder in the population structure in these models. 
+
+```{r}
+glm2 = glm(status ~ snp1 + pcs[,1:5], family="binomial")
+tidy(glm2)
+```
+
+### Many fittings at once
+
+```{r}
+glm_all = snp.rhs.tests(status ~ 1, snp.data=sub.10)
+slotNames(glm_all)
+qq.chisq(chi.squared(glm_all), df=1)
+```
+fix quantiles
+```{r}
+glm_all_adj = snp.rhs.tests(status ~ pcs, snp.data=sub.10)
+qq.chisq(chi.squared(glm_all_adj), df=1)
+```
+
+Above are how we fit generalized linear model for logistic regression models. For Poisson regression model, we use a different dataset. 
+
+```{r}
+con = url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
+load(file=con)
+close(con)
+
+bot = bottomly.eset
+pdata = pData(bot)
+edata = as.matrix(exprs(bot))
+fdata = fData(bot)
+ls()
+```
+
+### Binomial model
+
+```{r}
+edata = edata[rowMeans(edata)> 10,] # filter low counts
+dim(edata)
+
+glm3 = glm(edata[1,] ~ pdata$strain, family="poisson") # fit poisson model
+tidy(glm3) 
+```
+
+### Negative binomial model
+
+```{r}
+glm.nb1 = glm.nb(edata[1,] ~ pdata$strain)
+tidy(glm.nb1)
+```
+
+### Many negative binomial at once
+
+```{r}
+de = DESeqDataSetFromMatrix(edata,pdata,~strain)
+glm_all_nb = DESeq(de)
+result_nb = results(glm_all_nb)
+hist(result_nb$stat)
+```
+
+## Inference
+
+Once you fit a statistical model with a regression model, next thing you want to do is perform "inference". The model is fit to the data you collected. 
+
+## Null and Alternative Hypotheses
+
+The most common statistical inference in genomic is hypothesis testing. You set a hypothesis you want to reject and alternative hypothesis that you are trying to see. 
+
+Null hypothesis $ H_{0}: The relationship between age and expression is exactly zero $
+Alternative hypothesis $ H_{1}: The relationship between age and expression is not zero $
+
+Suppose we are modelin gene expression as a linear function of age. We can set up ...
+
+$ Expr = b_{0} + b_{1}Age + e $ (1)
+$ H_{0} = b_{1} = 0 $
+$ H_{1} = b_{1} != 0 $
+
+- Not possible to accept the null
+- Ideally your statistic is set up to be "monotone" so bigger/smaller is "less null"
+- Null changes if adjustments change
+- Null must make intuitive sense
+- This is very important to get right
+
+## Calculating Statistics
+
+Suppose we want to know, is the average height of a child equal to 70 inches? To do this, we take observations on child height, and then we can take difference from average. First thing, we have to put things on common scale. 
+
+One way to do this is to measure unit of variability. $ \bar{X} - 70 / (s_{x}/\sqrt{n}) $. We divide the difference by substandardization unit. Multiple samples also have similar relationship.
+
+Then you calculated the most commonly used statistic t-statistic. Again you have to standardize as $ (\bar{Y}-\bar{X}) / \sqrt{s^{2}_{Y}/N + s^{2}_{X}/M} $. By doing this, you are putting things on the standardize scale. 
+
+But when you do regression model, you don't necessarily calculate t-statistic. You fit regression model and you can an estimate for $b_{1}$ value in eq(1) and divide by an estimate of the variability, $ \hat{b} / s.e.(\hat{b}) $. 
+
+Sometimes, you get differences might be real but tiny. So you want some modification, $ \hat{b} / (s.e.(\hat{b})+c)  $. C is just a constant to the variability to every statistics. 
+
+## Comparing Models
+
+One most common thing in genomic is compare the fit of two models. Imagine you are fitting a regression model, $ Y=b_{0} + b_{1}P + b_{2}B + e $ a linear relationship of phenotype and batch variable. In genomics data, you are getting many regression models. 
+
+The null model will be without phenotype variation which is $ Y = b^{*}_{0} + b^{*}_{2}B + e^{*} $.
+
+Now we have to compare these two models to see if one perform better over the other. How can we come up with stastic to compare the fit?
+
+One way is to do with Residuals, 
+$ R = Y - b_{0} - b_{1}P - b_{2}B $ and for the null model this will not have Phenotype variable. 
+
+Whenever you include more variables, the residual sum of squares will go down. It just doesn't go down enough to suggest the better fit. 
+
+The statistic to quantify difference in residuals, $ (n-p_{1}) / (p_{1}-p_{0}) * ((RSS_{0} - RSS_{1}) / RSS_{1}) $
+
+## Calculating Statistics in R
+
+```{r}
+library(devtools)
+library(Biobase)
+library(limma)
+library(edge)
+library(genefilter)
+```
+
+Add bottomly dataset if not done yet. 
+```{r}
+bot = bottomly.eset
+pdata = pData(bot)
+edata = as.matrix(exprs(bot))
+fdata = fData(bot)
+```
+
+transformation
+```{r}
+edata = log2(as.matrix(edata) + 1)
+edata = edata[rowMeans(edata) > 10, ]
+```
+
+### compare two groups with t-statistics
+```{r}
+tstat_obj = rowttests(edata,pdata$strain)
+names(tstat_obj)
+hist(tstat_obj$statistic,col=2)
+```
+
+for multi tests
+```{r}
+fstats_obj = rowFtests(edata, as.factor(pdata$lane.number))
+names(fstats_obj)
+hist(fstats_obj$statistic,col=2)
+```
+
+no adjusted moderated stat with limma
+```{r}
+mod = model.matrix(~pdata$strain)
+fit_limma = lmFit(edata,mod)
+ebayes_limma = eBayes(fit_limma)
+head(ebayes_limma$t)
+```
+
+```{r}
+plot(ebayes_limma$t[,2], -tstat_obj$statistic,col=4,
+     xlab="Moderated t-stat", ylab="t-stat")
+abline(c(0,1),col="darkgrey",lwd=3)
+```
+
+adjusted statistic
+```{r}
+mod_adj = model.matrix(~pdata$strain + as.factor(pdata$lane.number))
+fit_limma_adj = lmFit(edata,mod_adj)
+ebayes_limma_adj = eBayes(fit_limma_adj)
+head(ebayes_limma_adj$t)
+```
+
+```{r}
+plot(ebayes_limma_adj$t[,2], -tstat_obj$statistic, col=3,
+     xlab="moderated t-stat", ylab="t-stat")
+abline(c(0,1),lwd=3,col="darkgrey")
+```
+
+fit factor model with limma
+```{r}
+mod_lane = model.matrix(~as.factor(pdata$lane.number))
+fit_limma_lane = lmFit(edata,mod_lane)
+ebayes_limma_lane = eBayes(fit_limma_lane)
+head(ebayes_limma_lane$t)
+```
+
+```{r}
+top_lane = topTable(ebayes_limma_lane, coef=2:7,
+                    number=dim(edata)[1],sort.by="none")
+head(top_lane)
+```
+
+```{r}
+plot(top_lane$F, fstats_obj$statistic,
+     xlab="Moderated F-stat",ylab="F-stat",col=3)
+```
+
+if no model.matrix knowledge
+```{r}
+edge_study = build_study(edata, grp=as.factor(pdata$lane.number))
+de_obj = lrt(edge_study)
+qval = qvalueObj(de_obj)
+plot(qval$stat, fstats_obj$statistic,col=4,
+     xlab="F-stat from edge", ylab="F-stat from genefilter")
+```
+
+```{r}
+edge_study2 = build_study(edata, grp=as.factor(pdata$lane.number), adj.var=pdata$strain)
+de_obj2 = lrt(edge_study2)
+qval2 = qvalueObj(de_obj2)
+plot(qval2$stat, fstats_obj$statistic,col=4,
+     xlab="F-stat from edge", ylab="F-stat from genefilter")
+```
+
+## Permutation
+
+Widely used statistic in genomics. One way to compare differential expression is to permute the label by randomly scrambling labels.
+
+## Permutation in R
+
+same bottomly data
+
+```{r}
+tstats_obj = rowttests(edata,pdata$strain)
+hist(tstats_obj$statistic, col=2, xlim=c(-5,2))
+```
+
+### Permutation
+
+```{r}
+set.seed(135)
+strain = pdata$strain
+strain0 = sample(strain)
+tstats_obj0 = rowttests(edata,strain0)
+hist(tstats_obj0$statistic,col=2,xlim=c(-5,2))
+```
+
+You can look at quantiles
+```{r}
+quantile(tstats_obj0$statistic)
+quantile(tstats_obj$statistic)
+```
+
+## P-values
+
+The probability of observing a statistic that extreme if the null hypothesis is true.
+
+The p value is not
+- probability the null is true
+- probability the alternative is true
+- a measure of statistical evidence
+
+The p-value could be the number of permutation statistics observed to be larger than the statistic originally calculated. 
+
+The p-value histogram is a mix of two distribution, $ p = \pi_{0}f_{0} + (1-\pi_{0})f_{1}$
+
+Notes
+1) P-value almost always go to zero with sample size
+2) the cutoff of 0.05 is a made up number
+3) These should be reported in conjunction with estimates/variances
+
+## Multiple Testing
+
+Imagine measure 10k genes, 10k p-values, and call significant if p-val < 0.05. Expected number of false positives: 10k * 0.05  = 500.  
+
+Instead, we use two commonly used error rates,
+
+1) Family wise error rate:
+Pr(#False Positives > 1)
+
+2) False discovery rate:
+E$(no. false positives/ no. discoveries)$
+
+Suppose 50 out 10k genes are significant at 0.05 level.
+
+1) No Correction: 0.05 * 10k = 500 FP
+2) False Discovery Rate: 0.05*50 = 2.5 FP
+3) Family Wise Error Rate: The prob of at least 1 false positive <= 0.05
+
+The way to quantify is by,
+
+1) Bonferroni Correction
+P-values less than a/m are significant
+
+2) Benjamini-Hochberg Correction
+Order the p-values: p1 ~ pm
+if Pi <= a * i/m then it is significant
+
+Notes,
+
+- Type I errors, family wise error rate, and false discovery rate do not measure the same thing
+- These all rely on the p-values being correct (can go wrong with bad model, batch effect)
+
+## P-values and Multiple Testing in R
+
+How to calculate p-value and correct for multiple testing in R.
+
+```{r}
+library(genefilter)
+library(qvalue)
+```
+
+Use bottomly dataset (already loaded). Also filter lowly expressed genes. 
+
+### calculate p-value
+
+#### f-stat from genefilter package
+
+```{r}
+fstats_obj = rowFtests(edata, as.factor(pdata$strain))
+hist(fstats_obj$p.value,col=2)
+```
+
+Usually, we should expect to see a spike near zero and flat out to the right. Maybe our model is wrong. We probably missed adjustment variable. 
+
+#### edge package
+
+```{r}
+edge_study = build_study(edata, grp=pdata$strain, adj.var=as.factor(pdata$lane.number))
+de_obj = lrt(edge_study)
+qval = qvalueObj(de_obj)
+hist(qval$pvalues,col=3)
+```
+
+#### moderated statistics
+
+```{r}
+mod = model.matrix(~pdata$strain + pdata$lane.number)
+fit_limma = lmFit(edata, mod)
+ebayes_limma = eBayes(fit_limma)
+limma_pvals = topTable(ebayes_limma, number=dim(edata)[1])$P.Value
+hist(limma_pvals,col=4)
+```
+
+Regardless of the method, we see strange p-value. This suggests that we might be missing a variable or our modelling strategy is not quite right. 
+
+#### Empirical p-value cal
+
+```{r}
+set.seed(3333)
+B = 1000
+tstats_obj = rowttests(edata, pdata$strain)
+tstat0 = matrix(NA, nrow=dim(edata)[1], ncol=B)
+tstat = tstats_obj$statistic
+strain = pdata$strain
+for (i in 1:B){
+  strain0 = sample(strain)
+  tstat0[,i] = rowttests(edata, strain0)$statistic
+
+}
+
+emp_pvals = empPvals(tstat, tstat0)
+hist(emp_pvals, col=2)
+```
+
+## P-values and Multiple Testing in R: Part B
+
+Now we are going to adjust for multiple testing. 
+
+#### Bonferroni correction for familywise error rate
+
+```{r}
+fp_bonf = p.adjust(fstats_obj$p.value, method="bonferroni")
+hist(fp_bonf, col=3)
+quantile(fp_bonf)
+sum(fp_bonf < 0.05)
+```
+
+No statistical significant at a Bonferroni corrected level. 
+
+#### Adjustment for false discovery rate
+
+```{r}
+fp_bh = p.adjust(fstats_obj$p.value, method="BH")
+hist(fp_bh, col=3)
+quantile(fp_bh)
+sum(fp_bh < 0.05)
+```
+
+#### limma or qvalue package for multiple testing
+
+```{r}
+#limma
+limma_pvals_adj = topTable(ebayes_limma, number=dim(edata)[1])$adj.P.Val
+hist(limma_pvals_adj,col=2)
+quantile(limma_pvals_adj)
+sum(limma_pvals_adj < 0.05)
+```
+
+```{r}
+#qval to limma object
+qval_limma = qvalue(limma_pvals)
+summary(qval_limma)
+qval$pi0
+```
+
+```{r}
+ #qval to edge object
+qval = qvalueObj(de_obj)
+summary(qval)
+
+```

@@ -1,0 +1,159 @@
+# @sungml92
+# Course note of week 2 of Python for Genomic DataScience
+
+#############################
+# Lec3.1: Data Structure p1 #
+#############################
+
+'''
+lists
+
+A list is an ordered set of values.
+1. You can create a variable to hold this list
+2. You can access individual elements
+3. list element is mutable # but don't change an element in a string (immutable)
+4. can slice a list
+5. :, special slice will return a new copy of list
+6. concatenate list by +
+7. len() to get a length of list
+8. del to remove list element
+
+List as objects
+- The list data type has several methods
+1. .extend([element)]) # extend list to contain element
+2. .count(element) # count number of element
+3. .reverse() # list of element in reversed order
+
+List as stacks
+- append, and pop where last element added will be first element retrieved
+1. .append(element) # to add an item
+2. .pop() # to remove an item
+
+sorting lists
+- two ways
+1. sorted(list) # does not change the list unless save in var
+2. list.sort() # changes the list
+3. can be applied to list of strings
+'''
+
+#############################
+# Lec3.2: Data Structure p2 #
+#############################
+
+'''
+Tuple
+
+immutable data types where values are separated by comma
+-> t = 1,2,3
+
+can apply all list operation to tuple
+'''
+
+'''
+Sets
+
+- is unordered collection with no duplicate elements
+- support mathematical operations like union, intersection and difference
+
+1. union
+-> set1 | set2
+
+2. intersection
+-> set1 & set2
+
+3. difference
+-> set1 - set2
+'''
+
+'''
+dictionary
+- is an unordered set of key and value pairs, with requirment key need to be unique
+1. keys are any immutable types
+2. values can be any type
+
+- to access dictionary by square brackets
+
+- to check if key present
+-> key in dict
+
+- add new key val
+-> dict["key"] = val
+
+- to delete key
+-> del dict[key]
+
+- add another dict
+-> dict.update({key:val})
+
+- to access length of dict
+-> len(dict)
+
+- to get all keys
+-> list(dict.keys())
+
+- to get all values
+-> list(dict.values())
+'''
+
+############################
+# Lec4.1: Ifs and Loops p1 #
+############################
+
+'''
+Decision making
+
+if statement
+- condition follows if is called a Boolean expression (True of False)
+- Boolean expressions are formed with the help of comparison, identity, and membership operators
+
+1. Comparison operator
+- equal - ==
+- not equal - !=
+- less than - <
+- greater than - >
+- less than or equal to - <=
+- greater than or equal to - >=
+
+2. Membership operator
+- in
+- not in
+
+3. identity operator
+- is
+- not is
+
+multiple alternative execution
+
+elif statement
+
+4. logical operator
+- and, if both conditions are true
+- or, if at least one condition is true
+- not, if condition is false
+'''
+
+############################
+# Lec4.1: Ifs and Loops p2 #
+############################
+
+'''
+loops
+
+1. while loops
+- block of code execute until while condition is true
+
+2. for loop
+- iterate over items of any sequence in order they appear
+- range() function allows you to iterate over a sequence of numbers
+
+3. breaking out of loop
+- break statement after the condition is met
+
+4. continue statement
+- continue with the next iteration of the nearest enclosing loop
+
+5. else statement used with loops, is not necessary if using "break"
+
+6. pass statement
+- placeholder, it does nothing
+'''

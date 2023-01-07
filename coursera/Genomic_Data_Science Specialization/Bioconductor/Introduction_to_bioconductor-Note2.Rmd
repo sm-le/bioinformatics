@@ -1,0 +1,535 @@
+---
+title: "Introduction_to_bioconductor-week2"
+author: "Sung"
+date: "8/24/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Week 2
+
+## Biostring
+
+Biostring package: contain functionality for representing and manipulating biological strings and biodata. 
+
+```{r}
+library(Biostrings)
+```
+We construct DNA string with DNAString operator, which constructs a single string. (look like character vector)
+
+```{r}
+dna1 <- DNAString("ACT-G")
+dna1
+```
+
+Also, there is something called DNAStringSet, which is a collection of DNAString
+
+```{r}
+dna2 = DNAStringSet(c("ACG","ACGT","ACGTT"))
+dna2
+# does not have to be same length
+```
+
+DNAstrings are constrained within IUPAC code
+
+```{r}
+IUPAC_CODE_MAP
+```
+
+We can also subset a DNAstring
+
+```{r}
+dna1[2:4]
+```
+
+also, subset of DNA string set is also a DNA string set
+
+```{r}
+dna2[1:2]
+```
+
+Get DNA string out of set
+
+```{r}
+dna2[[1]]
+```
+
+We can put names in DNAstring set
+
+```{r}
+names(dna2) = paste0("seq",1:3)
+dna2
+```
+
+Number of bases as width
+
+```{r}
+width(dna2)
+```
+
+We can also sort and reverse the order
+
+```{r}
+sort(dna2)
+rev(dna2)
+
+# becareful when reverse on DNAstring
+rev(dna1) # will produce actual reverse string
+```
+
+For true biological reversion
+
+```{r}
+reverse(dna2)
+```
+
+We can also use 
+
+```{r}
+reverseComplement(dna2)
+#or 
+translate(dna2) # error when not divisible by 3
+```
+
+Frequency table 
+
+```{r}
+alphabetFrequency(dna2)
+```
+
+or GC content with 
+
+```{r}
+letterFrequency(dna2, letters="GC")
+```
+
+or higher order of nucleotide 
+
+```{r}
+dinucleotideFrequency(dna2)
+```
+
+Finally, details on each position by
+
+```{r}
+consensusMatrix(dna2)
+```
+
+## BSgenome
+
+BSgenome package deals with full genome
+
+```{r}
+library(BSgenome)
+#BiocManager::install("BSgenome")
+```
+
+available genomes on bioconductor
+
+```{r}
+available.genomes()
+```
+
+Select sacCer2 genome
+
+```{r}
+#BiocManager::install("BSgenome.Scerevisiae.UCSC.sacCer2")
+library("BSgenome.Scerevisiae.UCSC.sacCer2")
+Scerevisiae # to browse chromosome or context that are represent within 
+```
+
+names and lengths
+
+```{r}
+seqnames(Scerevisiae)
+seqlengths(Scerevisiae)
+```
+
+BSgenome enable loading and unloading of big genome data
+
+```{r}
+Scerevisiae$chrI
+# gc content
+letterFrequency(Scerevisiae$chrI, "GC")
+letterFrequency(Scerevisiae$chrI, "GC",as.prob=TRUE)
+```
+
+if you take this function and apply to each genome, lapply is possible but why to apply to genome objects is using bsapply
+
+We start by setting up BSparam
+
+```{r}
+param = new("BSParams", X = Scerevisiae, FUN = letterFrequency)
+# apply GC content to each chromosome
+unlist(bsapply(param, "GC"))
+# total GC content
+sum(unlist(bsapply(param, "GC"))) / sum(seqlengths(Scerevisiae))
+# individual GC content percentage
+unlist(bsapply(param, "GC", as.prob=TRUE))
+```
+
+## Biostrings - Matching
+
+matching function within biostring to find sub sequences in other sequences. This is what short read aligners do such as Bowtie and mac. 
+
+We will use same yeast genome and set a small dnaseq
+
+```{r}
+dnaseq <- DNAString("ACGTACGT")
+dnaseq
+```
+
+There is a number of functions matching biostring to string, 1) matching a set of strings to one string, or 2) matching a string to a set of strings, or 3) a set of strings to a set of strings. 
+
+1. single string to single string
+
+```{r}
+matchPattern(dnaseq, Scerevisiae$chrI)
+# we can also count the matches
+countPattern(dnaseq, Scerevisiae$chrI)
+```
+
+Matching against a single chromosome is not really our interest, we are interested in matching against a set of chromosomes. For that, we have vmatchPattern
+
+2. single string to a set of strings. 
+
+```{r}
+vmatchPattern(dnaseq, Scerevisiae) # hit on both forward and reverse strand, because dna string is reverse compliment of itself
+```
+
+also, last matching procedure takes a set of sequences such as short reads, and then matches against the full genome. 
+
+matchPWM allows us to search the genome for binding size given transcription factor. 
+
+pairwiseAlignment implements a classic pairwiseAlignment algorithm either in local (Smith Waterman or Needleman Bush) or global. This allows mapping of millions of short reads against short sequences such as gene. This local and global alignment uses dynamic programming which is impossible to use when you map against the entire genome. But still useful as long as you align them against a short region of the genome. 
+
+trimLRPatterns trims off specific patterns on the left and the right of a DNA string set. It trims off sequence adapters allowing indels and mismatches in the sequence adaptors. 
+
+## BSgenome - Views
+
+```{r}
+dnaseq = "ACGTACGT"
+vi = matchPattern(dnaseq, Scerevisiae$chrI)
+vi
+```
+
+Views objects is represented as IRanges
+
+```{r}
+ranges(vi)
+```
+
+We can check these coordinate to get right nucleotide
+
+```{r}
+Scerevisiae$chrI[57932:57939] # you can get sequence you are matching. 
+```
+
+We can run functions on IRange object as if it is DNAstring. 
+
+```{r}
+alphabetFrequency(vi)
+```
+
+Views are very powerful as they are efficient and fast way of representing sub sequences of bigger objects. 
+
+We can also shift the view by 10 bases.
+
+```{r}
+shift(vi,10)
+```
+
+```{r}
+gr = vmatchPattern(dnaseq, Scerevisiae)
+vi2 = Views(Scerevisiae, gr)
+vi2
+```
+
+Let's jump and calculate GC contents of promoter.
+
+```{r}
+library(AnnotationHub)
+ahub <- AnnotationHub()
+qh <- query(ahub, c("sacCer2","genes"))
+genes <- ahub[["AH7048"]]
+prom = promoters(genes) # Granges complain when indicices are less than zero. 
+prom = trim(prom)
+prom
+```
+
+Now we instantiate View of these promoters
+
+```{r}
+promViews = Views(Scerevisiae, prom)
+gcProm = letterFrequency(promViews, "GC", as.prob=TRUE)
+plot(density(gcProm))
+abline(v=0.38)
+```
+
+## GenomicRanges - Rle
+
+Rle or run length encoded vectors from GenomicRanges.
+- Run length encoding is a way of representing very long vectors. 
+- This is a form of compression of the very long vectors. 
+- Interested in representing signal over the genome. e.g) RNA sequencing: signal over transcribed region. 
+
+Standard example of Rle in genomics is a covered vector that comes out of highthrouput sequencing. It details for each space in the genome such as how many reads covers the particular base. 
+
+```{r}
+library(GenomicRanges)
+```
+
+Construct Rle
+
+```{r}
+rl = Rle(c(1,1,1,1,1,1,2,2,2,2,2,4,4,2))
+rl
+```
+
+We can access output length and values by 
+
+```{r}
+runLength(rl)
+runValue(rl) 
+```
+
+This is a compression and only make sense if same number occurs in the vector after each other. We can convert the Rle to normal vector by as.numeric()
+
+```{r}
+as.numeric(rl)
+# there is also rle in base function, but different api
+```
+
+```{r}
+ir = IRanges(start=c(2,8), width=4)
+aggregate(rl, ir, FUN=mean) # mean of all elements in two different ranges
+```
+
+To verify the mean, we change Rle to vector, and then, calculate the mean.
+
+```{r}
+vec = as.numeric(rl)
+mean(vec[2:5])
+mean(vec[8:11])
+```
+
+You can construct a coverage vector out of IRanges which ultimately make Rle
+
+```{r}
+ir = IRanges(start=1:5, width=3)
+ir
+coverage(ir) # how many ranges are part of 
+```
+
+Figure out area where the vector are and get it back in intervals
+
+```{r}
+slice(rl, 2) # extract vector greater than or equal to 2. 
+#or
+slice(rl, 3)
+```
+
+This is similar to Views object. So we have potentially very big object which is run length coded vector. intakes of intervals which subsets this very long vector. We do that with views constructor, but we have a view on run length coded vecotr instead of a view in a genome. 
+
+We can instantiate our own views, 
+
+```{r}
+vi = Views(rl, IRanges(c(2,8), width=2))
+mean(vi)
+```
+
+Rle’s can also be constructed from GRanges.
+
+```{r}
+gr <- GRanges(seqnames="chr1", ranges=IRanges(start=1:10, width=3))
+rl <- coverage(gr)
+```
+
+No Rle list because we have one RLE for each chromosome. When we have Rle like this, we can have view on it. 
+
+```{r}
+vi = Views(rl, GRanges("chr1", range=IRanges(3,7)))
+vi$chr1
+```
+
+## GenomicRanges - Lists
+
+We will discuss list like objects in genomic ranges. This is another class of objects. In genomics ranges, we have lots of lists such as GRanges list. This is similar to normal list in R. But GRanges list is a list with each element is GRanges. 
+
+What is use case for GRanges list. A single GRanges describes the exons of a transcript. For example, a gene has multiple transcript and each transcript has multiple exons. It is possible to think gene structure is encoded in a list of GRanges. 
+
+```{r}
+library(GenomicRanges)
+```
+
+To start with, we will construct we GRanges on different chromosomes. Then make a GRange list. 
+
+```{r}
+gr1 <- GRanges(seqnames = "chr1", ranges=IRanges(start=1:4, width=3))
+gr2 <- GRanges(seqnames = "chr2", ranges=IRanges(start=1:4, width=3))
+
+gL = GRangesList(gr1=gr1, gr2=gr2)
+gL
+
+# to call GRanges you can,
+gL[1]
+gL[[1]]
+gL$gr1
+```
+You can think of this as really long GRanges. In a same way, we have end and we do seqnames. 
+
+```{r}
+start(gL)
+seqnames(gL)
+```
+
+elementLength tells us how long are each element and similar to sapply but much faster.
+
+```{r}
+elementLengths(gL)
+```
+
+endoapply applying functions to GRanges list that results in a new granges list.
+
+```{r}
+shift(gL,10)
+#or
+findOverlaps(gL, gr2)
+```
+
+## GenomicFeatures
+
+The genomic features package provides support for transcript database object. 
+
+```{r}
+#BiocManager::install("GenomicFeatures")
+#BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene")
+library(GenomicFeatures)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+# rename Txdb because the name is too long
+txdb = TxDb.Hsapiens.UCSC.hg19.knownGene
+txdb
+```
+TxDb object contains information about genes, transcripts, exons and coding sequences. This data packet contains all this information and links them together as a database object. 
+
+Transcript is sometimes used to refer to un-spliced transcripts (pre-mRNA) and sometimes to splices transcripts. Therefore, we start by examining specific loci to look at the transcripts and genes that are on this particular loci. 
+
+```{r}
+gr <- GRanges(seqnames="chr1", strand="+", range=IRanges(start=11874, end=14409))
+```
+
+We will look at which gene overlaps with this specific GRanges
+
+```{r}
+subsetByOverlaps(genes(txdb),gr)
+```
+If we do the same thing by ignoring the strand,
+
+```{r}
+subsetByOverlaps(genes(txdb),gr,ignore.strand=TRUE)
+```
+
+there is a different gene that overlaps the same loci. gene_id is known as entrez ID. In output of TxDb object, type of gene ID is entrez gene ID. 
+
+Now look at transcripts on the loci and what overlaps.
+
+```{r}
+subsetByOverlaps(transcripts(txdb),gr)
+```
+
+Three different transcripts are different because they are different exons. It is hard to check this, however, it becomes clearer if you check exons. 
+
+```{r}
+subsetByOverlaps(exons(txdb),gr)
+```
+But how do I figure how the exons are combined together to form transcripts? There is a set of commands called exonsBy and transcriptsBy.
+
+```{r}
+subsetByOverlaps(exonsBy(txdb, by="tx"),gr)
+```
+They all shared the first exon, but they are spliced differently. Exon 5 and exon 6 overlaps and have the same end coordinate. $'number' refers to transcript id. 
+
+Other than these, we also have cds. Coding sequences are also hard to deal with. Not all transcripts have cds. Also, a given transcript may have multiple open reading frames. 
+
+```{r}
+subsetByOverlaps(cds(txdb),gr)
+```
+These are different splice transcript intersected with the exons. 
+
+```{r}
+subsetByOverlaps(cdsBy(txdb, by="tx"),gr)
+subsetByOverlaps(exonsBy(txdb, by="tx"),gr)["2"]
+```
+
+
+```{r}
+subset(transcriptLengths(txdb, with.cds_len = TRUE),gene_id=="100287102")
+sum(width(subsetByOverlaps(cdsBy(txdb,by="tx"),gr)[["2"]]))
+```
+This information should give you some idea of structure and underneath of all, this is called a SQLight database. There is a set of function query this database directly using SQL commands. 
+
+Unlike genome database, there are a few transcript database available from BioConductor. makeTxDbFromBioMart or UCSC to make own Txdb object. 
+
+## rtracklayer - Data Import
+
+Rtracklayer is a package that provides functionality for interfacing with a genome browser (UCSC). It is bi-directional taking data from R onto databrowser and vice versa. Here, we will discuss about import types of data into R. 
+
+Main way to read files is by import function. It has different versions depending on what type of file importing. 
+```{r}
+#BiocManager::install("rtracklayer")
+library(rtracklayer)
+?import
+```
+
+Examples in BigWig file. BigWig file is a file that changes at some of kind signal along the genome. BigWig contains a single vector across the entire genome. However, it is compressed and easy to extract the values for a given region. 
+
+```{r}
+library(AnnotationHub)
+ahub = AnnotationHub()
+table(ahub$rdataclass)
+```
+```{r}
+ahub.bw = subset(ahub, rdataclass=="BigWigFile" & species == "Homo sapiens")
+bw = ahub.bw[[1]]
+bw
+```
+
+We can import to read bw. However, we want to have specific region.
+
+```{r}
+#import(bw)
+gr.chr22 = import(bw, which=GRanges("chr22", ranges=IRanges(1,10^8)))
+rle.chr22 = import(bw, which=GRanges("chr22", ranges=IRanges(1,10^8)),as="Rle")
+```
+Liftover is a tool in UCSC that allows you to convert between different genomes versions. We need chain file for this. The chain file contains information about one specific genome to one other specific genome.
+
+```{r}
+ahub.chain = subset(ahub, rdataclass=="ChainFile")
+ahub.chain = subset(ahub.chain, species == "Homo sapiens")
+ahub.chain
+```
+Let's get the lift-over chain from hg18 to hg19. 
+
+```{r}
+query(ahub.chain, c("hg18","hg19"))
+chain = query(ahub.chain, c("hg18","hg19"))[[1]]
+```
+```{r}
+gr.hg18 = liftOver(gr.chr22,chain)
+class(gr.hg18)
+length(gr.hg18)
+length(gr.chr22)
+```
+
+```{r}
+table(elementLengths(gr.hg18))
+```
+
+The html page associated with the system has information about tabitIndex which allows us to pass certain file format much faster.
+
+
+
+

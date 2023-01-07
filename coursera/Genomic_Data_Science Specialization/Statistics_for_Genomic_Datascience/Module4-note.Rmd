@@ -1,0 +1,381 @@
+---
+title: "Module4-note"
+author: "Sung"
+date: "11/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Module 4 overview
+
+What to do after a list of genes or snips? How to summarize them and communicate them. 
+
+1. Gene Set Enrichment Analysis
+- a way to combine all of the statistically significant results what those genes or snps do -> bigger picture. 
+2. eQTL study
+- combine multiple different genomic measurement to identify snps variation associated with gene expression variation. 
+3. and so on.
+
+## Gene set Enrichment
+
+Once you fit a statistical model and you have identified those genes or those features that are statistically significantly associated with the phenotype after correcting for multiple testing. You might want to identify if there is some biological pattern to those genes.
+
+If all of the genes in the defined gene set cluster near the most statistically significant values, you will values going up. The statistic here is a max deviation from zero related to Kolmogorov-Smirnov stat. 
+
+One way to test significance is to permute the sample labels. Then p-value to see if permuted value is further from observed value. 
+
+- Sometimes still very hard to interpret GSE, especially if the categories are broad/vague.
+- It is easy to tell stories if you aren't careful.
+- Incurs a second mutliple testing problem.
+- Can be simplified. 
+
+## More Enrichment
+
+Enrichment analysis can be useful for summarizing results that are statistically significant for a number of different things. Here, we discuss two particular sets of results and if they are enriched for one another. 
+
+SNPs from eQTL and GWAS, we want to know if they are enriched with respect to one another. One thing is count the number of eQTLs that correspond to SNPs that are in particular set of GWAS hits. 
+
+- Getting the null right is very hard
+
+## Gene Set Analysis in R 
+
+After you are done with differential analysis, you want to combine the results into some interpretable story. One way to do that is use gene set enrichment analysis to identify gene sets that are enriched among the differentially expressed genes. 
+
+```{r}
+tropical = c("darkorange", "dodgerblue", "hotpink", "limegreen", "yellow")
+palette(tropical)
+par(pch=19)
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(devtools)
+  library(Biobase)
+  library(goseq)
+  library(DESeq2)
+  library(broom)
+})
+```
+
+Which genome and gene id?
+```{r}
+head(supportedGenomes())
+head(supportedGeneIDs())
+```
+
+load dataset from goseq
+```{r}
+temp_data = read.table(system.file("extdata","Li_sum.txt",
+                                   package="goseq"),sep="\t",
+                       header=TRUE,
+                       stringsAsFactors=FALSE)
+
+temp_data[1,] # let's remove this
+
+expr = temp_data[,-1]
+rownames(expr) = temp_data[,1]
+expr = expr[rowMeans(expr) > 5,] # lowly expressed gene removal
+grp = factor(rep(c("Control","Treated"),times=c(4,3)))
+pdata = data.frame(grp)
+```
+
+Pass this data to DESeq
+```{r}
+de = DESeqDataSetFromMatrix(expr,pdata, ~grp)
+de_fit = DESeq(de)
+de_results = results(de_fit) # differential expression result
+```
+
+Find differentially expressed genes
+```{r}
+genes = as.integer(de_results$padj < 0.05)
+not_na = !is.na(genes)
+names(genes) = rownames(expr)
+genes = genes[not_na]
+```
+
+calculate probability weight function
+```{r}
+pwf = nullp(genes, "hg19", "ensGene")
+head(pwf)
+```
+
+Calculate statistic for Enrichment
+```{r}
+Go.wall = goseq(pwf, "hg19", "ensGene")
+head(Go.wall)
+```
+
+Look at particular category
+```{r}
+GO.MF = goseq(pwf, "hg19", "ensGene", test.cats=c("GO:MF"))
+head(GO.MF)
+```
+
+## The Process for RNA-seq
+
+Central dogma: DNA -> RNA -> protein 
+
+Imagine we have fragmented RNA, we want to capture that RNA molecule using it's poly(A) tail. This is one way to capture mature RNA. Then we can reverse transcribe it into complementary DNA, and you sequence it. 
+
+From that, we can identify RNA trasncripts by using the RNA sequencing reads. 
+
+### Step1: Align
+
+Software: HiSat, Rail, Star, Tophat2
+
+First you need to align reads to the genome, assuming that the genome is known. 
+
+### Step2: Count
+
+Software: HTSeq, featureCounts, kallisto (does pseudo alignment), derfinder
+
+Then you need to count the values that correspond to a particular gene. Count corresponding to the gene or transcript. 
+
+### Step2: Assemble and quantify
+
+Software: StringTie, Cufflinks, Trinity, RSEM
+
+Or we can assembly and quantify rather than counting. 
+
+### Step3: Normalization
+
+Software for Normalize: EDAseq (GC content), cqn (GC content), DESeq2/edgeR (diff expression), Ballgown, derfinder
+
+Software for Batch Effects: sva, RUVseq
+
+### Step4: Statistical test
+
+Software: DESeq2/edgeR (count data), Ballgown (transcript quantification), derfinder (single base resolution)
+
+### Step5: Gene set enrichment
+
+Software: goseq, SeqGSEA
+
+## The Process for Chip-Seq
+
+Chip-seq to measure the way proteins interact with DNA. Transcription regulation can be done by binding protein to the DNA. First step of this process is to cross-link proteins to DNA. Then you collected protein-DNA with antibody pulldown. Then we sequence them. 
+
+### Step1: Align
+
+Software: Bowtie2, BWA
+
+Straight alignment to the genome. 
+
+### Step2: Peak detection
+
+Software: CisGenome, MACS, PICS
+
+Peak detection to detect enriched particular sequence because they are pulled down by proteins. So we can find big piles of reads corresponding to those sequences. 
+
+### Step3: Count
+
+Softare: CisGenome, MACS, diffbind
+
+To obtain measurement for the amount of read covering a particular peak. 
+
+### Step4: Normalization
+
+Software: diffbind, MAnorm
+
+To make peak counts comparable to others. 
+
+### Step5: Statistical tests
+
+Software: CisGenome, MACS, diffbind
+
+To identify whether there's any differences between control and experiment. 
+
+### Step6: Sequence motifs & Annotations
+
+Software: CisGenome, meme-suite, BioC Annotation Workflow
+
+To understand what are the sequence motifs underlying that particular transcription factor. 
+
+## The Process for DNA Methylation
+
+DNA methylation refers to a particular methyl group binding to CpG sites in the genome. One method to detect this is bisulfite conversion followed by sequencing. We split the DNA into two identical samples, so you randomly create two samples from the same set of DNA. Then we bisulfite convert one of the two samples changing un-methylated cytosine to urasil. After this, align two samples to the genome. By comparing level of converted samples, we can measure how much DNA methylation is at that location. Another way is through aluminum methylation arrays. It is similar to bisulfite conversion, but we hybridize them to microarray. Then we have unmethylated/methylated probes. 
+
+### Step1: Normalization
+
+Software: minfi, charm
+
+### Step2: Smoothing
+
+Software: charm, bsseq
+
+We want to find clump of points that are above a particular level. 
+
+### Step3: Region finding
+
+Software: charm, bsseq
+
+After smooting, we want to identify regions that are different. 
+
+### Step4: Annotation
+
+Software: Charm, bsseq, BioC Annotation Workflow
+
+To annotate the regions to different components of the genome or to particular category specific to DNA methylation. 
+
+## The Process for GWAS/WGS 
+
+Direct measurement of DNA variability: mutation, insertion or deletion. One way to do this is direct re-sequencing of DNA by DNA fragmentation. Then sequence. From this data, we look for variation from the reference or control, and quantify how much those variations associate with different outcome. 50/50 or 60/40 split may indicate heterzygote for a particular variant. Or we can do this with microarray for genome wide association study. Similar approach is used as we start from digestion of DNA. With fragmented samples, we compare them on probes, probes for homozygous reference allele, the homozygous variant and the heterozygote. 
+
+### Step1: Variant identification (SNP chip)
+
+Software: crlmm
+
+### Step1: Varinat identification (sequencing)
+
+Software: freeBayes, GATK
+
+### Step2: Population stratification
+
+Software: EIGENSOFT, snpStats
+
+Often when you look for disease association, the most common confounder is that there's population structure. 
+
+### Step3: Statistical tests
+
+Software: PLINK, snpStats
+
+Look for association with outcome. We may do this with logistic regression adjusting for some prinipal components. We calculate p-value for every snp, and often make mahattan plot (smaller the p-val higher the value on the chart). People use Bonferroni corrections because we expect to have relatively few signals. After this, we can annotate them and try to determine if they are casual variant. 
+
+### Step4: Examine local region
+
+Software: PLINK, Annotating Genomic Variants Workflow
+
+To see what SNP is highly associated and what's the LD structure associated with those. 
+
+### Step5: Annotation
+
+Software: CADD, variantAnnotation, Annotating Genomic Variants Workflow
+
+## Combining Data Types (eQTL) 
+
+eQTL is one of the most common anagrative analyses that are perfomed in genomics. eQTL is an analysis where you are trying to identify variations in DNA that correlate with variations in RNA. Think it as two components: 1) SNP data, 2) Trait position. It is association of all expression levels and all possible SNP levels. This will compicate the issue of multiple testing because we are measuring two different sets. Every SNP, there a gene expression microarray analysis. ciseQTL is defined as eQTL where the SNP position is close to the gene expression position. Or transeQTL. 
+
+Notes
+
+1. cis-eQTL are usually more believable than trans-eQTL
+2. There are many potential confounders: population stratification, batch effects, sequence artifacts. 
+
+## eQTL in R
+
+Combine genetic information with gene expression data. 
+
+```{r}
+library(MatrixEQTL)
+```
+
+load data
+```{r}
+base.dir = find.package("MatrixEQTL")
+SNP_file_name = paste(base.dir,"/data/SNP.txt", sep="")
+expression_file_name = paste(base.dir, "/data/GE.txt", sep="")
+covariates_file_name = paste(base.dir, "/data/Covariates.txt", sep="")
+output_file_name = tempfile()
+```
+
+read file with read.table
+```{r}
+expr = read.table(expression_file_name,sep="\t", header=T, row.names=1)
+snps = read.table(SNP_file_name, sep="\t", header=T, row.names=1)
+cvrt = read.table(covariates_file_name, sep="\t", header=T, row.names = 1)
+```
+
+Basic idea in eQTL analysis is linear regression relating gene expression to the genotype.  
+```{r}
+e1 = as.numeric(expr[1,])
+s1 = as.numeric(snps[1,])
+lm1 = lm(e1~s1)
+tidy(lm1)
+```
+
+We can visualize the relationship
+```{r}
+plot(e1 ~ jitter(s1), 
+     col=(s1+1), xaxt="n", xlab="Genotype", ylab="Expression")
+axis(1, at=c(0:2), labels=c("AA","Aa","aa"))
+lines(lm1$fitted ~ s1, type="b", pch=15, col="darkgrey")
+```
+
+Then we can set up to do every single ones
+
+parameter setup
+```{r}
+pvOutputThreshold = 1e-2 # p-val cutoff
+errorCovariance = numeric()
+useModel = modelLINEAR
+```
+
+file setup
+```{r}
+snps = SlicedData$new() # create slice data object
+snps$fileDelimiter = "\t" # tell delimiter
+snps$fileOmitCharacters = "NA" # what is missing value
+snps$fileSkipRows = 1 # one row
+snps$fileSkipColumns = 1 # one column 
+snps$fileSliceSize = 2000 # read file in pieces by 2000 rows
+snps$LoadFile( SNP_file_name )
+
+gene = SlicedData$new() # create slice data object
+gene$fileDelimiter = "\t" # tell delimiter
+gene$fileOmitCharacters = "NA" # what is missing value
+gene$fileSkipRows = 1 # one row
+gene$fileSkipColumns = 1 # one column 
+gene$fileSliceSize = 2000 # read file in pieces by 2000 rows
+gene$LoadFile(expression_file_name)
+
+cvrt = SlicedData$new() # we are leaving this empty for this
+```
+
+running eQTL
+```{r}
+me = Matrix_eQTL_engine(
+  snps=snps,
+  gene=gene,
+  cvrt=cvrt,
+  output_file_name = NULL,
+  pvOutputThreshold = pvOutputThreshold,
+  useModel = useModel,
+  errorCovariance = errorCovariance,
+  verbose = TRUE,
+  pvalue.hist = TRUE,
+  min.pv.by.genesnp = FALSE,
+  noFDRsaveMemory = FALSE);
+```
+
+plot eQTL
+```{r}
+plot(me)
+
+me$all$neqtls
+me$all$eqtls
+```
+
+## Researcher Degrees of Freedom
+
+1. Have a specific hypothesis
+2. Pre-specify analysis plan
+3. Use training/testing sets
+4. Analyze your data once or report all analyses
+
+## Inference vs. Prediction
+
+Sensitivity, Specificity, Positive Predictive Value, Negative Predictive Value, Accuracy.
+
+One way to solve low PPV is to go at risk population. 
+
+1. Prediction with genomics underlies precision medicine
+
+## Knowing When to Get Help
+
+## Statistics for Genomic Data Science Wrap-Up 
+
+
+

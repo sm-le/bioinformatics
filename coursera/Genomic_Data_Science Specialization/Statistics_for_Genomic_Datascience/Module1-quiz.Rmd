@@ -1,0 +1,258 @@
+---
+title: "Module1 quiz"
+author: "Sung"
+date: "4/10/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+## load package
+
+```{r}
+
+library(dplyr)
+library(gplots)
+library(devtools)
+library(Biobase)
+library(RSkittleBrewer)
+library(AnnotationDbi)
+library(org.Hs.eg.db)
+library(dendextend)
+library(DESeq2)
+library(plotrix)
+
+```
+# Module 1 quiz
+
+## Question 2
+
+Put the following code chunk at the top of an R markdown document called test.Rmd but set eval=TRUE
+
+#```{r setup, eval=TRUE}
+#knitr::opts_chunk$set(cache=TRUE)
+#```
+
+```{r }
+x = rnorm(10)
+plot(x,pch=19,col="dodgerblue")
+```
+
+```{r }
+y = rbinom(20,size=1,prob=0.5)
+table(y)
+```
+
+## Question 3
+
+```{r}
+library(GenomicRanges)
+data(sample.ExpressionSet, package = "Biobase")
+se = makeSummarizedExperimentFromExpressionSet(sample.ExpressionSet)
+```
+
+```{r}
+a = assay(se) # genomic table
+c = colData(se) # Phenotype
+rd = rowData(se)
+rr = rowRanges(se) # Genomic location and structure
+```
+## Question 4
+
+Suppose that you have measured ChIP-Seq data from 10 healthy individuals and 10 metastatic cancer patients. For each individual you split the sample into two identical sub-samples and perform the ChIP-Seq experiment on each sub-sample. How can you measure (a) biological variability, (b) technical variability and (c) phenotype variability.
+
+## Set up aesthetic
+
+```{r}
+tropical = c('darkorange','dodgerblue','hotpink','limegreen','yellow')
+palette(tropical)
+par(pch=19)
+```
+
+## Question 5
+
+Load the Bottomly and the Bodymap data sets with the following code:
+
+```{r}
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
+load(file=con)
+close(con)
+bot = bottomly.eset
+pdata_bot=pData(bot)
+
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+load(file=con)
+close(con)
+bm = bodymap.eset
+pdata_bm=pData(bm)
+```
+
+Just considering the phenotype data what are some reasons that the Bottomly data set is likely a better experimental design than the Bodymap data? Imagine the question of interest in the Bottomly data is to compare strains and in the Bodymap data it is to compare tissues.
+
+```{r}
+summary(pdata_bot)
+summary(pdata_bm)
+
+# looking at sample size
+botlength <- length(pdata_bot$sample.id)
+bmlength <- length(pdata_bm$sample.id)
+botlength
+bmlength
+
+# looking at exp number and lane number
+pdata_bot$experiment.number
+pdata_bot$lane.number
+
+# looking at tech rep
+botmean <- mean(pdata_bot$num.tech.reps)
+bmean <- mean(pdata_bm$num.tech.reps)
+botmean
+bmean
+```
+
+
+## Question 6
+
+What are some reasons why this plot is not useful for comparing the number of technical replicates by tissue (you may need to install the plotrix package).
+
+```{r}
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+load(file=con)
+close(con)
+bm = bodymap.eset
+pdata_bm=pData(bm)
+
+pie3D(pdata_bm$num.tech.reps,labels=pdata_bm$tissue.type)
+```
+
+The "mixture" category is split across mutliple wedges.
+
+## Question 7
+
+Load the Bottomly data:
+
+```{r}
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+load(file=con)
+close(con)
+bm = bodymap.eset
+edata = exprs(bm)
+```
+
+Which of the following code chunks will make a heatmap of the 500 most highly expressed genes (as defined by total count), without re-ordering due to clustering? Are the highly expressed samples next to each other in sample order?
+
+```{r}
+#row_sums = rowSums(edata)
+#edata = edata[order(-row_sums),]
+#index = 1:500
+#heatmap(edata[index,],Rowv=NA,Colv=NA)
+
+#row_sums = rowSums(edata)
+#index = which(rank(-row_sums) < 500 )
+#heatmap(edata[index,],Rowv=NA,Colv=NA)
+```
+## Question 8
+
+Load the Bodymap data using the following code:
+
+```{r}
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+load(file=con)
+close(con)
+bm = bodymap.eset
+pdata = pData(bm)
+edata = exprs(bm)
+```
+
+Make an MA-plot of the first sample versus the second sample using the log2 transform (hint: you may have to add 1 first) and the rlog transform from the DESeq2 package. How are the two MA-plots different? Which kind of genes appear most different in each plot?
+
+```{r}
+mm1 = log2(edata[,1]+1) - log2(edata[,2]+1) 
+aa1 = log2(edata[,1]+1) + log2(edata[,2]+1) 
+plot(aa1,mm1,col=2)
+
+edata2 = rlog(edata[,1:2])
+mm2 = edata2[,1] - edata[,2]
+aa2 = edata2[,1] + edata2[,2]
+plot(aa2,mm2,col=2)
+```
+
+## Question 9
+
+Load the Montgomery and Pickrell eSet:
+
+```{r Question 9: Load data}
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
+load(file=con)
+close(con)
+mp = montpick.eset
+pdata=pData(mp)
+edata=as.data.frame(exprs(mp))
+fdata = fData(mp)
+```
+
+Cluster the data in three ways:
+
+1. With no changes to the data
+2. After filtering all genes with rowMeans less than 100
+3.After taking the log2 transform of the data without filtering
+
+Color the samples by which study they came from (Hint: consider using the function myplclust.R in the package rafalib available from CRAN and looking at the argument lab.col.)
+
+How do the methods compare in terms of how well they cluster the data by study? Why do you think that is?
+
+```{r Question 9: Hierarchical clustering}
+ed1 = edata
+ed2 = edata[rowMeans(edata) > 100,]
+ed3 = log2(edata+1)
+
+dist1 = dist(t(ed1))
+dist2 = dist(t(ed2))
+dist3 = dist(t(ed3))
+
+colramp = colorRampPalette(c(3,"white",2))(9)
+
+hclust1 = hclust(dist1)
+hclust2 = hclust(dist2)
+hclust3 = hclust(dist3)
+
+plot(hclust1)
+plot(hclust2)
+plot(hclust3)
+```
+
+## Question 10
+
+```{r Question 10: Load data}
+con =url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
+load(file=con)
+close(con)
+mp = montpick.eset
+pdata=pData(mp)
+edata=as.data.frame(exprs(mp))
+fdata = fData(mp)
+```
+
+Cluster the samples using k-means clustering after applying the log2 transform (be sure to add 1). Set a seed for reproducible results (use set.seed(1235)). If you choose two clusters, do you get the same two clusters as you get if you use the cutree function to cluster the samples into two groups? Which cluster matches most closely to the study labels?
+
+```{r Question 10: k-mean clustering}
+logedata = log2(edata+1)
+
+set.seed(1235)
+
+kmeans1 = kmeans(logedata,centers=2)
+matplot(t(kmeans1$centers), col=1:2,type="l",lwd=2)
+table(kmeans1$cluster)
+
+dist1 = dist(t(edata))
+hclust1 = hclust(dist1)
+hcut1 = cutree(hclust1, k = 2)
+plot(hcut1)
+
+#dend = as.dendrogram(hclust1)
+#dend = color_labels(hclust1,2,1:2) # four clusters 
+#plot(dend)
+```
+```

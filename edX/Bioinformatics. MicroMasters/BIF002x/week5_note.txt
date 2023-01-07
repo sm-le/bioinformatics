@@ -1,0 +1,399 @@
+# @sungml92
+# USMx: BIF002x
+# Proteins: Alignment, Analysis and Structure
+# Week 5 - Protein Analysis II
+
+# Objective
+
+- Outlines the different functions & steps involved in Multiple Sequence Alignments (MSA)
+- Highlights the different functions & structure of protein domains & the different types of mutations
+- Discusses the different aspects of protein evolution
+- Illustrates the various features of Distance & Parsimony Phylogenetics
+
+###############################
+# Multiple Sequence Alignment #
+###############################
+
+# Introduction
+
+- In the last module, we discussed how BLAST can be used to find matches between two sequences
+- This is an example of both string searching and sequence alignment!
+1. BLAST “only” does a pairwise sequence alignment
+2. If comparing the query to a database it does this one “pair” (query vs one member of the database) at a time
+
+- We frequently need to compare more than one sequence at a time, e.g.:
+1. Motif discovery
+2. Domain definition
+3. Phylogenetic analysis
+4. Structural analysis
+
+- This is called Multiple Sequence Alignment (MSA)
+- In general, the same rules apply to MSA as for pairwise sequence alignment
+1. Matches, mismatches, and indels receive a score based on a substitution matrix (PAM or BLOSUM)
+2. The best score is determined from a scoring matrix
+
+# Multiple Sequence Alignment
+
+But – it is impractical to attempt to align many different sequences simultaneously!  Just imagine. Difficult to do more than 3 sequences by hand, especially if they are of any significant size
+Most software aligners use the heuristic/progressive technique developed by Hogeweg and Hesper in 1984:
+1. Hierarchical
+2. Begins with pairwise alignments
+
+# Progressive Multiple Sequence Alignment(MSA)
+
+- Start by doing a quick pairwise alignment of all possible pairs of sequences in order to calculate a distance matrix
+- Identify the most similar pair out of the entire set of sequences to be aligned and align just those two
+- Use the consensus of that alignment as a single sequence and align the next most similar sequence
+- Continue until all sequences are aligned
+
+# What can be done with MSA?
+
+- Once you have an MSA you can use it to analyze related proteins
+- Proteins can be related in different ways
+1. Evolutionary separation between species:  same gene/function but in different species
+2. Evolutionary separation within species:  different gene, different functions
+3. This is the result of gene duplication and evolution – more on that later….
+
+# Motif Discovery
+
+- A sequence motif is defined as an amino acid (or nucleotide) pattern that is widespread and has biological significance
+- E.g. promotor or transcription-factor binding sequences, structural motifs – basically any pattern that is conserved and serves a function, whether it is structural or functional
+- Motif Finding (also known as profile analysis) is a method for locating motifs in global MSAs
+- Based on identifying short, highly conserved patterns within the alignment
+- Since a motif is a conserved pattern, the only way to find it is to examine multiple sequences and look for conserved contiguous similarities
+- There are several methods to look for motifs, all of which are highly computational in nature:
+1. BLOCKS analysis
+2. MEME
+
+# BLOCKS vs MEME
+
+Both approaches are essentially just applications of the same string search pattern matching we’ve covered in BLAST!
+
+- The difference is that here the algorithm creates words from ungapped regions and searches for those same regions within the next sequence in an alignment
+- The task is simplified since the alignment already has eliminated any positional differences in residues, so words can be examined at each position and extended
+
+BLOCKS:  A Block is an aligned, ungapped segment corresponding to the most highly conserved region of protein
+
+- A BLOCK search implements a BLIMP search algorithm against a PRINTS database of known motifs
+- Can only be used to scan the existing database of known motifs, not used for discovering new motifs
+- MEME: An algorithm for discovering novel (unknown) motifs in MSA’s
+
+# MEME Algorithms
+
+-MEME: Multiple EM for Motif Elicitation
+1. Expectation Maximization (a form of machine learning)
+
+- For an MSA which is suspected to contain a motif:
+1. Constructs a weight matrix of the frequency of occurrence of each residue per position
+2. The matrix is “weighted” by the # of sequences
+3. Then creates a probability score for each residue and calculates the probability of each residue at each position
+
+Limitations:
+1. can only analyze short (1000 residues or less) sequences
+2. Computationally intensive
+
+# Kinds of Motifs
+
+## Non-coding motifs: only found in non-coding regions of DNA
+
+- Can be upstream of coding region (e.g. promotors)
+- Can be downstream of coding region (e.g. enhancers)
+- Can be in introns (splice sites)
+- Typically used for signalling:  protein binding sites!
+
+## Coding motifs: found within coding regions
+
+- Both in DNA and in Proteins
+- Let’s look at some common protein motifs
+
+# Common Protein Motifs
+
+1. Beta Hairpin
+2. Greek Key
+3. Omega Loop
+4. Helix-loop-Helix
+5. Zinc Finger
+6. Helix-turn-Helix
+7. Nest
+8. Niche
+
+# Motif Representation
+
+## When describing a motif there are a few conventions that must be followed:
+
+- If a position requires a specific residue, that residue is specified by the one-letter code
+- If a position can be anything but a specific residue, that residue is indicated in curly brackets (exclusion)
+- If a position can be any of several residues, those residues are represented inside square brackets (inclusion)
+- If a position can be any residue that position is indicated with an X
+- A number within parenthesis can indicate a repetition of the previous residue, e.g. N(3) is the same as NNN
+
+## Motifs can be fairly complex, e.g.:
+
+- Asn, followed by anything except Pro, followed by Ser or Thr, followed by anything, followed by anything except Pro.
+- Using the above rules, you could write this as:
+1. N{P}[ST]X{P}
+2. Note that this does not indicate frequency of occurrence
+
+- Recall the Sequence Logo from Week 4
+1. Sequence logos display both the possible residues as well as their frequency
+2. Both displays have their purpose
+
+# Quiz
+
+Q1: What does MSA stand for?
+A1: Multiple Sequence Alignment
+
+Q2: An omega loop is an example of a protein motif
+A2: True
+
+Q3: MSAs can be used for......
+A3: Phylogenetic Analysis, Motif discovery, Domain definition
+
+###################
+# Protein Domains #
+###################
+
+- A larger block of conserved sequence is often referred to as a Protein Domain
+- A Protein Domain is usually a conserved region of function in the protein
+- Domains can evolve independently of the rest of the protein
+- Domains are often shared between different proteins (evolutionarily speaking this means that an ancestral form of the protein was duplicated and the protein evolved but kept the domain conserved)
+1. Evolution uses domains as building blocks and “rearranges” them
+2. Evolution is concerned with conserving the function, not necessarily the exact sequence that provides that function
+3. Function is based on structure – amino acid properties and positions
+4. Protein domains are independently stable and can be used in protein engineering as independent subunits and engineered into novel combinations
+
+- A domain may be as short as 25 amino acids or as long as 500
+- Most proteins contain more than one type of domain
+
+# AP2 Domain
+
+- Domains, like motifs, can be identified from an MSA
+- This is not a method for finding known domains but rather a way that researchers define a new domain de novo!
+- The approach is somewhat simpler, necessarily, since domains are far larger than motifs:
+- Collect as many sequences that you think represent the function/domain & align them
+- Analyze the alignment and choose the largest contiguous region of homology and define that as the new domain
+
+## Example Domain Discovery:  AP2
+1. Apetala 2 (AP2) is a member of a large family of transcription factors (recall that a transcription factor activates DNA transcription)
+2. Originally thought to be plant-specific but in fact has been found in other organisms
+3. Has a major role in hormone regulation in plants and flowers
+
+- To identify a domain, you start with the protein sequence for that protein from a number of closely-related species
+- Then you construct an MSA from those sequences
+- ClustalW is one of the most popular algorithms for multiple alignment
+- You can run this locally in an application such as SEAview, or through a server:
+1. Click the EMBOSS link that contains a number of bioinformatics algorithms through the EMBOSS package, including EMMA, which is a simple wrapper for ClustalW
+
+# AP2 Alignment
+
+## Once you have the alignment, you can view it by eye, if you like, but this is hardly objective
+
+- Colored alignments do make it easy to do high-level examinations
+- Even with a colored alignment manual domain discovery is challenging
+- Fortunately there are additional tools we can use
+- Since a domain is defined as a contiguous region of high conservation (or homology), we can feed our MSA into an analysis package that plots the degree of conservation along the Y axis and the residue position on the X axis:
+
+# Reading Plotcon Output
+
+- Another EMBOSS application is Plotcon
+- Click the Plotcon link to review/access this application
+- Recall that you are trying to define a new domain - the region of contiguous homology that defines the AP2 domain
+- Looking at the PLOTCON output, it looks like the largest contiguous block of high homology starts at residue 130 and ends at residue 190
+1. There is a small region where the homology decreases near residue 155;  it is likely that the domain will have some flexibility
+
+- Domain definition/identification becomes more accurate as more sequences are used in the MSA
+
+# Important Protein Domains
+
+- Recall that domains are typically units of function and may evolve “independently” of the rest of the gene
+- Some common and important domains:
+1. Leucine zipper
+2. Cadherin repeats
+3. Death effector Domain (DED)
+4. SH3 Domain
+
+# Leucine Zippers
+
+The Basic Leucine Zipper domain (bZIP) is common to many eukaryotic DNA binding proteins (primarily transcription factors or TFs).
+
+- DNA binding regions:  sequence specific
+- Leucine Zipper:  dimerizes the two DNA binding regions
+- Leucine Zipper-containing TF’s can be involved in epithelial cancer endocrine steroid hormone synthesis, and factors affecting reproductive functions
+
+# Cadherin Repeats
+
+- Cadherin Repeats are found in all cadherins
+1. This domain contains the extracellular CA2+ binding domain
+
+- This domain allows the cadherins to adhere to each other
+- Important in cadherin function (as seen previously)
+
+# Death Effector Domain
+
+- Death Effector Domain (DED) is a protein interaction domain found only in eukaryotes
+1. Involved in a variety of apoptosis cellular signaling pathways
+- Comprised of 6 alpha helices
+- Homotypic interactions mediated by asymmetrical surface contacts between binding partners (e.g. DED1 and DED2)
+
+# SH3 Domain
+
+- Src homology 3 domain (SH3)
+1. Small 50-60 residue domain
+2. Involved in protein-protein interactions
+3. Found in a diverse range of proteins including many kinases, phospholipases, and myosins
+
+- 300 SH3 domains are found in proteins encoded in the human genome
+- Comprised of a beta barrel with 5-6 beta strands packed as a sheet
+
+# Protein Evolution
+
+- What all these domains have in common is that they are found in many different proteins in many different species!
+- Protein evolution occurs at several levels:
+1. “whole protein” evolution
+2. Domain evolution
+
+- Above all else it is the function which evolution selects
+1. Function is based on structure
+2. Structure is based on the residue composition and sequence
+
+- It’s important to remember that evolution ultimately selects for function
+1. Evolution doesn’t care about the DNA sequence or the protein sequence
+2. Evolution doesn’t care which amino acid is in which position
+3. Evolution DOES care that the protein does what it is supposed to do (e.g. that it is functional)
+
+- So when we talk about the mechanisms of evolution (e.g. mutation, selection, and drift) it’s important to keep this in mind.
+
+- How can proteins evolve?
+1 Mutation frequency of DNApolymerase is 10-6 which means that on average a mutation occurs every million bases or so in DNA during replication
+2. Luckily every mutation does not cause an error!
+
+- Some mutations are more important than others
+1. Not all DNA codes for a function; some of it is structural/unknown, so some mutations don’t affect proteins
+2. Recall that there is wobble in the genetic code; 3rd position codon changes often do not result in an amino acid change
+
+- Base substitutions at the first or second codon position DO change the amino acid that is coded for
+1. Some codons do not code for amino acids but instead code for control signals, e.g. STOP codons – a NONSENSE mutation
+2. Insertion of a STOP codon would result in a truncated protein (incomplete) being synthesized
+3. This will likely result in a loss of function since the protein won’t be complete, and likely won’t fold properly – it depends partially on where the STOP is inserted; if it’s towards the very end it MIGHT not have a significant impact – but then again it may.
+
+# Effects of DNA mutations on Proteins
+
+- To summarize:  a mutation in a gene encoding a protein can be silent (3rd position), or it can be a nonsense (STOP) or missense (different amino acid) mutation
+- Missense mutations may be conservative if the amino acid substitution results in an amino acid with similar properties to the original one, or nonconservative if the amino acid has very different properties
+- The results to the protein structure and function will always be context dependent
+
+# Indels
+
+- An INDEL is an insertion or deletion event
+- When comparing two sequences we don’t necessarily know which one it is - hence the use of the term INDEL
+- Comparison of two sequences, with it completely matching up except for three dashes replacing letters in the second sequence
+
+In the example above the indel is a total of 3 DNA base pairs, which equals one amino acid
+
+- This results in the insertion or deletion of one amino acid in the resulting protein
+- Indels can also cause what is called a frameshift mutation if the indel is not 3 base pairs (or a multiple or 3) in size
+- Shifting the register of the codons shifts all of the amino acids coded for downstream
+
+# Frameshifts
+
+- Sometimes frameshift mutations result in a completely different amino acid sequence downstream of the mutation
+- Frequently a nonsense (STOP) mutation is also introduced
+- In general both of these can be extremely detrimental, resulting in partial or complete loss of function for that protein
+
+# Compensation mutation
+
+- If a mutation causes a substitution (a different amino acid) to occur at an important site in the protein (e.g. a site which is important to structure or function of the protein), but does not result in the death of the organism, then there is an opportunity for restoration of functionality by a compensating mutation
+- Compensation mutations can occur in three ways:
+1. Reversion (a second mutation that restores the original protein sequence, or one that is similar enough in properties to not make a difference)
+2. Pseudoreversion (a change in a different gene that compensates for the original mutation, e.g. if the original mutation modified the active site of a protein where it bound to another protein, then changing the binding site on that secondary protein could compensate)
+3. True Compensation (a modification in the protein which originally suffered the mutation such that the original structure or function is restored)
+
+# Pseudoreversion vs True Compensation
+
+- A mutation occurs which causes a change in structure or function
+- A second mutation occurs which restores the structure or function
+- The second mutation can occur within the same protein (true reversion) or to the protein partner that the original protein binds to, if it is a protein binding gene (pseudoreversion)
+
+# Domain Evolution
+
+- The idea that domains evolve independently of the full gene has been suggested
+- But since the domain is part of the gene, how does this work?
+- Gene Duplication:  through mutation, sometimes a stretch of DNA gets duplicated, resulting in a gene duplication event
+- While one copy of the gene has to maintain it’s normal function, the second (the duplicate) is free to mutation – it is not under selective pressure to stay the same since it is an “extra” gene
+- In some cases a duplicated gene simply becomes nonfunctional (a pseudogene)
+- In other cases, it remains functional but can mutate and change
+- Often the change is at the level of the domains
+- Once a gene has been duplicated, additional interesting evolutionary changes can take place
+- Very similar stretches of DNA can undergo homologous recombination, where the high homology encourages crossover recombination events
+- This can result in domain shuffling, whereby protein domains can be swapped
+1. Only occurs during mitosis or meiosis
+2. Results in brand new proteins
+
+# Protein Evolution
+
+- The same protein domain can often be found in many different proteins in many different species, albeit having undergone some evolutionary changes through mutation
+- Depending on the time since divergence (e.g. the duplication event or the speciation event), they will acquire more changes and become more differentiated
+- The end result of this is that proteins change over time, both within an organism, through gene duplication, and between species, through mutation
+- We can use MSAs of proteins of both types to study evolution
+1. Distance methods
+2. Parsimony methods
+
+# Quiz
+
+Q1: A frameshift mutation is caused by....
+A1: An indel mutation
+
+Q2: A progressive alignment begins with pairwise alignments.
+A2: True
+
+Q3: A mutation that restores functionality but occurs at a different site than the mutation that caused the loss of function is called....
+A3: Compensation Mutation
+
+################
+# Phylogenetic #
+################
+
+# Distance Phylogenetics
+
+- The science of reconstructing the evolutionary history of organisms/sequences is called phylogenetics
+- All modern phylogenetics starts with a multiple sequence alignment (MSA)
+- By looking at how similar/dissimilar sequences are we can group them into clusters and create phylogenetic trees
+- In distance phylogenetics a distance matrix is calculated showing how many differences there are between each possible pair of sequences
+1. A substitution counts as one difference
+2. Depending on the type of distance phylogenetics algorithm you apply, indels can also count as one or more differences
+
+- In the previous example you will notice that the distances are not whole numbers
+- A simple count of differences between two sequences doesn’t always adequately represent any changes that occurred between them in the intervening time period
+- Let’s imagine you start with an ancestral sequence that is simple: ARNDC
+- Now let’s mutate it to:  ARNNC
+- But now let’s mutate it one more time to ARNDC
+- If we only have the first and last sequence, we lose some of the intervening changes – we can’t see them!
+- But we can mathematically correct for them – this is called the multiple hit correction
+- We also use tables to tell us what the likelihood of each possible change is (e.g. changing from an A to an R may be less likely than changing from an A to an N, so we assign it a slightly higher score)
+
+# Parsimony Phylogenetics
+
+The problem with distance phylogenetics is that it makes no attempt to actually recreate the evolutionary history between proteins (or species)
+
+- It simply groups those that are most similar together
+- This can be a problem in cases of convergent/parallel evolution, where organisms and sequence look similar even though they took very different paths getting there
+- To get around this, parsimony phylogenetics was developed
+- Parsimony algorithms attempt to reconstruct the ancestral states of each sequence and group them based on those
+- Rather than computing a distance matrix from the MSA, parsimony only is concerned with Informative sites: sites which have two or more possible values, each of which is found in two or more sequences
+- In the table below, only the sites which are informative have been selected from the alignment.  Note how each has at least two values, each of which is present in at least two or more sequences
+- In some analysis, indels are considered a unique state are can be counted as informative sites if they meet the general requirements
+
+# Quiz
+
+Q1: Parsimony analysis uses....
+A1: Informative sites
+
+Q2: Proteins can evolve through:
+A2: Gene duplication, Accumulation of mutation (divergence), Domain swapping
+
+# Summary
+
+- The different functions & steps involved in Multiple Sequence Alignments (MSA)
+- The different structures & types of protein domains and mutations
+- The different aspects of protein evolution
+- The various features of Distance & Parsimony Phylogenetics

@@ -1,0 +1,119 @@
+# Week 4
+# @ sungml92
+# Genomic Data Science with Galaxy - RNA-seq
+
+########################
+# top Hat Availability #
+########################
+
+Tools for genomic analyses are continually being updated,
+and occasionally it is necessary for Galaxy to mark
+a tool as deprecated to indicate it is no longer the preferred way to perform an analysis.
+
+We have deprecated TopHat because it is less efficient than some newer tools.
+However it is still available, and can be used to complete the analysis for this module,
+just search for "TopHat" on Galaxy main.
+
+Alternatively, you can use either HiSat or STAR,
+both of which produce a bam file which can be used in the same way as the output of TopHat (although the results may change).
+
+#############################
+# RNA-seq Analysis: Mapping #
+#############################
+
+RNA-seq Exercise
+1. Create new history
+2. Get Human RNA-seq:CHB ENCODE Exercise
+3. Select all Dataset in folder and import
+
+It is always good to run FASTQC for quality control, but we will skip here.
+
+Short RNA-seq background
+1. fragmentation of RNA
+2. random priming to make secDNA
+3. construction of dscDNA
+4. size selection
+5. sequencing
+
+With RNA seq data, we can
+1. Align reads to genome
+  - potentially more sensitive, but requires a reference genome, confounded by structural variation
+2. Assemble transcript de novo
+  - likely to only capture highly expressed transcripts, but does not require a reference genome, robust to variation
+
+In this lecture, tophat was used, but not it is decommissioned. So I will use HISAT2
+
+Summary
+- RNA-seq analysis using a reference genome requires an aligner that is splicing aware (can handle long "deletion" in the read)
+- StringTie, HISAT2, and Sailfish is such program that align
+
+###############################################################################
+# RNA Sequence Analysis: Assembly Quantification, and Differential Expression #
+###############################################################################
+
+Assembling RNA-seq data after mapping to a reference genome
+
+- Spliced alignment provides estimates of 1) locations of exons, and 2) splice junctions
+
+- Normally we use Cufflink (which is now deprecated) for assembly quantitation. We used StringTie and DESeq2
+
+Summary
+- Using the spliced alignment from Tophat and cufflink like program, allows us to assemble transcirpt in Galaxy
+- Stringtie will also quantify the relative abundance of each transcript in each sample
+- DEseq2 performs a statistical test for differential expression based on quantitation data from multiple conditions
+
+Quiz
+
+''''
+1. What does it mean to align-then-assemble?
+- Align reads to an existing reference genome, and then assemble transcripts from the spliced alignments
+
+2. Which of the following statements is FALSE?
+- De-novo assembly is not robust to variation
+
+3. Tophat result produce BED and BAM
+
+4. Cuffdiff is used to find differentially expressed gene
+
+5. Length of differentially expressed gene is not an output of Cuffdiff
+
+6. Cuffmerge is to merge different cufflinks assemble together and GTF files
+
+7. Can we use Galaxy to run the same tophat (or other tool) job over Multiple datasets?
+- Yes, the datasets need to be of the format the tool can take as input
+
+8. What Galaxy tool might we use to refine our Cuffdiff output to show only differentially expressed genes?
+- Filter
+
+9. What comes after mapping the RNA seq data to a reference genome?
+- Using a reference annotation we continue to do differential expression analysis using the Cufflinks suite
+
+10. What is the idea behind setting the tool form “Use Reference Annotation” to “reference annotation as guide” in Cufflinks
+- Tell Cufflinks to use the reference annotation to guide the assembly
+- Results will contain referenced transcript, novel genes and isoforms
+
+11. What does the “log2(fold change)” in the gene differential expression testing result mean?
+- Its the log ratio of FPKM values for a pair of expressed genes
+- It indicates genes with significantly different expression profiles.
+''''
+
+# Genomic Data Science with Galaxy - Running your own galaxy
+
+#############################
+# Installing galaxy locally #
+#############################
+
+https://galaxyproject.org/admin/get-galaxy/
+
+#######################
+# Galaxy on the Cloud #
+#######################
+
+Cloud computing is network accessible compute resources that can be rapidly acquired, configured and released
+
+Here we will use amazon web services
+https://aws.amazon.com
+
+After setting up amazon web service account, make a separate group to give an access to galaxy cloud. Allow it to use EC2
+
+Then in usegalaxy.org click cloud and type your passcode and secret passcode to start initiating your galaxy cloud

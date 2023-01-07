@@ -1,0 +1,244 @@
+# Sungmin Lee
+# @sungml92
+# Course note of week 1 of Python for Genomic DataScience
+
+############################
+# Lec1: Overview of Python #
+############################
+
+# Programming strategies
+# 1. Identify the required inputs
+# 2. Make an overall design
+# 3. Decide what will be the output
+# 4. Refine the overall detail
+# 5. Write the program
+
+# Write a pseudo code
+'''
+for example: compute GC content
+
+read DNA sequence from user
+count number of C and G from a sequence
+determine length of DNA sequence
+compute %GC
+'''
+
+# What is python?
+# - programming language
+# - data structure like object-oriented programming
+# - interpreted language
+#   - slow!
+
+#####################################
+# Lec2-1: First Programming Step P1 #
+#####################################
+
+'''
+Python math
+
+1. Addition
+-> N+N (N as numeric number)
+
+2. Subtraction
+-> N-N
+
+3. Multiplication
+-> N*N
+
+4. Power
+-> N**N
+
+5. Fractioner
+-> N // N
+
+6. Remainder
+-> N % N
+'''
+
+# Numbers can be in different type
+# 1. integer
+# 2. float (real number)
+# 3. complex number denoted by j
+#   -> N+Nj
+
+# Strings
+# Series of letter surrounded by quotes (single or double)
+# string can span multiple line with triple quotes
+
+# Escape characters
+# \n newline
+# \t Tab
+# \\ Backslash
+# \" double quote
+
+# Print built-in function to print strings
+# -> print("write-something-here")
+
+'''
+Basic string operators
+
+1. concatenate Strings (+)
+-> 'atg' + 'cgt'
+-> 'atgcgt'
+
+2. copy strings (replicate) with (*)
+-> 'atg' * 3
+-> 'atgatgatg'
+
+3. membership (in)
+-> 'atg' in 'atggcc'
+-> True
+
+4. non-membership (not in)
+-> 'atg' not in 'atggc'
+-> False
+'''
+
+#####################################
+# Lec2-2: First Programming Step P2 #
+#####################################
+
+# Variables
+# 1. container for number, string, and etc
+'''
+codon = 'atg'
+dna_sequence = 'atggtccgttgc'
+
+if typing random name
+-> NameError
+'''
+
+# 2. value can change
+'''
+a=4
+b=a
+b
+-> 4
+b=b+3
+b
+-> 7
+'''
+
+# 3. Variable Rules
+'''
+1. Give variable meaningful name
+2. Variable is case-sensitive
+3. Variable names can only consists of letters, numbers, and underscore
+'''
+
+# More Strings Operators
+'''
+1. indexing [x]
+-> dna = "atg"
+-> dna[0]
+-> "a"
+-> dna[-1] (counting from right)
+-> "g"
+
+2. slicing [x:y]
+-> dna = "attg"
+-> dna[0:2] or dna[:2]
+-> "at"
+-> dna[2:]
+-> "tg"
+'''
+
+# String function
+'''
+1. length
+-> len()
+
+2. type
+-> type()
+
+3. Print
+-> print()
+'''
+
+# String Functions
+'''
+1. as object and usage of .count()
+-> dna = "attagcgcgcggttgtggcgcagcgagc"
+-> dna.count("c") will count how many "c" present in dna variable
+-> dna.count("cg") will count how many "c" and "g" present in dna variable
+
+2. to upper and lower case
+-> .upper() and .lower()
+
+3. first occurrence of string
+-> .find()
+-> or .find(string, position of first occurrence+1) for second occurrence
+
+4. check case
+-> .islower() or isupper()
+
+5. replace any character
+-> .replace(string,to_replace)
+'''
+
+#####################################
+# Lec2-3: First Programming Step P3 #
+#####################################
+
+'''
+Below compute the GC content of a DNA sequence
+'''
+# One way to write program
+
+# get DNA sequence
+dna = "acgctcagctgatcgtagctagctgatcgtacgtagctagct"
+# count the number of C's in DNA sequence
+no_c = dna.count("c")
+# count the number of G's in DNA sequence
+no_g = dna.count("g")
+# determine length
+dna_length =len(dna)
+# Compute GC%
+gc_percent = (no_c+no_g)*100/dna_length
+
+# If you put a path-to-python in first line
+# for example, #!/usr/bin/python
+# python interpreter will recognize and run the script (for first name: chmod a+x file_name.py)
+
+#####################################
+# Lec2-3: First Programming Step P4 #
+#####################################
+
+# Other way to get inputs
+
+# Let you manually type DNA sequence
+dna = input("Enter a DNA sequence, please: ") # return string
+
+# Conversion Functions
+'''
+int(x,[,base]): convert x to integer
+
+float(x): convert x to a floating point
+
+complex(real,[,imag]): create a complex number
+
+str(x): convert x to a string
+-> str(65)
+-> '65'
+
+chr(x): convert an integer to a character
+-> chr(65)
+-> 'A'
+'''
+
+# Fancier output
+print("The DNA sequence's GC content is", gc_percent, "%")
+# or
+print("The DNA sequence's GC content is %5.3f %%" % gc_percent)
+'''
+% 5.3 f
+1. % indicates that a format follow
+2. 5 total number of digits
+3. .
+4. 3 number of digits following the dot
+5. f letter indicating type of the value to format
+- d is integer
+- o for octal and x for a hexadecimal integer
+- e uses powers of 10
+- s uses string
+'''

@@ -1,0 +1,77 @@
+@sungml92
+BIF001x - FINAL
+
+Q: Which of the following algorithms are not correctly paired with their corresponding software?
+A: Multi-LAGAN and Multi-PipMaker
+
+Q: Given the following association between protocol steps and numbers, what is the proper order for a cDNA microarray experiment: Removal of genomic DNA = #1 Isolation of nucleic acids = #2 Labeling of products to be used in the microarray with dyes like Cy3 and Cy5 = #3 Generation of cDNA =#4
+A: 2, 1, 4, 3
+
+Q: What technique can be used to assess the likelihood of the correctness of a phylogenetic tree?
+A: bootstrapping
+
+Q: Markov models describe states and the probability of transitions between them.
+A: True
+
+Q: In the basic overview of data analysis, both microarray and NextGen derived data have a step where counts of mRNA transcripts are done.
+A: False
+
+Q: Both Distance and Character-based methods use distance to generate trees; however, Character-based also uses mismatches between the sequences.
+A: False
+
+Q: Eye color and hair color are examples of..
+A: Genetics
+
+Q: Constructing dot plots of genomes is essentially a process of finding diagonal lines in a graphical plot.
+A: True
+
+Q: Which tree building method applies the principle of Occam’s Razor?
+A: Maximum parsimony
+
+Q: What is one difference between LAGAN and multi-LAGAN?
+A: multi-LAGAN is used for 3 or more genomes
+
+Q: Having more than one probe per gene under study is not necessary in a microarray experiment.
+A: False
+
+Q: After running PiPMaker you will be provided with...
+A: A Perfect Identity Plot
+
+Q: MEGA will generate a generic figure caption.
+A: True
+
+Q: Which of the following are not typically used in Pattern-based methods of gene prediction?.
+A: Change in GC content
+
+Q: The synteny and amalgamate algorithms are similarly formulated and therefore give similar results.
+A: False
+
+Q: An example of an algorithm used to identify syntenic regions is...
+A: BLAT
+
+Q: What is a typically significant number of bootstrap replicates that need to be performed?
+A: 500
+
+Q: Labeled cDNA is referred to as
+A: targets
+
+Q: Which of the following are not advantages some chemicals give microarray slides before they are spotted?
+A: they negatively chrage the slide
+
+Q: Xenologs are homologous sequences in different species that arise via horizontal gene transfer.
+A: True
+
+Q: Prokaryotes do not have introns in their genes.
+A: False (most of them)
+
+Q: Which of the following are drawbacks of Pattern-based methods?
+A: short open reading frames detected are usually not genes (maybe wrong)
+
+Q: When performing a bootstrap analysis, both an original tree and bootstrap trees are generated. Which of the following is correct about each tree?
+A: The bootstrap tree collapses nodes under 50% while the original trees does not
+
+Q: Compared to its usefulness with NextGen derived data, the programs on the Galaxy servers have a very limited application when it comes to microarray derived data.
+A: True
+
+Q: The Fitch-Margoliash algorithms is most associated with...
+A: Minimum evolution

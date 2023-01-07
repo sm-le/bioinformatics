@@ -1,0 +1,59 @@
+---
+title: "Model1 answer"
+author: "Sung"
+date: "4/12/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 1
+
+All the data and code are available but the codebook does not fully explain the experimental design and all protocols for patient recruitment
+
+## Question 2
+
+The plot is random the first time you knit the document. It is identical to the first time the second time you knit the document. After removing the folders test_cache and test_files they generate new radom variables.
+
+## Question 3
+
+Get the genomic table with assay(se), get the phenotypic table with colData(se), get the feature data with rowData(se). rowRanges(se) gives information on the genomic location and structure of the measured features.
+
+## Question 4
+
+a) By looking at variation across samples from 10 different individuals with cancer
+
+b) By looking at variability between the measurements on the two sub-samples from the same sample and
+
+c) by comparing the average measurements on the healthy individuals to the measurements on the individuals with cancer
+
+## Question 5
+
+The number of technical replicates in the Bodymap data varies, but the number in the Bottomly data is consistent. 
+
+## Question 6
+
+The "mixture" category is split across multiple wedges. 
+
+## Question 7
+
+row_sums = rowSums(edata)
+edata = edata[order(-row_sums),]
+index = 1:500
+heatmap(edata[index,],Rowv=NA,Colv=NA)
+
+Yes they are
+
+## Question 8
+
+The plots look pretty similar, but there are two strong diagonal stripe (corresponding to the zero count genes) in the log2 plot. In both cases, the genes in the middle of the expression distribution show the biggest differences, but the low abundance genes seem to show smaller differences with the rlog transform.
+
+## Question 9
+
+Clustering with or without filtering is about the same. Clustering after the log2 transform shows better clustering with respect to the study variable. The likely reason is that the highly skewed distribution doesn't match the Eulcidean distance metric being used in the clustering example. 
+
+## Question 10
+
+They produce different answers, with hierarchical clustering giving a much more unbalanced clustering. The k-means clustering matches study better.

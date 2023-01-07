@@ -1,0 +1,96 @@
+# Sungmin Lee
+# @sungml92
+# Course note of week 3 of Introduction to Genomic Technologies
+
+#############################
+# Why care about statistics #
+#############################
+
+# Statistical thinking is critical in genomics
+
+###################
+# What Went Wrong #
+###################
+
+# What went wrong with chemotherapeutics?
+# 1. Lack of transparencies
+# - data and codes were not available
+# - reproducibility is compromised
+# 2. Lack of cooperation
+# - no statistician involvement
+# - lack of expertise
+# 3. Study design problem
+
+###############################
+# Central Dogma of Statistics #
+###############################
+
+# Taking whole population is expensive
+# - Instead, sample population is drawn using probability
+# - Use statistical inference to guess population
+# How to quantify variability is to central dogma of statistics
+
+######################
+# Data Sharing Plans #
+######################
+
+# 1. rawdata
+# 2. tidy dataset
+# 3. code book
+# 4. explicit recipe
+
+#############################
+# Getting help in Statistic #
+#############################
+
+######################
+# Plotting your data #
+######################
+
+# interactive analysis with lots of plotting as associations can be deceiving.
+# 1. plot replicates
+# 2. MA plot
+# make plot interpretable
+
+###############################
+# Sample Size and Variability #
+###############################
+
+# If mean is different, how confident they are different
+# 1. Sample size
+# 2. Mean value
+# 3. Variability
+
+############################
+# Statistical Significance #
+############################
+
+# t-statistic
+# p-value: it's basically looking to see how many more times in the null data, in the data where we scramble the labels is the statistic big than the one we actually calculated
+
+####################
+# Multiple Testing #
+####################
+
+# Family wise error rate
+# - many hypothesis test to control, control the probability that there will be even one false positive
+# False discovery rate
+# - expected number of false discovery divided number of total discoveries.
+
+# based on which error rate, number of test is important to avoid misleading and erroneous result
+
+################################################
+# Study Design, Batch Effects, and Confounding #
+################################################
+
+# important component of study design and experimental design are confounding and batch effects.
+
+# Batch effects,
+# Date (Technologies different and such) in the sample taken can influence the test result
+
+# To avoid this, randomization is important
+# or stratification, run control and test group at the same time
+
+# Good designs also have controls, both negative and positive controls,
+# to make sure that both your technology is working
+# any effects that you've detected aren't just due to an artifact of the computation or artifact of the experimental design.

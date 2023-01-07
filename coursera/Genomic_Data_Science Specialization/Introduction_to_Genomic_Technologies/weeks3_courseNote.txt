@@ -1,0 +1,43 @@
+# Sungmin Lee
+# @sungml92
+# Course note of week 3 of Introduction to Genomic Technologies
+
+############################
+# What is Computer Science #
+############################
+
+# Help you think like a computer
+
+#############
+# Algorithm #
+#############
+
+# Way of describing what computer can do
+# Step by Step instruction how to do somethingw
+
+##############################
+# Memory and Data Structures #
+##############################
+
+# Data structures are important as it lets us store data efficiently
+# - we want to be able to find things -> store in a way of quick access
+# - tree or link list are most common -> keeping track of object and point each others
+# - efficiency in storing DNA by the two bits
+
+##############
+# Efficiency #
+##############
+
+# Efficiency is important especially in big data as to use fewer time as possible
+
+########################
+# Software Engineering #
+########################
+
+# It is important to understand programs
+
+#########################################
+# What is Computational Biology Software#
+#########################################
+
+# Software turns raw data into some meaningful observation

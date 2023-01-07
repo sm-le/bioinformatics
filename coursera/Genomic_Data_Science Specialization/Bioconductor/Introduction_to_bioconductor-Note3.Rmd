@@ -1,0 +1,438 @@
+---
+title: "Introduction_to_bioconductor-Note3"
+author: "Sung"
+date: "8/31/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Basic Data Types
+
+Three different data
+
+1. Experimental data. e.g) Gene 1 expression = 7
+2. Metadata. e.g) Sample 1 is 65yr women
+3. Annotation. e.g) Gene 1 is highly conserved in yeast
+
+Three different levels of data
+
+1. Raw (unprocessed) 
+2. Preprossed data. e.g) Gene 1 is expressed at 7
+3. Results. e.g) Gene 14 is altered in cancer
+
+Pre-processing is vendor specific, so common data container 
+
+## Annotation Overview
+
+How to annotate the experimental data using Bioconductor
+
+- Annotation is a process of giving context to your data using external information. This can be done usually by linking data to database. 
+
+Example: annotating a probeset on the Affymetrix HGU92av2 microarray.
+
+When annotate the probeset, we link it to an ENTREZ identifier using a database. ENTREZ is a super set of database hosting numerous data. When 
+
+Example: annotating a genomic interval.
+
+Some annotation is just experimental data from other groups. When annotating using other types of experimental data, always think about that experimental data has certain biases and problems. Therefore, careful examination is needed while interpreting these data. 
+
+Two main approaches on annotation. 
+
+1. Annotation packages. e.g. hgu95av2.db
+2. Query online resources. e.g. UCSC
+- In this case, must record all track such as version, when, and retrieved information. 
+
+## ExpressionSet Overview
+
+A data container for representing an expression experiment. 
+
+First component: expression matrix (expression values by samples; col x features (genes); row). This shows that particular gene or feature was expressed in particular sample. 
+
+Second component: Phenotype data (meta data on samples, samples; row, and covariates; columns).Covariates can be time of the experiment and others. 
+
+- These dataframes are linked together. One row of the phentoype data is a one column of the expression matrix. 
+
+Thrid component: Feature data (meta data on features by features on rows, and covariates on columns). For example on microarray in gene expression, we are measuring specific RNA sequence that represents a gene. Metadata in this case can be what sequence was actually measured and what gene does this sequence correspond to. 
+
+- In the same way, the feature data and experiment data are linked. One row of feature data correspond to one row of expression data. 
+
+Expression data is raw data and feature and phenotype data are meta data on the experiment. All these information are fit together as ExpressionSet. This provide the tight linkage between rows of matrix and relevant row and column of meta data. 
+
+In eSet, we have multiple expression matrices. It could be two column micro experiment where each matrix is a column of the microarray or methylation/un-methylation channel experiments. 
+
+## ExpressionSet
+
+ALL package for example dataset. 
+
+```{r}
+#BiocManager::install("ALL")
+library(ALL)
+data(ALL)
+ALL
+experimentData(ALL)
+```
+
+ALL dataset contains 12625 genes and a 128 samples. experimentData to invoke who did the experiment and what was the title. To look at all covariates, ?ALL. 
+
+Let's explore the data, the most important aspects of dataset is expression ratios or the quantification of the expression of the different genes. This can be accessed using the express access function, which returns a matrix. 
+
+```{r}
+exprs(ALL)[1:4, 1:4] # row and column
+```
+
+Alternatively, sample names and feature names can be accessed by sampleNames() and featureNames()
+
+```{r}
+head(sampleNames(ALL))
+head(featureNames(ALL))
+```
+These are expression measures
+
+We are also interested in Phenotype data or covariance or the sample information. To access the date, type pData()
+
+```{r}
+head(pData(ALL))
+```
+
+To access specific column, use $ operator
+```{r}
+pData(ALL)$sex
+ALL$sex
+```
+
+Expression set satisfies two dimensional subsetting. 1) gives you feature and 2) give you samples. 
+
+```{r}
+# first five samples
+ALL[,1:5]
+
+# first ten features
+ALL[1:10,]
+```
+pData frame has information about samples. In the same way, we can get information about features. The access is by featureData().
+
+```{r}
+featureData(ALL)
+```
+In most cases, people don't put information about features. 
+
+Let's understand what is missing on the array. 
+```{r}
+ids = featureNames(ALL)[1:5]
+```
+these are identifiers not too informative. Vendors put this. In order to fully understand what genes were missing on the array, we have to take these identifiers and map them into gene symbols. This can be done with annotation. 
+
+```{r}
+#BiocManager::install("hgu95av2.db")
+library("hgu95av2.db")
+
+# map first five id to entrez id
+as.list(hgu95av2ENTREZID[ids])
+```
+
+phenoData() gives sample names and bar labels. But phenoData and pData is not the same. 
+
+## SummarizedExperiment
+
+This is a modern version of expression set. "airway" package will be used in followings. 
+
+```{r}
+#BiocManager::install('airway')
+library(airway)
+data(airway)
+airway
+```
+1. This dataset looks similar to an expression set, but this is with different syntax and output. pData() in expression dataset is colData() in the summarizedExperiment. 
+
+2. We can look at experiment data by
+
+```{r}
+colData(airway)
+metadata(airway)
+
+# It used to be exptData(dataset), however, it is depreciated and will not executed if it is called. 
+```
+3. colnames() than samplesnames for accessing different samples,
+
+```{r}
+colnames(airway)
+```
+
+4. rownames() than featurenames 
+
+```{r}
+head(rownames(airway))
+
+```
+
+To access experiment data, we use assay accessor. However, we first need to identify which assay is used for the data. This can be identified by
+
+```{r}
+assayNames(airway)
+```
+and then,
+
+```{r}
+assay(airway,"counts") #output is RNAseq count data
+```
+
+Each row and each feature has an associated gRanges or gRanges list. 
+
+```{r}
+length(rowRanges(airway))
+rowRanges(airway)
+```
+Each row is a gene, each grange in grange list gives us an exon of the gene. From rowRanges, first gene has 17 exons and is located on chromosome X. This is useful as we can keep genomic intervals together with experimental data. 
+
+For example, we can look at how many exons do we have per gene or in total. 
+
+```{r}
+sum(elementNROWS(rowRanges(airway)))
+# sum(elementLengths(rowRanges(airway))) this is depreciated 
+```
+
+Some Granges function can access directly on airway dataset. 
+
+1. To get start coordinates of all exons
+```{r}
+start(airway)
+```
+
+2. subsetByOverlaps
+
+```{r}
+#setup standard Granges
+gr <- GRanges("1", range=IRanges(start=1,end=10^7))
+subsetByOverlaps(airway,gr)
+```
+
+## GEOquery
+
+The package for interfacing with MCBIGU, or gene expression omnibus. GEO is a widely used repository of public data. It also contains also data than gene expression data. Different datastructures are possible based on the experiments. 
+
+Starting point is GEO identifier. 
+```{r}
+#BiocManager::install("GEOquery")
+library(GEOquery)
+eList = getGEO("GSE11675")
+length(eList)
+```
+
+eList has a single element and we can get data by [[1]].
+
+```{r}
+eData = eList[[1]]
+```
+
+This data is expression set data. MCBIGU is run with raw and processed data. Processed data is fully normalized, but we want raw data for own normalization and processing. 
+
+The way to get raw data is to get a supplementary file
+
+```{r}
+names(pData(eData))
+#eList2 = getGEOSuppFiles("GSE11675")
+```
+
+## biomaRt
+
+biomart package is an interface from R to a biomart. A biomaRt is a front end for a database for biological database. 
+
+```{r}
+library(biomaRt)
+```
+
+First thing is to choose a database. 
+
+```{r}
+head(listMarts()) # which mart is available. Ensembl Gene is most common.
+mart <- useMart("ensembl")
+```
+
+Inside of the database, there are multiple datasets.
+
+```{r}
+head(listDatasets(mart))
+ensembl <- useDataset("hsapiens_gene_ensembl",mart)
+```
+
+After building a dataset, we start to build a query. 
+
+```{r}
+values <- c("202763_at","209310_s_at","207500_at")
+getBM(attributes=c("ensembl_gene_id","affy_hg_u133_plus_2"),
+      filters="affy_hg_u133_plus_2",values=values, mart=ensembl)
+```
+attributes are whatever we want to retrieve from database. affy_hg_u133_plus_2 is the name of micro-array. But why both filter and attribute? In the returned column, one is gene id and the other is alphametrix ID. We need both values to link up the probe ID to the gene. 
+
+IF we just call attributes
+
+```{r}
+attributes <- listAttributes(ensembl)
+nrow(attributes)
+head(attributes)
+tail(attributes)
+```
+we get a substantial number of attributes. However, these attributes are sometimes grouped into pages 
+
+```{r}
+attributePages(ensembl)
+attributes <- listAttributes(ensembl, page="feature_page")
+nrow(attributes)
+head(attributes)
+tail(attributes)
+```
+So we can ask to get attributes on certain page. You cannot query attribute belong to different pages. There are some attributes belonged to more than one page. To get around, query individual page and merge results back. 
+
+
+## R S4 Classes
+
+Bioconductor project is a heavy user of the S4 system. Not normal R, or R packages available from CRAN. R supports three different ways of object-oriented programming; classic system known as S3, S4, and S5. 
+
+In S4 systems, S4 classes and S4 methods are two separate things. You can have packages using S4 classes without S4 methods. S4 classes is a way of representing complicated data structures. For example, expression sets and summarized experiments. Also wealth of information that links different data structures is possible through S4 system. 
+
+What problem to solve with S4?
+
+```{r}
+library(ALL)
+library(GenomicRanges)
+```
+
+You can make any objects into any other classes
+
+```{r}
+df <- data.frame(y=rnorm(10), x=rnorm(10))
+lm.object <- lm(y~x, data=df)
+lm.object
+class(lm.object)
+names(lm.object)
+```
+
+In S3, a class is really just a list with an attribute. 
+
+```{r}
+xx = list(a=letters[1:3], b=rnorm(4))
+class(xx) = "lm" # no error message
+xx 
+```
+
+Meanwhile in S4, there are validity checking built-in. This can be useful for complicated data structures. 
+
+```{r}
+data(ALL)
+isS4(ALL)
+```
+
+check class 
+
+```{r}
+#class?ExpressionSet
+#?"ExpressionSet-class"
+```
+
+There are traditional standards for making a new class. 
+1. Class ought to start with captial letter. 
+2. Any class supposed to have a constructor. 
+
+```{r}
+ExpressionSet()
+```
+
+The classic way of defining an expression set is using a function called new()
+
+```{r}
+new("ExpressionSet") # but quite depreciated
+```
+
+How do we see the definition of class?
+
+```{r}
+getClass("ExpressionSet")
+```
+
+We access the slot using @
+```{r}
+ALL@annotation # or
+slot(ALL, "annotation")
+```
+
+But we supposed to use accessor function
+
+```{r}
+annotation(ALL)
+```
+
+Accessor functions are documented in help page. 
+
+Sometimes, classes are updated, and old script may not work. To avoid this, there is a updateObject in Bioconductor
+
+```{r}
+#OLD_OBJECT = updateObject(OLD_OBJECT)
+```
+
+For updateObject to work, someone must write an update object function that works. Not guaranteed.
+
+To check valid verison of class
+
+```{r}
+validObject(ALL)
+```
+
+## R S4 Methods
+
+The method is a function that allows you to run different sets of code based on different value of the argument. 
+
+Examplar function can take a single argument x and if matrix: run method1, or data.frame: run method2, or IRange: run method3. 
+```{r}
+mimicMethod <- function(x){
+  if (is(x, "matrix"))
+    method1(x)
+  if(is(x,"data.frame"))
+    method2(x)
+  if (is(x,"IRanges"))
+    method3(x)
+}
+```
+
+This case mimicMethod is a generic function. Let's look at as.data.frame
+
+```{r}
+as.data.frame
+```
+identifies as a S4 method in the packaged called BiocGenerics. 
+
+```{r}
+base::as.data.frame
+```
+as.data.frame from base is not a S4 method. 
+
+
+```{r}
+showMethods(as.data.frame)
+```
+
+To see the code
+
+```{r}
+getMethod("as.data.frame","GenomicRanges")
+```
+
+To get help on method. But we have to type a lot. 
+
+```{r}
+method?"as.data.frame,DataFrame"
+?"as.data.frame,DataFrame-method"
+```
+
+more complicated cases in findOverlaps()
+```{r}
+showMethods(findOverlaps)
+```
+
+To get methods,
+
+```{r}
+getMethod("findOverlaps", signature(query="GenomicRanges",subject="GenomicRanges"))
+```

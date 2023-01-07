@@ -1,0 +1,62 @@
+# Sungmin Lee
+# @sungml92
+# Course note of week 2 of Introduction to Genomic Technologies
+
+#############################
+# Polymerase Chain Reaction #
+#############################
+
+# Sequencing requires many copies of DNA
+# PCR uses a couple simple propeties of DNA
+# - DNA sticks to itself
+# Start with DNA and primers
+# 1. melt (heat the mixture gently)
+# 2. anneal (cool down gently)
+# 3. DNA polymerase, attach to one strand of DNA and fill in missing sequences where primers are attached, and nucleotide mixture
+# 4. repeat whole process and doubling continues
+
+##############################
+# Next generation sequencing #
+##############################
+
+# Sanger DNA sequencing -> DNA -> 2nd Generation DNA sequencing -> 3rd generation DNA sequencing
+# Still 2nd generation DNA sequencing is widely used
+# 1. chop DNA into small pieces
+# 2. chemically attach to slides
+# 3. use PCR to make identical copies (making clusters)
+# 4. add specially treated nucleotide so with laser they fluorescent four different colors.
+# 5. reversible terminator modification so we can remove modification and let the polyemerase go on.
+# 6. reading bases based on colors.
+
+# Error increase in later cycle
+# 1. One schedule, behind, ahead
+# 2. polymerase can be erroneous
+# 3. Error code exist to give quality score
+
+
+#############################
+# Application of sequencing #
+#############################
+
+# Convert molecule to DNA
+# Apply 2nd genetic sequencing
+
+# Exome sequencing
+# 1. when interested in knowing mutation affecting proteins
+# 2. sequence much less than DNA
+
+# RNA-seq
+# 1. trying to capture all the genes that are being turned on
+# 2. RNA has a long AAA tails -> ignore ones without poly As
+# 3. poly T tails to capture poly A tails and reverse transcription to turn RNA into DNA
+
+# Chip-seq
+# 1. where DNA certain proteins might bind (control gene expression)
+# 2. Design antibody to pull proteins out after binding
+# 3. remove protein and sequence the DNA
+
+# methyl-seq
+# 1. where on the genome that DNA is methylated
+# 2. split into two identical samples
+# 3. treat with bisulfite conversion -> convert all unmethylated C to U
+# 4. Sequence and compare 

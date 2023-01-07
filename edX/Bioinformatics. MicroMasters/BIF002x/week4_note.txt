@@ -1,0 +1,450 @@
+# @sungml92
+# USMx: BIF002x
+# Proteins: Alignment, Analysis and Structure
+# Week 4 - Protein Analysis I
+
+# Objective
+
+- Outlines the different functions and features of PAGE and protein blots
+- Highlights the different steps involved in chromatography and spectroscopy
+- Discusses the different tools involved in protein sequencing
+- Illustrates the various techniques involved in protein sequencing
+
+###############################
+# PAGE, Protein Blots & ELISA #
+###############################
+
+# Protein Identification
+
+- In order to identify and characterize proteins, we use a variety laboratory techniques.
+- These techniques are always based on properties that are shared, but different, between proteins:
+1. Size
+2. Charge
+3. Sequence
+4. Shape
+
+- The resulting data types are then used in a variety of bioinformatics pipelines
+
+# Protein Separation
+
+One of the simplest forms of characterization begins with the separation of proteins from a mixture
+
+- E.g. cell lysate:  all proteins in a cell can be precipitated
+- Next we have to separate them from each other so that we can begin to identify and characterize them
+- In gel separation, proteins are placed in one end of a semi-permeable matrix, typically a gel, and made to run from one end to another by applying an electrical charge
+- Depending on the porosity of the gel, smaller proteins will travel faster – thus farther – down the gel, separating the proteins by size
+- Size as well as charge can have an impact
+1. Charge comes from the amino acid R groups!
+
+# PAGE
+
+PAGE stands for Polyacrylamide Gel Electrophoresis
+
+- Can be used to separate proteins OR DNA
+- Can separate native (non-denatured) or denatured proteins
+- Proteins are typically denatured using SDS (sodium dodecyl sulfate), which eliminates any conformation differences – effectively “balling” up the proteins so that separation is exclusively based on size and charge
+
+# SDS-PAGE
+
+A very common method for separating proteins by electrophoresis uses a discontinuous polyacrylamide gel as a support medium and Sodium Dodecyl Sulfate (SDS) to denature the proteins. The method is called Sodium Dodecyl Sulfate Polyacrylamide Gel Electrophoresis (SDS-PAGE). Alternatively, a chemical denaturant may be added to remove this structure and turn the molecule into an unstructured molecule whose mobility depends only on its length and mass-to-charge ratio. This procedure is called SDS-PAGE. Sodium dodecyl sulfate polyacrylamide gel electrophoresis (SDS-PAGE) is a method of separating molecules based on the difference of their molecular weight.
+
+## In a typical PAGE gel, there are many lanes (like swim lanes in a pool).
+
+- One lane is reserved for the marker, which is a calibrated substance that is used as a size reference
+- The other lanes contain various samples
+- A stain or dye must be used to visualize the location of the protein bands
+- In the “bad” old days radioisotopes were used
+
+- Sample preparation begins by treating the protein samples with SDS
+- SDS breaks the disulfide bonds that form higher order structure in a protein
+- The resulting proteins are all essentially globular
+
+- Samples are then loaded onto the gel and voltage applied
+- Proteins move away from the – charged cathode and towards the + charged anode buffer
+
+* After running for the required length of time, the gel is visualized – in the example to the right, the entire gel has been stained with coomassie blue, which binds the proteins
+
+- Gels can be run in one dimension (separating from top to bottom)
+- Gels can optionally be run in 2 dimensions (first do a 1D run as described, then rotate the gel 90 degrees and repeat) for better separation
+- When you see that a protein is 65kDa, for example, that means that it is 65 kilo-Daltons in size, and will “run” on the gel to the same distance as the equivalent 65kDa marker
+
+# Gel Blotting
+
+- The contents (in this case the proteins) on a gel can be transferred to nitrocellulose filter paper for further analysis
+- This simply requires placing the gel and the filter paper in contact under pressure and allowing the contents of the gel to wick into the filter paper
+1. This can be sped up using an electrical charge system similar to that used for the gel separation
+
+# Protein Blots
+
+- Once transferred to the nitrocellulose, additional analysis can be done to see what will bind to the protein bands
+- For a protein blot this is typically called a Western, SouthWestern, or Eastern Blot
+- Once the proteins are transferred to the nitrocellulose the blot is blocked
+
+An agent is bound to the rest of the nitrocellulose to prevent the “probe” from absorbing into the blot. Now the blot can be probed. A probe is the desired factor that you want to see if your protein binds, e.g. another protein or an antibody, or even specific DNA fragments if you are looking for a promotor, for example. For this type of blotting you need to run your PAGE as a native gel, rather than an SDS denatured gel.  If the probe “sticks” (illuminates) a particular band you now know at the very least the size of the protein that binds your probe – and you can even band-purify that protein from another PAGE gel to isolate it.
+
+# ELISA
+
+ELISA stands for  Enzyme-linked Immunosorbent Assay (ELISA)
+
+- Similar to a Western Blot
+- Used to detect either a specific protein OR a specific antibody
+- Presence of the protein or antibody in question induces a color change caused by the enzyme used in the assay
+- Useful for looking for pathogens
+
+# ELISA II
+
+1.Direct Assay - Antigen coats the well.  The antibody used for detection (i.e. the one fused to the reporter enzyme [E] above) directly contacts the antigen.
+2. Indirect Assay - Antigen coats the well.  The antibody used for detection binds to an antibody that is bound to the antigen.
+3. Capture Assay - Antibody coats the well.  What is seen in the image above is an indirect-like assay in that the antibody used as a reporter is binding to another antibody.  However, it is also possible to have a direct-like assay where the reporter antibody binds directly to the antigen.
+
+# QUIZ
+
+Q1: A Western blot is where.......
+A1: Protein is blotted and probed with an antibody
+
+Q2: In SDS-PAGE, proteins are denatured before being run on a gel...
+A2: True
+
+#################################
+# Chromatography & Spectroscopy #
+#################################
+
+Similar to PAGE, chromatography allows for the separation of proteins based on properties
+
+- Invented in 1900 by Mikhail Semjonowitsch Tswett for the separation of leaf pigments
+- Proteins are bound to a solid support and then eluted from the column using methods that separate them based on their properties
+1. You can run several “columns” in series to separate by multiple properties!
+
+# Types of Chromatography
+
+1. Basic Chromatography
+2. Ion-Exchange Chromatography
+3. Gel Filtration Chromatography
+4. Hydrophobic Interaction Chromatography
+5. Affinity Chromatography
+
+# Basic Chromatography
+
+## Thin-layer Chromatography
+
+Analyte mixture (pink spots) is spotted at the bottom of a TLC plate and the plate is placed into a solvent (cyan). The solvent travels up the TLC plate via capillary action. Analytes travel with the mobile phase and separate (red vs. blue spots) based on their interaction with the stationary and mobile phase. Analytes can then be identified based on the distance traveled in a given solvent and period of time
+
+## Column Chromatography
+
+Protein I has a weak affinity for the stationary phase and passes through the column rapidly. Protein III has high affinity for the stationary phase and moves through the column slowly; it has a high retention time. These two proteins can thus be separated based on their different retention times
+
+# Ion-Exchange Chromatography
+
+In Ion-exchange chromatography, the electrical charge of the protein (which depends on the amino acid R-groups as well as the pH of the medium), proteins are separated by charge
+
+- If the pH is lower than the isoelectric point of the protein, the protein will have a net + charge
+- If the pH is higher than the isoelectric point of the protein, the protein will have a net – charge
+- The medium in the column (or thin layer) may be loaded with charged groups to affect binding
+
+Ion exchange chromatography is primarily used for protein purification
+
+# Gel Filtration Chromatography
+
+- Separates proteins, peptides, and oligonucleotides on the basis of size
+- Molecules move through a bed of porous beads, diffusing into the beads to greater or lesser degrees
+- Smaller molecules diffuse further into the pores of the beads and therefore move through the bed more slowly, while larger molecules enter less or not at all and thus move through the bed more quickly
+- Both molecular weight and three-dimensional shape contribute to the degree of retention
+- May be used for analysis of molecular size, for separations of components in a mixture, or for salt removal or buffer exchange from a preparation of macromolecules
+- Essentially the same as SDS-PAGE except run in a column
+
+* The matrix contains pores of various sizes; small proteins get “lost” in pores and take longer to be eluted out the bottom. Large proteins go around the matrix. Now let's review a schematic representation of the Gel Filtration matrix used during chromatography.
+
+# Hydrophobic interaction Chromatography
+
+In hydrophobic interaction chromatography proteins are separated based on how many hydrophobic R groups they have
+
+- Proteins are passed dissolved in salt solution and passed over the column
+- Eluted with gradient of decreasing salt until even the most hydrophobic proteins are eluted
+
+# Affinity Chromatography
+
+In affinity chromatography, proteins are very specifically separated based on binding partners
+
+- Highly selective
+- High resolution
+- Most common form has an antibody bound to the matrix to which only one protein binds
+- All other proteins get washed through
+- Once all the other proteins are eluted, the column is washed with an agent that allows the antibody to release the protein
+
+# Mass Spectroscopy
+
+Mass spectrometry (MS) is an analytical technique that ionizes chemical species and sorts the ions based on their mass-to-charge ratio. In simpler terms, a mass spectrum measures the masses within a sample. It is used in many different fields and is applied to pure samples as well as complex mixtures. In addition to their size and other properties (e.g. hydrophobicity, charge, binding characteristics), we can identify proteins using this method.
+
+- Can be used on purified or non-purified protein mixes!
+- Identifies proteins based on size of fragments
+
+# Types of Mass Spectroscopy
+
+The different types of Mass Spectroscopy are determined based on the type of Mass Analyzers used and are listed below.
+
+Type 1: Magnetic Deflection Mass Spectrometer
+Type 2: Eletrostatic Mass Spectrometer
+Type 3: Time-of-Flight Mass Spectrometer
+Type 4: Quadrupole Mass Spectrometer
+
+# MALDI-TOF Mass Spectrometry
+
+In the recent years Matrix Assisted Laser Desorption Ionization-Time Of Flight mass spectrometry (MALDI-TOF MS) has emerged as a potential tool for microbial identification and diagnosis. During the MALDI-TOF MS process, microbes are identified using either intact cells or cell extracts. Let’s review some features linked to MALDI-TOF MS.
+
+- All protein mass spectroscopy involves ionization of the proteins
+- In MALDI-TOF this is accomplished by embedding the proteins in a solid matrix and exciting them with a laser to ionize them
+- For mass protein identification, the proteins are first broken into smaller peptide fragments using proteolysis (e.g. trypsin)
+- This can be done to a single protein or to a mixture of many different proteins!
+
+- Once the proteins are digested into smaller fragments and ionized, they are exposed to an electrical field which literally “shoots” the ions away from the matrix, towards a detector
+- This is where the TOF part comes in: Time of Flight
+1. Heavier fragments travel shorter distances
+2. Lighter fragments travel longer distances
+3. A detector identifies how many “hits” at each possible mass there are
+
+- It generates a “mass peptide fingerprint” showing how many hits of each possible mass there were in that sample. The “hard” part of MALDI-TOF is turning the mass numbers back into actual proteins.
+- This is called Peptide Mass Fingerprinting
+1. Computationally intensive
+2. Looks at all fragments and their frequencies and is able to infer the actual full-size proteins in the original mix based on fragment assembly
+3. MASCOT:  Typically uses SwissProt as the standard protein mass database
+
+# QUIZ
+
+Q1: MALDI-TOF is a form of..... .
+A1: Mass Spectroscopy
+
+Q2: In ion-exchange chromatography, proteins are separated by size.
+A2: False
+
+Q3: In Time-of-Flight spectroscopy the heavier fragments travel:
+A3: Not farther, not faster, not higher
+
+#################################
+# Protein Sequencing & Analysis #
+#################################
+
+Similar to the use of mass spectroscopy to identify proteins, a single purified protein can be fragmented and sequenced using Mass Spectroscopy
+
+- Proteolytically digest protein into all possible fragments
+- Perform Mass Spectroscopy on the fragments to identify
+- Computationally assemble fragments starting with the simplest case
+- Protein Sequencing begins with the mass of a single amino acid ion and look for that in the mass spec plot
+
+Name	3-letter code	1-letter code	Residue Mass	Immonium ion	Related ions	Composition
+Alanine	Ala	A	71.03711	44		C3H5NO
+Arginine	Arg	R	156.10111	129	59,70,73,87,100,112	C6H12N4O
+Asparagine	Asn	N	114.04293	87	70	C4H6N2O2
+Aspartic Acid	Asp	D	115.02694	88	70	C4H5NO3
+Cysteine	Cys	C	103.00919	76		C3H5NOS
+Glutamic Acid	Glu	E	129.04259	102		C5H7NO3
+Glutamine	Gln	Q	128.05858	101	56,84,129	C5H8N2O2
+Glycine	Gly	G	57.02146	30		C2H3NO
+Histidine	His	H	137.05891	110	82,121,123,138,166	C6H7N3O
+Isoleucine	Ile	I	113.08406	86	44,72	C6H11NO
+Leucine	Leu	L	113.08406	86	44,72	C6H11NO
+Lysine	Lys	K	128.09496	101	70,84,112,129	C6H12N2O
+Methionine	Met	M	131.04049	104	61	C5H9NOS
+Phenyalanine	Phe	F	147.06841	120	91	C9H9NO
+Proline	Pro	P	97.05276	70		C5H7NO
+Serine	Ser	S	87.03203	60		C3H5NO2
+Theronine	Thr	T	101.04768	74		C4H7NO2
+Tryptophan	Trp	W	186.07931	159	11,117,130,132,170,100	C11H10N2O
+Tyrosine	Tyr	Y	163.06333	136	91,107	C9H9NO2
+Valine	Val	V	99.06841	72	44,55,69	C5H9NO
+
+# Protein Sequencing
+
+- Now work your way up to two-AA fragments
+- Repeat using this technique until enough overlap is identified to reconstruct the entire peptide sequence
+
+# Working with Protein Sequencing
+
+Protein sequence data can be analyzed in a variety of ways:
+
+## Single sequence analysis:  look at a single protein sequence:  e.g.
+-- Hydrophobicity plots
+-- Motif Scan
+-- BLAST
+
+## Multiple sequence analysis:  compare multiple protein sequences: e.g.
+-- Sequence Alignment
+-- Domain Discovery
+-- Phylogenetic Analysis
+
+# Hydrophobicity Plots
+
+A hydrophobicity plot is a quantitative analysis of the amino acids in a protein with regards to their degree of hydrophobicity
+
+- Can be used to characterize or identify possible structural domains of the protein
+- Can give information on the cellular location of the protein (e.g. is it transmembrane)
+
+Construction of a hydrophobicity plot:
+
+- Done computationally
+- Plot the amino acids on the X axis
+- Plot the known hydrophoocity of these amino acids on the Y axis
+
+is a Kyte-Doolittle Plot where the y axis is Hydrophobicity.  Alternately Hydrophilicity can be plotted, in which case the plot is referred to as a Hopp-Woods Hydropathy plot
+
+Amino Acid	One Letter Code	Hydropathy Score
+Isoleucine	I	4.5
+Valine	V	4.2
+Leucine	L	3.8
+Phenylalanine	F	2.8
+Cysteine	C	2.5
+Methionine	M	1.9
+Alanine	A	1.8
+Glycine	G	-0.4
+Threonine	T	-0.7
+Tryptophan	W	-0.9
+Serine	S	-0.8
+Tyrosine	Y	-1.3
+Proline	P	-1.6
+Histidine	H	-3.2
+Glutamic acid	E	-3.5
+Glutamine	Q	-3.5
+Aspartic acid	D	-3.5
+Asparagine	N	-3.5
+Lysine	K	-3.9
+Arginine	R	-4.5
+
+Analyzing the shape of the hydropathy plot:
+
+- 20 amino acids stretch positive for hydrophobicity suggests an alpha-helix spanning a lipid bilayer
+- Amino acids with low hydropathy suggest that these residues are in contact with an aqueous medium (water)
+- Likely to reside on the outer surface of the protein
+
+# Motif Scan
+
+A motif scan simply looks through a protein sequence for a match to any known protein motifs in the databases
+
+- A protein motif is defined as a “super secondary structure” – not necessarily indicative of function, but suggestive
+-- Examples:  helix-turn-helix, omega loops, etc
+
+- A motif is a pattern which may contain some variation
+
+- So a motif scan is essentially a string search which searches for a match in a string of contiguous amino acids
+- Since a motif can have significant variability (as seen in the sequence logo for the helix-turn-helix motif), the search is very flexible in finding matches
+- There are many existing tools to find sequence motifs
+1. Scanprosite: You can access the tool by clicking Scanprosite.
+2. Emboss: You can access the tool by clicking Emboss.
+3. Motifscan: You can access the tool by clicking Motifscan.
+
+# BLAST
+
+We have discussed about BLAST in the previous MicroMasters course DNA Sequences: Alignments & Analysis. BLAST is perhaps the most famous – and commonly used – algorithm in bioinformatics
+
+- Basic Local Alignment Search Tool
+- Allows comparison of two or more sequences to discover sequence similarity
+- Designed by Stephen Altschul at the NIH
+- Using a heuristic approach to solving a basic pattern matching problem
+1. The heuristic approach makes it feasible to submit a single query and compare it against the entire database of Genbank
+
+# BLAST Algorithms
+
+There are actually 5 different ”flavors” of BLAST, each is designed for a specific query/target combination:
+
+1. Nucleotide-Nucleotide BLAST (blastn): This program, given a DNA query, returns the most similar DNA sequences from the DNA database that the user specifies.
+2. Protein-Protein BLAST (blastp): This program, given a protein query, returns the most similar protein sequences from the protein database chosen
+3. Nucleotide 6-Frame Translation-Protein (blastx): This program compares the six-frame conceptual translation products of a nucleotide query sequence (both strands) against a protein sequence database.
+4. Nucleotide 6-Frame Translation-Nucleotide 6-Frame Translation (tblastx): This program is the slowest of the BLAST family. It translates the query nucleotide sequence in all six possible frames and compares it against the six-frame translations of a nucleotide sequence database. The purpose of tblastx is to find very distant relationships between nucleotide sequences.
+5. Protein-Nucleotide 6-Frame Translation (tblastn): This program compares a protein query against the all six possible reading frames of a nucleotide sequence database
+
+# Substitution Matrices
+
+- When comparing sequences a perfect match is not always possible – nor expected
+- BLAST (and other string matching algorithms) use a scoring system
+1. Matches are worth one value
+2. Mismatches are worth a different value
+3. Indels are worth a third value
+
+# Matches, Mismatches & Indels
+
+Lets take the following string comparison as an example:
+
+Target Sequence: ALA  TRP  LYS  GLU  CYS  PHE
+Query Sequence:  ALA  ALA  LYS   -   CYS  VAL
+
+While not a perfect match, it is good example of a real-world alignment:
+- 3 matches
+- 2 mismatches
+- 1 indel
+
+# Scoring
+
+- Since we will have a combination of matches, mismatches, and indels, we need a way of scoring an alignment so that we can choose the best one
+- Scoring a match is easy – typically a match is given a score of “+4”
+- An Indel (also called a gap) may be given a “gap penalty” of a fairly high negative value, e.g. “-8”
+- Substitutions are more interesting for protein alignments - we need to take into account the properties of the amino acids and construct a matrix which gives a different score for each possible substitution
+
+# Blosum Matrix
+
+- The Blocks Substitution Matrix is a table that provides a pairwise comparison of each possible amino acid pair
+- For each pair, a value is given representing the score that should be assigned to an alignment containing that particular substitution
+- These values were derived empirically!
+1. Henikoff and Henikoff (1992) scanned the BLOCKS database, looking at very conserved regions of protein families (regions without gaps) and looked at the frequency of substitutions for each amino acid pair seen
+
+# Scoring Example Review
+
+Lets review our example sequence:
+
+Target Sequence: ALA  TRP  LYS  GLU  CYS  PHE
+Query Sequence: ALA  ALA  LYS     -      CYS  VAL
+
+Now, lets do the math:
+
+- 3 matches at +4 each = 12
+- 2 mismatches TRP to ALA (-3), PHE to VAL (-1) = -4
+- 1 indel (insertion/deletion) at -8 each = -8
+- So our final score = 0
+
+# PAM
+
+Point accepted mutation (PAM) is the replacement of a single amino acid in the primary structure of a protein with another single amino acid.
+
+- It is an alternative to BLOSUM
+- A PAM matrix is one where each column and row represent one of the standard twenty amino acids.
+- PAM is also derived from real-world data (each entry represents the likelihood of the amino acid in the row being replaced by the one in the column), but using a different methodology (evolutionary relationships and global rather than local alignments)
+- In practice both will yield similar results…
+
+# Scoring Matrix
+
+What BLAST and similar algorithms do is construct a scoring matrix
+
+- Query and target sequences are along the top and side
+- Score for each base is filled in
+- The optimal path (best score) is chosen – this is the best alignment
+- For a small or simple alignment the scoring matrix is easy to construct and read
+- To find best alignment, you start at the bottom right and work your way towards the top left
+- The idea is to find the “optimum path” – the path that gives you the highest score
+
+- In this example, which is both a longer sequence and more complex, there are a variety of paths that could be taken
+- The BLAST algorithm will evaluate these and choose the path with the best score
+
+# Sample BLAST Results
+
+- BLAST calculates the alignment score for each High Scoring Pair (HSP) and presents matches in best to worst order
+- Score and other data are included in the return
+
+Table Results Parameter	Description
+Max Score:	The number of matched bases in the longest HSP of this particular match; larger is better.
+Total Score:	The number of marched bases in all HSPs found within this particular match; larger is better.
+Query Cover:	The percentage of the query sequence that is matched in that particular return; larger is better.
+E Value:	The number of matches you would expect to find by chance; smaller is better.
+Ident:	The actual % identity between the query and the target; larger is better.
+Accession:	A clickable link that will take you to the full Genbank record for that hit.
+
+# Quiz
+
+Q1: Hydrophobicity plots are typically done with (check all that apply):
+A1: Amino acids on the X axis, Hydrophobicity on the Y axis
+
+Q2: PAM and BLOSUM are examples of:
+A2: Substitution matrices
+
+# Summary
+
+- The different functions & features of PAGE and protein blots
+- The different steps involved in chromatography & spectroscopy
+- The different tools involved in protein sequencing
+- The various techniques involved in protein sequencing

@@ -1,0 +1,346 @@
+# @sungml92
+# USMx: BIF002x
+# Proteins: Alignment, Analysis and Structure
+# Week 8 - Protein Kinetics, Network & Proteomics
+
+# Objective
+
+- Outline the different functions & steps involved in enzyme kinetics
+- Describe the simplified form of Michaelis-Menten (MM)
+- Discuss the different aspects of protein-protein interaction networks
+- Illustrate the various aspects of Proteomics and microarray data analysis
+
+###################
+# Enzyme Kinetics #
+###################
+
+- Enzymes will be the most important types of proteins we deal with in Bioinformatics
+- Enzyme Kinetics is the study of the chemical reactions that are catalysed by enzymes
+- Here the reaction rate is measured and the effects of varying the conditions of the reaction are investigated
+- The function of a protein is typically catalytic
+1. The enzyme binds a substrate (target) and does something
+2. That something could be any of the functions we’ve looked at previously, e.g. phosphorylation, glycosylation, part of a metabolic pathway like glycolysis, etc
+3. The types of data we can derive from the interaction of an enzyme and it’s substrate is referred to as enzyme kinetics
+
+# Enzyme Kinetics
+
+- Enzyme kinetics refers to the rate of the reaction between the enzyme and it’s substrate as well as any of the other reactants (required inputs, such as ATP, NAD, etc.) and the products
+1. Recall that in glycolysis we had many different types of inputs and outputs, with the end result being pyruvate and a net positive increase in ATP
+2. Each enzymatic reaction will have it’s own unique set of enzyme, substrate, required additional reactants, and outputs
+
+- By quantifying all of the participants in an enzymatic reaction as well as the time required we can begin to understand the metabolic pathways and their interactions
+
+# The Michaelis-Menten Equation
+
+- In 1902 Victor Henri developed a mathematical model describing how a substrate with a specific concentration [S] and an enzyme [E] with a reaction rate (velocity) of [v].
+- Based on the assumption that enzymes function in the lock-and-key model, which is essentially still correct.
+- The mathematical model of Henri was extended in the 1910’s by Leonor Michaelis and Maude. Menten, and we typically refer to the equation as the Henri-Michaelis-Menten equation (or simply Michaelis-Menten).
+
+- Equation: E+S <--> ES <--> EP <--> E+P
+
+# Simplified Form of Michaelis-Menten(MM)
+
+- We can simplify this to only represent the conversion of ES to EP, where the speed is independent of the concentration of the reactants as shown below:
+- E + S -> (k+1/k-1) ES -> (kcat) E + P
+
+Essentially what we are saying is that:
+1. if you mix enzyme and substrate, the ES complex will form
+2. As the amount of ES increases, the rate of breakdown into E + P increases until an equilibrium is established
+3. At this equilibrium the formation of ES from E and S is equal to the rate of breakdown in E and P
+4. The MM law of enzyme kinetics thus applies to this steady-state phase
+
+# Phases of an Enzymatic Reaction
+
+The steady-state phase is represented in the middle of this figure – where the levels of ES have reached a plateau
+
+# Rate of Product Formation
+
+By simplifying the MM equation we can derive the equation for the rate at which P, the product is formed:
+v = kcat x [ES], with the breakdown as follows: v = velocity of the reaction; kCat is the constant of catalysis; Assuming there is no secondary reaction steps, [ES] (the concentration of ES) is dependent on how likely the ES complex is to disassociate. We can represent this as: [ES] = ([E] x [S])/Kd
+
+# Real World Michaelis-Menten(MM)
+
+- In the real world, however, ES can also move to EP, and since Kd is an “ideal” form, we have to substitute with an experimentally determined form of it which we refer to as the Michaelis Constant, or Km
+- Ultimately the form of the equation that works in the real world is:
+v = (kcat x [E]i x [S])/(Km + [S]) = (Vmax x [S])/(Km + [S])
+
+# The Normalized MM Curve
+
+- Vmax is the “maximum” velocity of the reaction assuming unlimited [S]
+- Since this is never the case in the real world, we instead look at the 0.5 Vmax intersection of the plot as the “true” reaction speed as shown below
+
+# The Haldane Relationship
+
+- It is important to remember that enzymes are simply catalysts – they facilitate a reaction
+1. They do not change the equilibrium point of a reaction
+2. Enzymes simply increase the speed at which this equilibrium is reached
+3. By definition, at equilibrium condition both forward and reverse reactions occur at the same speed
+
+- This is known as the Haldane Relationship
+
+# The Rate Limiting Step
+
+In an enzymatic reaction, the rate-limiting step can be either of two things:
+
+- The rate of the association of the enzyme to it’s substrate (formation of the [ES] complex)
+- The rate of the conversion to and release of P (the product)
+
+The association velocity is a constant, different for each ES
+
+# The Efficiency Constant
+
+The efficiency constant is also different for each enzyme and depends on the organism’s normal physiological temperature as shown in the table below. If the efficiency of an enzymatic reaction is similar to the rate with which the [ES] forms, we call that enzyme catalytically perfect. The rate of reaction (velocity) is limited only by the rate of diffusion of substrate to enzyme.
+
+# Practical Application of Michaelis-Menten(MM)
+
+- Let’s walk through a practical example of usage of the Michaelis-Menten formula
+- Ethanol is oxidized in the liver by the enzyme alcohol dehydrogenase
+- The Michaelis constant, or Km of alcohol dehydrogenase, is 1mM or 0.046%
+- This means that at legally relevant blood alcohol concentrations, the enzyme works near substrate saturation
+
+This also means that based on the blood alcohol concentration taken at a known time (e.g. after an intoxicated driver has been taken back to the station), forensic analysis can easily determine the actual blood alcohol concentration at the time of arrest some time previously. Using the MM plot of alcohol dehydrogenase one can easily determine the actual blood alcohol concentration prior to the time of the actual test as shown below.
+
+# Linearization of Michaelis-Menten
+
+- As you can see from the previous graph, however, the MM plots have a tendency to plateau where the reaction has become saturated
+- This can make it difficult to determine the Vmax at high substrate concentrations
+- The solution is to linearize the equation using a mathematical transform
+- This was done most successfully by Lineweaver and Burk
+
+# Lineweaver-Burk Plots
+
+- Using the Lineweaver-Burk plot one can derive a linear equation for enzymatic reactions
+- These are easier to use but become unreliable at very large or very small values of [S]
+- As such they typically are not used to estimate Km or Vmax from experimental data
+- Nelder-Mead or Marquardt-Levenburg algorithms can be applied instead
+
+# Pitfalls of Michaelis Menten
+
+It is important to remember that these plots tend to be ideal
+
+- Recall that MM was derived under the assumption that no product is present initially
+1. This implies that the speed of the backwards reaction is zero (e.g. the reaction is not yet at equilibrium)
+2. Movement towards equilibrium will change the rate of the reaction and thus the shape of the curve
+
+- Some reactions are not, in fact, reversible
+1. This also changes the dynamic
+
+- Measurement errors occur in all experiments!
+1. As such any measurement must be reported with a statistical estimation of error
+
+- Enzymes are not necessarily stable
+
+- This may be more of an issue when the kinetics are measured in the lab than in vitro
+1. E.g. if an enzyme solution is prepared and not immediately tested it may give different results than if it had been tested immediately
+
+- The solution is to prep all reagents (including the enzyme) immediately prior to use and store all reagents on ice
+- Environmental conditions may change the enzyme activity
+1. Temperature, osmolarity, pH
+2. It’s important to try to replicate actual cellular conditions as accurately as possible
+
+# Controls for Experiments
+
+- As Bioinformaticists we often work with data provided to us by others, rather than data we obtained ourselves
+- This makes it even more important that we understand the data and its limitations!
+- For example – knowing that enzymes may change in their activity based on how freshly they were prepared, it is important that we have control data to compare our data against
+- A control could be an enzyme with a well-known reaction rate and prepped at the same time under the same conditions
+- Deviation from the controls can be applied as a similar deviation to the experimental
+
+# Multi-Substrate Enzymes
+
+- Some enzymes do not bind to a single substrate
+- These multi-substrate enzymes introduce complexity into the kinetics reactions, particularly if the order of the binding of substrates is important (it isn’t always)
+- We can use Cleland diagrams to help visualize this
+- A Cleland diagram is a simple way to visualize an enzymatic reaction
+- A simple Cleland diagram where one enzyme and one substrate form a single product (with intermediate ES and EP as before) as shown below
+
+# Cleland Diagrams
+
+- The more complex example of a single enzyme which binds two substrates, but in any order, would then look like this:
+- In this example S1 and S2 are the two substrates, and there are two equivalent paths for the reaction – one where S1 binds first, and one where S2 binds first
+- This is called a random-bi reaction; there can also be a random-ter where there are three substrates, etc.
+- Even more complex is a reaction where there are two substrates that must bind in a specific order
+- In this example S1 must bind to the enzyme first, forming ES1, and only then can S2 bind to this complex
+- This is called an ordered bi reaction
+- There are many more examples; the last of which we will examine is the “ping-pong” mechanism
+- The pong-pong mechanism is common with transferases – the first substrate binds to the enzyme, transfers a functional group to the enzyme, and is released as the first product
+- Only then can the second substrate bind and accept this functional group and subsequently be released as the second product
+- Phosphorylation is an example of this, where the enzyme takes the terminal phosphate from ATP and then binds it to a different protein
+
+# Quiz
+
+Q1: The Michaelis Menten equation describes the interaction of: (Select all options that apply.)
+A1: Enzyme, EP complex, Substrate, ES complex
+
+Q2: Lineweaver Burk Plots are more accurate than MM plots:
+A2: At the middle
+
+Q3: The basic MM equation assumes that all steps are reversible.
+A3: True
+
+########################################
+# Protein-Protein Interaction Networks #
+########################################
+
+- Last week we discussed Protein-Protein Interactions (PPIs), where two proteins interact
+- Just as a single protein may have multiple substrates, there may be cases with multiple protein interactions are required for a specific function to occur
+- We can look at this as an interaction network, also sometimes called an interactome
+1. Just as the sum total of the genes of a cell or organism is called the genome, the –ome suffix is added to topics to refer to the “sum total” study of
+2. E.g. the sum total of expressed proteins in a cell/organism is called the proteome, which we will look at next
+
+# Interactome Studies
+
+- The study of how protein complex interact is extremely complex and typically involves careful statistical analysis of protein levels and bindings
+- Typically most interactomes are generated by hand based on laboratory studies
+- Alternately, by generating contingency tables and parallel coordinates plots we can begin to visualize this relationships computationally
+
+# One Simple Interactome
+
+- One “simple” interactome which was mapped out manually links over 1,548 interacting proteins involved in Schizophrenia as determined by yeast two-hybrid screening
+
+# Cytoscape
+
+- Cytoscape is an open-source package which can be used to visualize known interactions
+- Tools to visualize interactomes are becoming available
+- More challenging than simple visualization is computational determination of members of the interactome
+- Software packages such as Jactive and MoBaS work with PPI network and either gene expression or GWAS (genome wide association studies) data
+
+# StickWRLD
+
+- StickWRLD is a novel approach to correlation analysis and visualization which may also be used for studying interactomes
+- StickWRLD generates cylindrical parallel coordinates plots from multivariate data and can be used to show correlations
+- With proper data (e.g. expression data as well as binding data), StickWRLD can generate a visual (as well as a list) of possible correlations for further analysis – essentially serving as a hypothesis engine
+- Below is a simple potential reactome diagram as visualized in StickWRLD
+- As these correlations are computational they must still be validated in the lab
+
+# Quiz
+
+Q1: The study of all PPI interactions can be referred to as:
+A1: Interactomics
+
+Q2: The schizophrenia PPI Network has how many interacting proteins?
+A2: Between 1000 and 10000
+
+Q3: Proteomics can be applied at the level of: (Select all choices that apply.)
+A3: cell, organism, tissue
+
+##############
+# Proteomics #
+##############
+
+- The large scale study of proteins – in terms of interaction as well as expression – is known as proteomics
+- The proteome, as alluded to earlier, is the entire set of proteins produced by an organism or system
+- The proteome can be studied for a single cell, or cell type, and can further be refined to the examination of the proteome under specific conditions
+1. E.g. what proteins are manufactured by the liver in an individual with high cholesterol who is also taking a statin
+
+# Why Analyze the Proteome?
+
+- If all proteins are produced from RNA transcripts, and we can deduce protein transcripts from DNA sequences, why do we need to study the actual proteins?
+1. Each transcript can produce multiple isoforms of protein through alternative splicing and post-translational modification
+2. Protein interactions such as these may be encoded by the genome, but until we fully understand the mechanism we will never be able to deduce them de novo
+
+- The human genome contains roughly 19,000 genes but can produce 92,000 protein variations!
+- Even more importantly, since each individual can be slightly different, proteomics is the key to personalized medicine
+
+# Proteomics is Multidisciplinary
+
+- Proteomics begins in the wet lab but ends up spending far more time in the analytics phase
+- Proteomics is a far larger problem than genomics because of all of the post-translational modifications that can occur to proteins
+- It also takes us one step closer to being able to understand how organisms work – by looking at proteins in different cells and tissues at different times, and under “normal” vs “disease” conditions
+- For example, we can begin to understand the vast PPI Networks involved in making living things work
+
+# Methods of Studying the Proteome
+
+- Two of the techniques you are already familiar with are very useful for identifying the proteome of a cell, tissue, or organism:
+1. 2D gel electrophoresis can be used to separate all of the proteins from a sample
+2. MALDI-TOF can be used to identify proteins within a sample
+
+- Of these two, Mass Spectrometry is far more amenable to high-throughput profiling
+- A third method, micro-array analysis, is also commonly used for large-scale profiling
+
+# Microarray Analysis
+
+- Microarray analysis in general has been in using for decades
+1. Started out as an array of 96 wells in a plate:
+2. Now we can “print” DNA or protein molecules onto chips and achieve a much higher resolution of spots (molecules) per array
+
+- The same approach can be used for DNA or Protein
+- The molecules are attached to a chip and then probed in some fashion
+- A modern proteomics chip will have ligands (or antibodies, or some binding partner) for all known proteins in an organism spotted onto them in the array
+- The array is designed to emit a fluorescent signal when a protein binds to the ligand or binding partner
+
+# HuProt ™ Human Proteome Microarray
+
+The HuProt™ Human Proteome Microarray contains the world's largest number of unique, individually-purified human proteins. That’s thousands more than the not-so-close second.Each spot on this HuProt™ array represents a single protein binding spot – more than 15 thousand genes, covering approximately 75% of the known human proteome as depicted below.
+
+Analysis of the microarray involves a few “simple” steps:
+
+- Treat the chip with the sample (e.g. total protein isolate from a cell or tissue in a certain condition
+- Visualize the chip in the conditions that cause bound ligands to fluoresce
+- Analyze the image to detect the presence and quantity of bound proteins
+
+# Microarray Data Analysis
+
+- The resulting data is typically a spreadsheet containing an array of output – one row for each protein in the microarray
+- The real analysis behind this is the comparative analysis – examining the proteome of a cell or tissue type between two conditions
+1. Look for changes in the expression of any individual protein, e.g. is there more or less of it between conditions
+2. Look for co-regulated changes in the expression of multiple proteins – do any of them behave in coordinated fashion?
+3. E.g. Proteins A, B, and C all increase at the same rate
+4. E.g. Proteins X, Y, and Z increase as protein M decreases
+
+# Analyzing Proteomics Data
+
+- Fortunately we have well established analytics pipelines that can be used
+- As before control samples are important to help reduce the noise between samples
+- Proteins with known and constant expression rates are used – housekeeping genes (genes used in all cells at all times)
+- Genes that are expressed in all cells at all times are called constitutive; the proteins we are looking at as controls are thus constitutive proteins
+
+# Sample Housekeeping Genes
+
+- For general proteomics we want to use a protein that is expressed in all tissues
+- A transcriptional analysis of all major organs and tissues in the human body identified 7367 protein coding genes detect in all samples
+1. A good control will be expressed at the same, consistent level across all tissues – so not all 7367 qualify
+
+- Housekeeping genes are genes involved in cellular maintenance – e.g. DNA replication, RNA transcription, protein synthesis
+1. 144 ribosomal proteins are expressed in all cells
+2. 25 RNA polymerase related proteins expressed in all cells
+
+# Using Housekeeping Controls
+
+Knowing that a specific control protein is found at a specific concentration in all tissues, we can use that as a baseline
+
+- E.g. RNApolymerase (RNApol) will always be produced at the same level
+- We establish a baseline of picograms of RNApol per milligram tissue
+- If we see more RNApol in a sample, we know that we need to reduce the amount of all proteins in that tissue by an equivalent amount so that the controls match between samples
+
+# Genomics and Proteomics in R
+
+- While most microarray instruments that can be purchased come with some included analytics software, that software is typically written by the vendor
+- The scientific community has a need for standardized, integrated software that can analyze the output from any platform
+- Some of the best analytics software for bioinformatics is available in R
+
+# The R Project for Statistical Computing
+
+- R is an open-source statistical package with extensive data-handing and modeling capabilities
+- It supports extensions and plugins, and thousands of modules ranging from neural networks through bioinformatics are available
+- R and all modules are free and can be learned quickly and easily
+- Some of the best bioinformatics packages for R are bundled together in a package called Bio-conductor
+- If you continue this series and take the R course you will learn to analyze bioinformatics data of many different types using R
+
+# Quiz
+
+Q1: A good control for a proteomics microarray would be:
+A1: RNA Polymerase
+
+Q2: Microarrays can be used for both protein and DNA binding studies.
+A2: True
+
+Q3: The human proteome contains almost 100,000 protein variants.
+A3: True
+
+# Summary
+
+- The different functions & steps involved in enzyme kinetics
+- The simplified form of Michaelis-Menten (MM)
+- The different aspects of protein-protein interaction networks
+- The various aspects of Proteomics and microarray data analysis
