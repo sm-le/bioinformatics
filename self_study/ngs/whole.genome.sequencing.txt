@@ -1,0 +1,61 @@
+.summary
+BCL -> FASTQ -> SAM/BAM (even visualize) -> Variant calling (also can visualize)
+demultiplexing -> BWA -> GATK/VarScan2 -> IGV/Gbrowse/Jbrowse
+
+.identify purpose
+de novo or re-sequencing with reference
+.workflow
+1) sample prep
+2) load samples
+3) cluster generation
+4) sequencing
+5) results
+
+.detail workflow (illumina)
+..Input, assess quality, library prep
+1) Is DNA degraded?
+If not, move to library prep
+If yes, obtain new sample
+..basic library preparation
+1) fragment DNA
+2) Add adapter on both ends
+..cluster generation/bridge PCR
+After this you will end up with small cluster of identical DNA sequences
+..illumina sequencing by synthesis
+fluorescent labeled nucleotide which will image by the sequencer.
+
+.quality control
+..quality and quantity
+1) run DNA gel to check degradation or low concentration
+2) quantity by nanodrop or qubit
+..assess fragmentation
+1) agilent bioanalyzer
+..adapter ligation
+1) qPCR (how much of your library is sequenceable)
+
+.data output
+1) Raw Data (raw sequencing data)
+2) FASTQ (fasta with QC info)
+3) Data analysis (alignment to reference genome)
+
+.with reference genome
+SNP and Short Indel calling
+Variant Detection
+Impact Annotation
+Phylogenetic Analysis
+Functional Enrichment Analysis
+
+.wihout reference genome
+De novo assembly
+Gene prediction
+Functional Annotation
+Gene Family Clustering
+
+.tools variant calling
+1) GATK | runs longer, maybe false negative
+2) VarScan2 | runs short, increased false-positive
+
+.tools visualization
+1) Integrative Genomics Viewer (IGV) | easy to use, fast, need lots of computing power
+2) Genome Browser (GBrowse) | create website, learning curve, internet connection
+3) JBrowse | faster than GBrowse

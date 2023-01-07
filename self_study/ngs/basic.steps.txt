@@ -1,0 +1,39 @@
+.alingn to reference genome
+1) BWA
+2) Bowtie2 - use indexing (Burrows-Wheeler transform)
+3) Maq - use indexing (space seed indexing)
+4) Stampy
+5) Novoalign
+
+.align de novo
+1) ABySS
+2) SOAPdenovo
+
+use of contig that potentially encompass the entire genome.
+
+.SAM file after alignment (or BAM)
+contains the sequence and quality scores of each read
+provide more detailed information than the fastq file (genome location)
+
+.variant calling
+examine mapped data with reference genome for SNPs or SNV or INDELs.
+
+1) SAMtools mpileup - use Bayesian algorithm
+2) GATK4 - use Bayesian algorithm
+
+.Data visualization
+1) Integrative genomics viewer
+2) UCSC genome browser
+
+.RNA seq
+only cover a partial area
+
+1) TopHat
+2) STAR
+
+.Exome seq
+similar to whole genome
+
+.additional Data
+1) FastQC - quality control
+2) PICARD - command line tool for SAM/BAM

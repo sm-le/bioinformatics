@@ -1,0 +1,44 @@
+# 1. Create a well-oragnized directionary structure
+
+Usually,
+
+$ mkdir data/seqs and start from here.
+
+# 2. Document all bioinformatics project
+
+1. Document your methods and workflows
+2. Document origin of all data
+3. Document when downloaded data
+4. Record data version
+5. Describe how I dowloaded data
+6. Document the software version
+
+preferably all this information in README file. 
+
+$ touch README data/README
+
+# 3. Use directories to divide into subproject
+
+# 4. Organize data to automate file processing
+
+$ echo dog-{gone, bowl,bark}
+-> dog-gone, dog-bowl dog-bark
+
+Similarly,
+$ mkdir -p snps/{data/seqs,scripts,analysis}
+
+We can make fake empty data,
+$ touch seqs/header_{A,B,C}_R{1,2}.fastq
+
+which can be retrieved by,
+$ ls seqs/header_B*
+
+or select only couple by,
+$ ls seqs/header_[AB]_R1.fastq
+
+# 5. Use zero in file name to sort
+
+genes-1.txt X
+genes-001.txt O
+
+# 6. Use markdown for project

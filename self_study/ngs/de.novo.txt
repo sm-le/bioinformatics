@@ -1,0 +1,3 @@
+.de novo validation
+1) check if scaffold cover predicted genome length
+2) Expressed sequence tag (EST) (cDNA from transcriptome) alignment to scaffold

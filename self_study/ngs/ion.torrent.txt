@@ -1,0 +1,11 @@
+# Ion torrent
+
+.Basic steps
+
+1) Fragment DNA.
+2) Add adapter sequence in both ends.
+3) Each bead contains a specific single stranded sequence all round. Through adapter fragmented DNA can bind to the bead.
+4) Beads, then, placed inside tiny wells within a microchip
+5) addition of dATP allows selective hybridization that generates hydrogen ion (H+).
+6) Ion sensitive layer can detect pH change from hydrogen ion (H+) release
+7) Everytime there is a pH change, we get a base call from a voltage change.

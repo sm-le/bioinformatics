@@ -1,0 +1,39 @@
+# Basic terms used in NGS
+## referenced from
+### https://www.ecseq.com/support/ngs/how-can-unique-molecular-identifiers-help-to-reduce-quantitative-biases
+### https://www.illumina.com/techniques/sequencing/ngs-library-prep/multiplexing.html
+
+.Unique molecular identifiers (UMIs)
+UMIs are short DNA molecules which are ligated to DNA fragments.
+The randomized UMIs assure every fragments-UMIs combination is unique in the library.
+PCR clones can be identified by searching non-unique fragment-UMI combinations (PCR clones).
+.De-duplication
+It is a process to discard PCR clones.
+This process can be performed before and after mapping.
+If de-duplication happens after mapping, the sequences of UMIs need to be clipped away as the synthetic strings of nucleotide do not occur in the genome.
+.Multiplexing
+Multiplexing allow large number of libraries to be pooled and sequenced simultaneously during a single run.
+This is useful when targeting specific genomic regions or working with smaller genomes.
+Individual "barcode" sequences are added to each DNA fragment during next-generation sequencing (NGS) library preparation so that each read can be identified and sorted before the final data analysis.
+.single-end sequencing
+reading from only one strand
+1) appropriate for changes in gene expression
+2) interested in read-count
+.paired-end sequencing
+reading a fragment from both strands
+1) whole genome sequencing project
+.read length
+The number of nucleotides that are sequenced per read
+1) 75nt, suitable for prokaryotic or simpler genomes
+2) 150nt, common for eukaryotic or more complex genomes
+3) 10000+nt, ideal for gapless assembly
+.contigs
+A set of overlapping DNA sequences, usually there are multiple contigs
+.gapless sequencing
+can be acheived by
+1) shorter reads, deeper sequencing (cheapest)
+2) longer reads with long contigs (more expensive)
+3) best is combination of both above
+.sequencing depth
+bigger genome require more reads/sequencing
+important to calibrate sequencing depth based on genome size

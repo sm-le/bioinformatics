@@ -1,0 +1,21 @@
+# Basics
+
+## 1. Do not trust your data and code, always test your code
+
+EPS = 0.00001
+
+def add(x,y):
+    return x+y
+
+def test_add():
+    assert(add(2,3)==5)
+    assert(add(-2,3)==1)
+    assert(add(-1,-1)==-2)
+    assert(abs(add(2.4,0.1)-2.5)>EPS)
+assert(add(2,3)==5)
+
+## 2. Use Existing libraries whenever possible
+
+## 3. Treat data as Read-only
+
+## 4. Spend time developing frequently used scripts into tools

@@ -1,0 +1,45 @@
+
+# grep and pipe
+
+$ grep -v "^>" tb1.fasta | \grep --color -i "[^ATCG]"
+
+# combine pipe and redirection
+
+$ program1 input.txt 2> program1.stderr | \
+program2 2> program2.stderr > results.txt
+
+# redirection and intermediate output
+
+$ program1 input.txt | tee intermediate-file.txt | program2 > results.txt
+
+# background process
+
+$ program1 input.txt > results.txt &
+
+# exit status
+
+Unix programs exit with an exit status, which indicates whether a program terminated without a problem or with an error. By Unix standards, an exit status of 0 indicates the process ran successfully, and any nonzero status indicates some sort of error has occurred.
+
+$ program1 input.txt > results.txt$ echo $?
+-> 0
+
+The shell provides two operators that implementthis: one operator that runs the subsequent command only if the first commandcompleted successfully (&&), and one operator that runs the next command only if thefirst completed unsuccessfully (||)
+
+$ program1 input.txt > intermediate-results.txt && \program2 intermediate-results.txt > results.txt
+
+$ program1 input.txt > intermediate-results.txt || \echo "warning: an error occurred"
+
+# command substitution
+
+$ grep -c '^>' input.fasta
+$ echo "There are $(grep -c '^>' input.fasta) entries in my FASTA file."
+
+$ mkdir results-$(date +%F)
+
+# maintain long running job
+
+$ nohup program1 > output.txt &
+
+# tmux
+
+multiple command line at once
